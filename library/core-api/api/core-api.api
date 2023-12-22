@@ -1,0 +1,25 @@
+public abstract class io/matthewnelson/kmp/tor/core/api/ResourceInstaller {
+	public final field installationDir Ljava/io/File;
+	public fun <init> (Ljava/io/File;)V
+	public abstract fun install ()Lio/matthewnelson/kmp/tor/core/api/ResourceInstaller$Paths;
+}
+
+public abstract class io/matthewnelson/kmp/tor/core/api/ResourceInstaller$Paths {
+}
+
+public final class io/matthewnelson/kmp/tor/core/api/ResourceInstaller$Paths$Tor : io/matthewnelson/kmp/tor/core/api/ResourceInstaller$Paths {
+	public final field geoip Ljava/io/File;
+	public final field geoip6 Ljava/io/File;
+	public final field tor Ljava/io/File;
+	public fun <init> (Ljava/io/File;Ljava/io/File;Ljava/io/File;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface annotation class io/matthewnelson/kmp/tor/core/api/annotation/InternalKmpTorApi : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class io/matthewnelson/kmp/tor/core/api/annotation/KmpTorDsl : java/lang/annotation/Annotation {
+}
+

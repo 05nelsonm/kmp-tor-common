@@ -1,0 +1,16 @@
+public final class io/matthewnelson/kmp/tor/core/resource/AndroidSdkIntKt {
+}
+
+public final class io/matthewnelson/kmp/tor/core/resource/OSInfo$Companion {
+}
+
+public final class io/matthewnelson/kmp/tor/core/resource/ProcessExt {
+}
+
+public final class io/matthewnelson/kmp/tor/core/resource/SynchronizedCommon {
+}
+
+public final class io/matthewnelson/kmp/tor/core/resource/SynchronizedJvm {
+	public static final fun synchronizedImpl (Ljava/lang/Object;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+}
+
