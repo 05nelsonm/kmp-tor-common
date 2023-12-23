@@ -19,8 +19,6 @@ plugins {
 
 kmpConfiguration {
     configureShared(publish = true) {
-        jvm { target { withJava() } }
-
         common {
             sourceSetMain {
                 dependencies {

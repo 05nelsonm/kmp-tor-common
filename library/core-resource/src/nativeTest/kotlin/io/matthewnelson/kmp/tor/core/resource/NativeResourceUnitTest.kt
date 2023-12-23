@@ -71,4 +71,28 @@ class NativeResourceUnitTest {
             dir.delete()
         }
     }
+
+    @Test
+    fun givenNativeResource_whenNotGzipped_thenExtractsSuccessfully() {
+        val alias = "test"
+
+        val config = Resource.Config.create {
+            resource(alias) {
+                isExecutable = false
+                platform { nativeResource = resource_lorem_ipsum }
+            }
+        }
+
+        val dir = SysTempDir.resolve(randomName())
+        val dir2 = dir.resolve(randomName())
+        val file = config.extractTo(dir2, onlyIfDoesNotExist = false)[alias]!!
+
+        try {
+            assertEquals(resource_lorem_ipsum.sha256, file.readBytes().sha256())
+        } finally {
+            file.delete()
+            dir2.delete()
+            dir.delete()
+        }
+    }
 }

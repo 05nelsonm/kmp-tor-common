@@ -288,6 +288,11 @@ js-yaml@4.1.0:
   dependencies:
     argparse "^2.0.1"
 
+kmp-tor-core-test-resources@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/kmp-tor-core-test-resources/-/kmp-tor-core-test-resources-2.0.0.tgz#8a296d4409895aa0c8f5d927c06fed6cc5d7cbe9"
+  integrity sha512-eSaxtrQkogVdNjRabuoHUY7q+BbSSRwvoJfbQRcz6/x3L0l5lvf+PYleRChHrCy1TzotCRHwtaXcchcaoxaqJA==
+
 locate-path@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/locate-path/-/locate-path-6.0.0.tgz#55321eb309febbc59c4801d931a72452a681d286"

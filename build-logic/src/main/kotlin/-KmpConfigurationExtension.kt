@@ -24,6 +24,8 @@ fun KmpConfigurationExtension.configureShared(
 ) {
     configure {
         jvm {
+            target { withJava() }
+
             kotlinJvmTarget = JavaVersion.VERSION_1_8
             compileSourceCompatibility = JavaVersion.VERSION_1_8
             compileTargetCompatibility = JavaVersion.VERSION_1_8

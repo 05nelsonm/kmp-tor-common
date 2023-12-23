@@ -21,7 +21,13 @@ private val testConfig = TestConfigInject()
 
 kmpConfiguration {
     configureShared(publish = true) {
-        jvm { target { withJava() } }
+        js {
+            sourceSetTest {
+                dependencies {
+                    implementation(npm("kmp-tor-core-test-resources", "2.0.0"))
+                }
+            }
+        }
 
         common {
             sourceSetMain {
