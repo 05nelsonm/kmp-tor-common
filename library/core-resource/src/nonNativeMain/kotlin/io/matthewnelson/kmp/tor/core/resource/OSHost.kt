@@ -22,64 +22,41 @@ import kotlin.jvm.JvmField
  * All supported Operating Systems for jvm/node-js
  *
  * [path] is directly correlated to the resource
- * path in which tor will be located.
- *
- * [arches] are the supported architectures for the
- * given [OSHost].
+ * path in which resources will be located.
  * */
 @InternalKmpTorApi
 public sealed class OSHost private constructor(
     @JvmField
     public val path: String,
-    @JvmField
-    public val arches: Set<OSArch>,
 ) {
 
     @InternalKmpTorApi
-    public object FreeBSD: OSHost("freebsd", emptySet())
+    public object FreeBSD: OSHost("freebsd")
 
     @InternalKmpTorApi
     public sealed class Linux private constructor(
         subtype: String,
-        arches: Set<OSArch>,
-    ): OSHost("linux-$subtype", arches) {
+    ): OSHost("linux-$subtype") {
 
         @InternalKmpTorApi
-        public object Android: Linux("android", ImmutableSet.of(
-            OSArch.Aarch64,
-            OSArch.Armv7,
-            OSArch.X86,
-            OSArch.X86_64,
-        ))
+        public object Android: Linux("android")
         @InternalKmpTorApi
-        public object Libc: Linux("libc", ImmutableSet.of(
-            OSArch.Aarch64,
-            OSArch.Armv7,
-            OSArch.Ppc64,
-            OSArch.X86,
-            OSArch.X86_64,
-        ))
+        public object Libc: Linux("libc")
         @InternalKmpTorApi
-        public object Musl: Linux("musl", emptySet())
+        public object Musl: Linux("musl")
 
     }
 
     @InternalKmpTorApi
-    public object MacOS: OSHost("macos", ImmutableSet.of(
-        OSArch.Aarch64,
-        OSArch.X86_64,
-    ))
+    public object MacOS: OSHost("macos")
     @InternalKmpTorApi
-    public object Windows: OSHost("mingw", ImmutableSet.of(
-        OSArch.X86,
-        OSArch.X86_64,
-    ))
+    public object Windows: OSHost("mingw")
 
     @InternalKmpTorApi
     public class Unknown(
         @JvmField
         public val name: String
-    ): OSHost("", emptySet()) {
+    ): OSHost("") {
         override fun equals(other: Any?): Boolean = other is Unknown && other.name == name
         override fun hashCode(): Int = 16 * 31 + name.hashCode()
         override fun toString(): String = name

@@ -23,16 +23,14 @@ import kotlin.jvm.JvmField
 /**
  * All supported Architectures for jvm/node-js
  *
- * [path] is directly correlated to the resource
- * path in which tor will be located.
+ * [path] is directly correlated to the path in which
+ * resources will be located.
  * */
 @InternalKmpTorApi
 public sealed class OSArch private constructor(
     @JvmField
     public val path: String
 ) {
-
-    public fun isSupportedBy(osHost: OSHost): Boolean = osHost.arches.contains(this)
 
     @InternalKmpTorApi
     public object Aarch64: OSArch("aarch64")
