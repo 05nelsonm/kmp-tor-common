@@ -1,6 +1,9 @@
 [versions]
+androidx-test-runner = "1.5.2"
+
 encoding = "2.1.0"
 
+gradle-android = "8.1.4"
 gradle-binary-compat = "0.13.2"
 gradle-kmp-configuration = "0.1.6"
 gradle-kotlin = "1.9.21"
@@ -12,6 +15,8 @@ kotlincrypto-hash = "0.4.0"
 kotlinx-atomicfu = "0.23.1"
 
 [libraries]
+androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
+
 encoding-base16 = { module = "io.matthewnelson.encoding:base16", version.ref = "encoding" }
 encoding-base64 = { module = "io.matthewnelson.encoding:base64", version.ref = "encoding" }
 
@@ -25,5 +30,6 @@ kotlincrypto-hash-sha2 = { module = "org.kotlincrypto.hash:sha2", version.ref = 
 kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "kotlinx-atomicfu" }
 
 [plugins]
+android-library = { id = "com.android.library", version.ref = "gradle-android" }
 binary-compat = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "gradle-binary-compat" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "gradle-kotlin" }
