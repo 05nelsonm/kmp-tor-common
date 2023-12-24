@@ -36,6 +36,14 @@ repositories {
 
 kmpConfiguration {
     configureShared {
+        androidLibrary(namespace = "tools.check.publication") {
+            sourceSetMain {
+                dependencies {
+                    implementation("$group:core-resource-initializer:$version")
+                }
+            }
+        }
+
         common {
             sourceSetMain {
                 dependencies {

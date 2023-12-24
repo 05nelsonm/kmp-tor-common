@@ -19,6 +19,7 @@ if (CHECK_PUBLICATION != null) {
     listOf(
         "core-api",
         "core-resource",
+        "core-resource-initializer",
         "core-test",
     ).forEach { module ->
         include(":library:$module")

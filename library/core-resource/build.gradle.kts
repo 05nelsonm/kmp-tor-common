@@ -21,6 +21,8 @@ private val testConfig = TestConfigInject()
 
 kmpConfiguration {
     configureShared(publish = true) {
+        jvm { target { withJava() } }
+
         js {
             sourceSetTest {
                 dependencies {

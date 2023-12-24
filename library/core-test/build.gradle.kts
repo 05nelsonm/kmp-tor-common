@@ -19,17 +19,10 @@ plugins {
 
 kmpConfiguration {
     configure {
-        androidLibrary {
+        androidLibrary(namespace = "io.matthewnelson.kmp.tor.core.test") {
             android {
-                buildToolsVersion = "33.0.2"
-                compileSdk = 33
-                namespace = "io.matthewnelson.kmp.tor.core.test"
-
                 defaultConfig {
-                    minSdk = 17
-
                     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-                    testInstrumentationRunnerArguments["disableAnalytics"] = true.toString()
                 }
             }
 
@@ -44,10 +37,6 @@ kmpConfiguration {
                     implementation(libs.androidx.test.runner)
                 }
             }
-
-            kotlinJvmTarget = JavaVersion.VERSION_1_8
-            compileSourceCompatibility = JavaVersion.VERSION_1_8
-            compileTargetCompatibility = JavaVersion.VERSION_1_8
         }
 
         common {
