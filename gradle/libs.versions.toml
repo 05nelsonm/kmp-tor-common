@@ -1,4 +1,5 @@
 [versions]
+androidx-startup = "1.1.1"
 androidx-test-runner = "1.5.2"
 
 encoding = "2.1.0"
@@ -15,11 +16,13 @@ kotlincrypto-hash = "0.4.0"
 kotlinx-atomicfu = "0.23.1"
 
 [libraries]
+androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test-runner" }
 
 encoding-base16 = { module = "io.matthewnelson.encoding:base16", version.ref = "encoding" }
 encoding-base64 = { module = "io.matthewnelson.encoding:base64", version.ref = "encoding" }
 
+gradle-android = { module = "com.android.tools.build:gradle", version.ref = "gradle-android" }
 gradle-kmp-configuration = { module = "io.matthewnelson:gradle-kmp-configuration-plugin", version.ref = "gradle-kmp-configuration" }
 gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "gradle-kotlin" }
 gradle-publish-maven = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradle-publish-maven" }
