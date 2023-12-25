@@ -26,7 +26,7 @@ import org.kotlincrypto.hash.sha2.SHA256
  * Runtime abstraction for resources that have been transformed for
  * Kotlin Multi-Platform native
  *
- * See [resource-cli](https://github.com/05nelsonm/kmp-tor-binary/tree/master/tools/resource-cli)
+ * See [resource-cli](https://github.com/05nelsonm/kmp-tor-resource/tree/master/tools/resource-cli)
  *
  * @param [version] A number that mitigates breaking things for
  *   resources that have already been transformed.
