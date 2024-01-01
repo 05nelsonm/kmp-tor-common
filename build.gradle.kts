@@ -48,9 +48,5 @@ plugins.withType<YarnPlugin> {
 }
 
 apiValidation {
-    if (CHECK_PUBLICATION) {
-        ignoredProjects.add("check-publication")
-    } else {
-        nonPublicMarkers.add("io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi")
-    }
+    if (CHECK_PUBLICATION) ignoredProjects.add("check-publication")
 }
