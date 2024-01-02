@@ -19,12 +19,10 @@ import io.matthewnelson.kmp.file.File
 import io.matthewnelson.kmp.file.IOException
 import io.matthewnelson.kmp.file.canonicalFile
 import io.matthewnelson.kmp.file.wrapIOException
-import io.matthewnelson.kmp.tor.core.resource.ImmutableSet.Companion.toImmutableSet
 import io.matthewnelson.kmp.tor.core.resource.internal.appendIndent
 import io.matthewnelson.kmp.tor.core.resource.internal.extractTo
 import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.core.api.annotation.KmpTorDsl
-import io.matthewnelson.kmp.tor.core.resource.ImmutableMap.Companion.wrapImmutableMap
 import kotlin.jvm.JvmField
 import kotlin.jvm.JvmStatic
 import kotlin.jvm.JvmSynthetic
@@ -90,7 +88,7 @@ public class Resource private constructor(
                 throw t.wrapIOException { "Failed to extract resources to destinationDir[$dir]" }
             }
 
-            return map.wrapImmutableMap()
+            return map.toImmutableMap()
         }
 
         @KmpTorDsl

@@ -13,18 +13,59 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:JvmName("Immutable")
+
 package io.matthewnelson.kmp.tor.core.resource
 
 import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
-import io.matthewnelson.kmp.tor.core.resource.ImmutableSet.Companion.wrapImmutableSet
 import kotlin.jvm.JvmName
-import kotlin.jvm.JvmStatic
-import kotlin.jvm.JvmSynthetic
 
 @InternalKmpTorApi
-public class ImmutableList<T> private constructor(
-    private val delegate: List<T>,
-): List<T> {
+@JvmName("listOf")
+public fun <T> Collection<T>.toImmutableList(): List<T> {
+    if (isEmpty()) return emptyList()
+    if (this is ImmutableList<T>) return this
+    return ImmutableList(toList())
+}
+
+@InternalKmpTorApi
+@JvmName("listOf")
+public fun <T> immutableListOf(vararg elements: T): List<T> {
+    if (elements.isEmpty()) return emptyList()
+    return ImmutableList(elements.toList())
+}
+
+@InternalKmpTorApi
+@JvmName("mapOf")
+public fun <K, V> Map<K, V>.toImmutableMap(): Map<K, V> {
+    if (isEmpty()) return emptyMap()
+    if (this is ImmutableMap<K, V>) return this
+    return ImmutableMap(toMap())
+}
+
+@InternalKmpTorApi
+@JvmName("mapOf")
+public fun <K, V> immutableMapOf(vararg pairs: Pair<K, V>): Map<K, V> {
+    if (pairs.isEmpty()) return emptyMap()
+    return ImmutableMap(pairs.toMap())
+}
+
+@InternalKmpTorApi
+@JvmName("setOf")
+public fun <T> Collection<T>.toImmutableSet(): Set<T> {
+    if (isEmpty()) return emptySet()
+    if (this is ImmutableSet<T>) return this
+    return ImmutableSet(toSet())
+}
+
+@InternalKmpTorApi
+@JvmName("setOf")
+public fun <T> immutableSetOf(vararg elements: T): Set<T> {
+    if (elements.isEmpty()) return emptySet()
+    return ImmutableSet(elements.toSet())
+}
+
+private class ImmutableList<T>(private val delegate: List<T>): List<T> {
 
     override val size: Int get() = delegate.size
     override operator fun get(index: Int): T = delegate[index]
@@ -33,7 +74,11 @@ public class ImmutableList<T> private constructor(
     override fun listIterator(): ListIterator<T> = delegate.listIterator()
     override fun listIterator(index: Int): ListIterator<T> = delegate.listIterator(index)
 
-    override fun subList(fromIndex: Int, toIndex: Int): List<T> = delegate.subList(fromIndex, toIndex).wrapImmutableList()
+    override fun subList(fromIndex: Int, toIndex: Int): List<T> {
+        val sub = delegate.subList(fromIndex, toIndex)
+        if (sub.isEmpty()) return emptyList()
+        return ImmutableList(sub)
+    }
     override fun lastIndexOf(element: T): Int = delegate.lastIndexOf(element)
     override fun indexOf(element: T): Int = delegate.indexOf(element)
     override fun containsAll(elements: Collection<T>): Boolean = delegate.containsAll(elements)
@@ -42,38 +87,9 @@ public class ImmutableList<T> private constructor(
     override fun equals(other: Any?): Boolean = delegate == other
     override fun hashCode(): Int = delegate.hashCode()
     override fun toString(): String = delegate.toString()
-
-    @InternalKmpTorApi
-    public companion object {
-
-        @JvmStatic
-        @JvmName("get")
-        public fun <T> Collection<T>.toImmutableList(): List<T> {
-            if (isEmpty()) return emptyList()
-            if (this is ImmutableList<T>) return this
-            return ImmutableList(toList())
-        }
-
-        @JvmStatic
-        public fun <T> of(vararg elements: T): List<T> {
-            if (elements.isEmpty()) return emptyList()
-            return ImmutableList(elements.toList())
-        }
-
-        @JvmSynthetic
-        internal fun <T> Collection<T>.wrapImmutableList(): List<T> {
-            if (isEmpty()) return emptyList()
-            if (this is ImmutableList<T>) return this
-            if (this is List<T>) return ImmutableList(this)
-            return ImmutableList(toList())
-        }
-    }
 }
 
-@InternalKmpTorApi
-public class ImmutableMap<K, V> private constructor(
-    private val delegate: Map<K, V>,
-): Map<K, V> {
+private class ImmutableMap<K, V>(private val delegate: Map<K, V>): Map<K, V> {
 
     private class Entry<K, V>(
         private val delegate: Map.Entry<K, V>,
@@ -104,9 +120,9 @@ public class ImmutableMap<K, V> private constructor(
         val entries = delegate.entries
         val set = HashSet<Entry<K, V>>(entries.size, 1.0F)
         entries.mapTo(set) { Entry(it) }
-        set.wrapImmutableSet()
+        ImmutableSet(set)
     }
-    override val keys: Set<K> by lazy { delegate.keys.wrapImmutableSet() }
+    override val keys: Set<K> by lazy { ImmutableSet(delegate.keys) }
     override val size: Int get() = delegate.size
     override val values: Collection<V> by lazy { Values(delegate.values) }
     override fun isEmpty(): Boolean = delegate.isEmpty()
@@ -117,37 +133,9 @@ public class ImmutableMap<K, V> private constructor(
     override fun equals(other: Any?): Boolean = delegate == other
     override fun hashCode(): Int = delegate.hashCode()
     override fun toString(): String = delegate.toString()
-
-    @InternalKmpTorApi
-    public companion object {
-
-        @JvmStatic
-        @JvmName("get")
-        public fun <K, V> Map<K, V>.toImmutableMap(): Map<K, V> {
-            if (isEmpty()) return emptyMap()
-            if (this is ImmutableMap<K, V>) return this
-            return ImmutableMap(toMap())
-        }
-
-        @JvmStatic
-        public fun <K, V> of(vararg pairs: Pair<K, V>): Map<K, V> {
-            if (pairs.isEmpty()) return emptyMap()
-            return ImmutableMap(pairs.toMap())
-        }
-
-        @JvmSynthetic
-        internal fun <K, V> Map<K, V>.wrapImmutableMap(): Map<K, V> {
-            if (isEmpty()) return emptyMap()
-            if (this is ImmutableMap<K, V>) return this
-            return ImmutableMap(this)
-        }
-    }
 }
 
-@InternalKmpTorApi
-public class ImmutableSet<T> private constructor(
-    private val delegate: Set<T>,
-): Set<T> {
+private class ImmutableSet<T>(private val delegate: Set<T>): Set<T> {
 
     override val size: Int get() = delegate.size
     override fun isEmpty(): Boolean = delegate.isEmpty()
@@ -158,30 +146,4 @@ public class ImmutableSet<T> private constructor(
     override fun equals(other: Any?): Boolean = delegate == other
     override fun hashCode(): Int = delegate.hashCode()
     override fun toString(): String = delegate.toString()
-
-    @InternalKmpTorApi
-    public companion object {
-
-        @JvmStatic
-        @JvmName("get")
-        public fun <T> Collection<T>.toImmutableSet(): Set<T> {
-            if (isEmpty()) return emptySet()
-            if (this is ImmutableSet<T>) return this
-            return ImmutableSet(toSet())
-        }
-
-        @JvmStatic
-        public fun <T> of(vararg elements: T): Set<T> {
-            if (elements.isEmpty()) return emptySet()
-            return ImmutableSet(elements.toSet())
-        }
-
-        @JvmSynthetic
-        internal fun <T> Collection<T>.wrapImmutableSet(): Set<T> {
-            if (isEmpty()) return emptySet()
-            if (this is ImmutableSet<T>) return this
-            if (this is Set<T>) return ImmutableSet(this)
-            return ImmutableSet(toSet())
-        }
-    }
 }

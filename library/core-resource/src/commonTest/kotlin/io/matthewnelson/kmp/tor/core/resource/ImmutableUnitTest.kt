@@ -16,9 +16,6 @@
 package io.matthewnelson.kmp.tor.core.resource
 
 import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
-import io.matthewnelson.kmp.tor.core.resource.ImmutableList.Companion.toImmutableList
-import io.matthewnelson.kmp.tor.core.resource.ImmutableMap.Companion.toImmutableMap
-import io.matthewnelson.kmp.tor.core.resource.ImmutableSet.Companion.toImmutableSet
 import kotlin.test.*
 
 @OptIn(InternalKmpTorApi::class)
@@ -32,7 +29,10 @@ class ImmutableUnitTest {
 
         val iList1 = list1.toImmutableList()
         val iList2 = list2.toImmutableList()
-        assertIs<ImmutableList<String>>(iList1.subList(0, 2))
+        assertEquals("ImmutableList", iList1::class.simpleName)
+        assertNotEquals("ImmutableList", emptyList<String>().toImmutableList()::class.simpleName)
+        assertNotEquals("ImmutableList", immutableListOf<String>()::class.simpleName)
+
         assertEquals(iList1, iList2)
         assertEquals(iList1.toString(), iList2.toString())
         assertEquals(iList1.hashCode(), iList2.hashCode())
@@ -41,6 +41,7 @@ class ImmutableUnitTest {
         assertEquals(list1.toString(), iList1.toString())
         assertEquals(list1.hashCode(), iList1.hashCode())
     }
+
     @Test
     fun givenContents_whenTheSame_thenImmutableMapEqualsOther() {
         val map1 = mutableMapOf("this" to "that", "here" to "there")
@@ -52,8 +53,9 @@ class ImmutableUnitTest {
 
         val iMap1 = map1.toImmutableMap()
         val iMap2 = map2.toImmutableMap()
-        assertIs<ImmutableSet<String>>(iMap1.entries)
-        assertIs<ImmutableSet<String>>(iMap1.keys)
+        assertEquals("ImmutableMap", iMap1::class.simpleName)
+        assertNotEquals("ImmutableMap", emptyMap<String, String>().toImmutableMap()::class.simpleName)
+        assertNotEquals("ImmutableMap", immutableMapOf<String, String>()::class.simpleName)
 
         assertEquals(iMap1, iMap2)
         assertEquals(iMap1.entries, iMap2.entries)
@@ -80,6 +82,10 @@ class ImmutableUnitTest {
 
         val iSet1 = set1.toImmutableSet()
         val iSet2 = set2.toImmutableSet()
+        assertEquals("ImmutableSet", iSet1::class.simpleName)
+        assertNotEquals("ImmutableSet", emptySet<String>().toImmutableSet()::class.simpleName)
+        assertNotEquals("ImmutableSet", immutableSetOf<String>()::class.simpleName)
+
         assertEquals(iSet1, iSet2)
         assertEquals(iSet1.toString(), iSet2.toString())
         assertEquals(iSet1.hashCode(), iSet2.hashCode())

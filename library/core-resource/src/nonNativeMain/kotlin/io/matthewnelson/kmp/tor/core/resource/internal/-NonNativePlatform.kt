@@ -15,9 +15,9 @@
  **/
 package io.matthewnelson.kmp.tor.core.resource.internal
 
-import io.matthewnelson.kmp.tor.core.resource.ImmutableMap
 import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.core.resource.OSArch
+import io.matthewnelson.kmp.tor.core.resource.immutableMapOf
 import kotlin.jvm.JvmSynthetic
 
 @JvmSynthetic
@@ -28,7 +28,7 @@ internal const val PATH_OS_RELEASE = "/etc/os-release"
 @get:JvmSynthetic
 @InternalKmpTorApi
 internal val ARCH_MAP: Map<String, OSArch> by lazy {
-    ImmutableMap.of(
+    immutableMapOf(
         Pair("x86", OSArch.X86),
         Pair("i386", OSArch.X86),
         Pair("i486", OSArch.X86),
