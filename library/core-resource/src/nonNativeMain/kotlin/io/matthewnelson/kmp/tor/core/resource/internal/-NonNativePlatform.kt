@@ -27,7 +27,7 @@ internal const val PATH_OS_RELEASE = "/etc/os-release"
 
 @get:JvmSynthetic
 @InternalKmpTorApi
-internal val ARCH_MAP: ImmutableMap<String, OSArch> by lazy {
+internal val ARCH_MAP: Map<String, OSArch> by lazy {
     ImmutableMap.of(
         Pair("x86", OSArch.X86),
         Pair("i386", OSArch.X86),

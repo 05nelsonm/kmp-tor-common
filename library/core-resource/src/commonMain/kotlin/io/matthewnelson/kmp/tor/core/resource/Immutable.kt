@@ -37,10 +37,17 @@ public class ImmutableSet<T> private constructor(
     public companion object {
 
         @JvmStatic
-        public fun <T> MutableSet<T>.toImmutableSet(): ImmutableSet<T> = ImmutableSet(this.toSet())
+        public fun <T> Set<T>.toImmutableSet(): Set<T> {
+            if (isEmpty()) return emptySet()
+            if (this is ImmutableSet<T>) return this
+            return ImmutableSet(toSet())
+        }
 
         @JvmStatic
-        public fun <T> of(vararg elements: T): ImmutableSet<T> = ImmutableSet(elements.toSet())
+        public fun <T> of(vararg elements: T): Set<T> {
+            if (elements.isEmpty()) return emptySet()
+            return ImmutableSet(elements.toSet())
+        }
     }
 }
 
@@ -66,9 +73,16 @@ public class ImmutableMap<K, V> private constructor(
     public companion object {
 
         @JvmStatic
-        public fun <K, V> MutableMap<K, V>.toImmutableMap(): ImmutableMap<K, V> = ImmutableMap(this.toMap())
+        public fun <K, V> Map<K, V>.toImmutableMap(): Map<K, V> {
+            if (isEmpty()) return emptyMap()
+            if (this is ImmutableMap<K, V>) return this
+            return ImmutableMap(toMap())
+        }
 
         @JvmStatic
-        public fun <K, V> of(vararg pairs: Pair<K, V>): ImmutableMap<K, V> = ImmutableMap(pairs.toMap())
+        public fun <K, V> of(vararg pairs: Pair<K, V>): Map<K, V> {
+            if (pairs.isEmpty()) return emptyMap()
+            return ImmutableMap(pairs.toMap())
+        }
     }
 }

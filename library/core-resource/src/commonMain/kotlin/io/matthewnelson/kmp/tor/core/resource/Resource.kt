@@ -42,9 +42,9 @@ public class Resource private constructor(
     @InternalKmpTorApi
     public class Config private constructor(
         @JvmField
-        public val errors: ImmutableSet<String>,
+        public val errors: Set<String>,
         @JvmField
-        public val resources: ImmutableSet<Resource>,
+        public val resources: Set<Resource>,
     ) {
 
         @InternalKmpTorApi
@@ -58,7 +58,7 @@ public class Resource private constructor(
         }
 
         @Throws(IllegalStateException::class, IOException::class)
-        public fun extractTo(destinationDir: File, onlyIfDoesNotExist: Boolean): ImmutableMap<String, File> {
+        public fun extractTo(destinationDir: File, onlyIfDoesNotExist: Boolean): Map<String, File> {
             check(errors.isEmpty()) {
                 buildString {
                     errors.forEach { error ->
