@@ -16,27 +16,60 @@
 package io.matthewnelson.kmp.tor.core.resource
 
 import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
+import io.matthewnelson.kmp.tor.core.resource.ImmutableList.Companion.toImmutableList
 import io.matthewnelson.kmp.tor.core.resource.ImmutableMap.Companion.toImmutableMap
 import io.matthewnelson.kmp.tor.core.resource.ImmutableSet.Companion.toImmutableSet
-import kotlin.test.Test
-import kotlin.test.assertEquals
+import kotlin.test.*
 
 @OptIn(InternalKmpTorApi::class)
 class ImmutableUnitTest {
 
     @Test
+    fun givenContents_whenTheSame_thenImmutableListEqualsOther() {
+        val list1 = mutableListOf("this", "that", "here", "there")
+        val list2 = list1.toMutableList()
+        assertEquals(list1, list2)
+
+        val iList1 = list1.toImmutableList()
+        val iList2 = list2.toImmutableList()
+        assertIs<ImmutableList<String>>(iList1.subList(0, 2))
+        assertEquals(iList1, iList2)
+        assertEquals(iList1.toString(), iList2.toString())
+        assertEquals(iList1.hashCode(), iList2.hashCode())
+
+        assertEquals(list1, iList1)
+        assertEquals(list1.toString(), iList1.toString())
+        assertEquals(list1.hashCode(), iList1.hashCode())
+    }
+    @Test
     fun givenContents_whenTheSame_thenImmutableMapEqualsOther() {
         val map1 = mutableMapOf("this" to "that", "here" to "there")
         val map2 = map1.toMutableMap()
         assertEquals(map1, map2)
+        assertEquals(map1.entries, map2.entries)
+        assertEquals(map1.keys, map2.keys)
+        assertNotEquals(map1.values, map2.values)
 
         val iMap1 = map1.toImmutableMap()
         val iMap2 = map2.toImmutableMap()
+        assertIs<ImmutableMap.Entry<String, String>>(iMap1.entries.first())
+        assertIs<ImmutableSet<String>>(iMap1.entries)
+        assertIs<ImmutableList<String>>(iMap1.values)
+        assertIs<ImmutableSet<String>>(iMap1.keys)
+
         assertEquals(iMap1, iMap2)
+        assertEquals(iMap1.entries, iMap2.entries)
+        assertEquals(iMap1.keys, iMap2.keys)
+        assertEquals(iMap1.values, iMap2.values)
+        assertContentEquals(iMap1.values, iMap2.values)
         assertEquals(iMap1.toString(), iMap2.toString())
         assertEquals(iMap1.hashCode(), iMap2.hashCode())
 
         assertEquals(map1, iMap1)
+        assertEquals(map1.entries, iMap1.entries)
+        assertEquals(map1.keys, iMap1.keys)
+        assertNotEquals(map1.values, iMap1.values)
+        assertContentEquals(map1.values, iMap1.values)
         assertEquals(map1.toString(), iMap1.toString())
         assertEquals(map1.hashCode(), iMap1.hashCode())
     }
