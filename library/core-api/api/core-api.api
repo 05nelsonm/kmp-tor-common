@@ -17,6 +17,9 @@ public final class io/matthewnelson/kmp/tor/core/api/ResourceInstaller$Paths$Tor
 	public fun toString ()Ljava/lang/String;
 }
 
+public abstract interface annotation class io/matthewnelson/kmp/tor/core/api/annotation/ExperimentalKmpTorApi : java/lang/annotation/Annotation {
+}
+
 public abstract interface annotation class io/matthewnelson/kmp/tor/core/api/annotation/InternalKmpTorApi : java/lang/annotation/Annotation {
 }
 
