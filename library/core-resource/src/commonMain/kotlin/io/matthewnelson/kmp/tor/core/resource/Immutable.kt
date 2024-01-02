@@ -100,15 +100,15 @@ public class ImmutableMap<K, V> private constructor(
         override fun toString(): String = delegate.toString()
     }
 
-    override val entries: Set<Map.Entry<K, V>> get() {
+    override val entries: Set<Map.Entry<K, V>> by lazy {
         val entries = delegate.entries
         val set = HashSet<Entry<K, V>>(entries.size, 1.0F)
         entries.mapTo(set) { Entry(it) }
-        return set.wrapImmutableSet()
+        set.wrapImmutableSet()
     }
-    override val keys: Set<K> get() = delegate.keys.wrapImmutableSet()
+    override val keys: Set<K> by lazy { delegate.keys.wrapImmutableSet() }
     override val size: Int get() = delegate.size
-    override val values: Collection<V> get() = Values(delegate.values)
+    override val values: Collection<V> by lazy { Values(delegate.values) }
     override fun isEmpty(): Boolean = delegate.isEmpty()
     override operator fun get(key: K): V? = delegate[key]
     override fun containsValue(value: V): Boolean = delegate.containsValue(value)
