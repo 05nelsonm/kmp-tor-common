@@ -29,6 +29,10 @@ public class ImmutableSet<T> private constructor(
     override fun containsAll(elements: Collection<T>): Boolean = delegate.containsAll(elements)
     override fun contains(element: T): Boolean = delegate.contains(element)
 
+    override fun equals(other: Any?): Boolean = delegate == other
+    override fun hashCode(): Int = delegate.hashCode()
+    override fun toString(): String = delegate.toString()
+
     @InternalKmpTorApi
     public companion object {
 
@@ -53,6 +57,10 @@ public class ImmutableMap<K, V> private constructor(
     override operator fun get(key: K): V? = delegate[key]
     override fun containsValue(value: V): Boolean = delegate.containsValue(value)
     override fun containsKey(key: K): Boolean = delegate.containsKey(key)
+
+    override fun equals(other: Any?): Boolean = delegate == other
+    override fun hashCode(): Int = delegate.hashCode()
+    override fun toString(): String = delegate.toString()
 
     @InternalKmpTorApi
     public companion object {
