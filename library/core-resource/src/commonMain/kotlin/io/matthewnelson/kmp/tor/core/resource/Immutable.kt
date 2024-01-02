@@ -17,6 +17,7 @@ package io.matthewnelson.kmp.tor.core.resource
 
 import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.core.resource.ImmutableSet.Companion.wrapImmutableSet
+import kotlin.jvm.JvmName
 import kotlin.jvm.JvmStatic
 import kotlin.jvm.JvmSynthetic
 
@@ -46,6 +47,7 @@ public class ImmutableList<T> private constructor(
     public companion object {
 
         @JvmStatic
+        @JvmName("get")
         public fun <T> Collection<T>.toImmutableList(): List<T> {
             if (isEmpty()) return emptyList()
             if (this is ImmutableList<T>) return this
@@ -120,6 +122,7 @@ public class ImmutableMap<K, V> private constructor(
     public companion object {
 
         @JvmStatic
+        @JvmName("get")
         public fun <K, V> Map<K, V>.toImmutableMap(): Map<K, V> {
             if (isEmpty()) return emptyMap()
             if (this is ImmutableMap<K, V>) return this
@@ -160,6 +163,7 @@ public class ImmutableSet<T> private constructor(
     public companion object {
 
         @JvmStatic
+        @JvmName("get")
         public fun <T> Collection<T>.toImmutableSet(): Set<T> {
             if (isEmpty()) return emptySet()
             if (this is ImmutableSet<T>) return this
