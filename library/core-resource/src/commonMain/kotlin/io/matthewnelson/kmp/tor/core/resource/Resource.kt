@@ -19,8 +19,6 @@ import io.matthewnelson.kmp.file.File
 import io.matthewnelson.kmp.file.IOException
 import io.matthewnelson.kmp.file.canonicalFile
 import io.matthewnelson.kmp.file.wrapIOException
-import io.matthewnelson.kmp.tor.core.resource.ImmutableMap.Companion.toImmutableMap
-import io.matthewnelson.kmp.tor.core.resource.ImmutableSet.Companion.toImmutableSet
 import io.matthewnelson.kmp.tor.core.resource.internal.appendIndent
 import io.matthewnelson.kmp.tor.core.resource.internal.extractTo
 import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
@@ -42,9 +40,9 @@ public class Resource private constructor(
     @InternalKmpTorApi
     public class Config private constructor(
         @JvmField
-        public val errors: ImmutableSet<String>,
+        public val errors: Set<String>,
         @JvmField
-        public val resources: ImmutableSet<Resource>,
+        public val resources: Set<Resource>,
     ) {
 
         @InternalKmpTorApi
@@ -58,7 +56,7 @@ public class Resource private constructor(
         }
 
         @Throws(IllegalStateException::class, IOException::class)
-        public fun extractTo(destinationDir: File, onlyIfDoesNotExist: Boolean): ImmutableMap<String, File> {
+        public fun extractTo(destinationDir: File, onlyIfDoesNotExist: Boolean): Map<String, File> {
             check(errors.isEmpty()) {
                 buildString {
                     errors.forEach { error ->

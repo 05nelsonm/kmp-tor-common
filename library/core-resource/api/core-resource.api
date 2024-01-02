@@ -2,67 +2,13 @@ public final class io/matthewnelson/kmp/tor/core/resource/AndroidSdkIntKt {
 	public static final fun getANDROID_SDK_INT ()Ljava/lang/Integer;
 }
 
-public final class io/matthewnelson/kmp/tor/core/resource/ImmutableMap : java/util/Map, kotlin/jvm/internal/markers/KMappedMarker {
-	public static final field Companion Lio/matthewnelson/kmp/tor/core/resource/ImmutableMap$Companion;
-	public synthetic fun <init> (Ljava/util/Map;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun clear ()V
-	public fun compute (Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
-	public fun computeIfAbsent (Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;
-	public fun computeIfPresent (Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
-	public fun containsKey (Ljava/lang/Object;)Z
-	public fun containsValue (Ljava/lang/Object;)Z
-	public final fun entrySet ()Ljava/util/Set;
-	public fun get (Ljava/lang/Object;)Ljava/lang/Object;
-	public fun getEntries ()Ljava/util/Set;
-	public fun getKeys ()Ljava/util/Set;
-	public fun getSize ()I
-	public fun getValues ()Ljava/util/Collection;
-	public fun isEmpty ()Z
-	public final fun keySet ()Ljava/util/Set;
-	public fun merge (Ljava/lang/Object;Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
-	public static final fun of ([Lkotlin/Pair;)Lio/matthewnelson/kmp/tor/core/resource/ImmutableMap;
-	public fun put (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-	public fun putAll (Ljava/util/Map;)V
-	public fun putIfAbsent (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-	public fun remove (Ljava/lang/Object;)Ljava/lang/Object;
-	public fun remove (Ljava/lang/Object;Ljava/lang/Object;)Z
-	public fun replace (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
-	public fun replace (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z
-	public fun replaceAll (Ljava/util/function/BiFunction;)V
-	public final fun size ()I
-	public static final fun toImmutableMap (Ljava/util/Map;)Lio/matthewnelson/kmp/tor/core/resource/ImmutableMap;
-	public final fun values ()Ljava/util/Collection;
-}
-
-public final class io/matthewnelson/kmp/tor/core/resource/ImmutableMap$Companion {
-	public final fun of ([Lkotlin/Pair;)Lio/matthewnelson/kmp/tor/core/resource/ImmutableMap;
-	public final fun toImmutableMap (Ljava/util/Map;)Lio/matthewnelson/kmp/tor/core/resource/ImmutableMap;
-}
-
-public final class io/matthewnelson/kmp/tor/core/resource/ImmutableSet : java/util/Set, kotlin/jvm/internal/markers/KMappedMarker {
-	public static final field Companion Lio/matthewnelson/kmp/tor/core/resource/ImmutableSet$Companion;
-	public synthetic fun <init> (Ljava/util/Set;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun add (Ljava/lang/Object;)Z
-	public fun addAll (Ljava/util/Collection;)Z
-	public fun clear ()V
-	public fun contains (Ljava/lang/Object;)Z
-	public fun containsAll (Ljava/util/Collection;)Z
-	public fun getSize ()I
-	public fun isEmpty ()Z
-	public fun iterator ()Ljava/util/Iterator;
-	public static final fun of ([Ljava/lang/Object;)Lio/matthewnelson/kmp/tor/core/resource/ImmutableSet;
-	public fun remove (Ljava/lang/Object;)Z
-	public fun removeAll (Ljava/util/Collection;)Z
-	public fun retainAll (Ljava/util/Collection;)Z
-	public final fun size ()I
-	public fun toArray ()[Ljava/lang/Object;
-	public fun toArray ([Ljava/lang/Object;)[Ljava/lang/Object;
-	public static final fun toImmutableSet (Ljava/util/Set;)Lio/matthewnelson/kmp/tor/core/resource/ImmutableSet;
-}
-
-public final class io/matthewnelson/kmp/tor/core/resource/ImmutableSet$Companion {
-	public final fun of ([Ljava/lang/Object;)Lio/matthewnelson/kmp/tor/core/resource/ImmutableSet;
-	public final fun toImmutableSet (Ljava/util/Set;)Lio/matthewnelson/kmp/tor/core/resource/ImmutableSet;
+public final class io/matthewnelson/kmp/tor/core/resource/Immutable {
+	public static final fun listOf (Ljava/util/Collection;)Ljava/util/List;
+	public static final fun listOf ([Ljava/lang/Object;)Ljava/util/List;
+	public static final fun mapOf (Ljava/util/Map;)Ljava/util/Map;
+	public static final fun mapOf ([Lkotlin/Pair;)Ljava/util/Map;
+	public static final fun setOf (Ljava/util/Collection;)Ljava/util/Set;
+	public static final fun setOf ([Ljava/lang/Object;)Ljava/util/Set;
 }
 
 public abstract class io/matthewnelson/kmp/tor/core/resource/OSArch {
@@ -196,12 +142,12 @@ public final class io/matthewnelson/kmp/tor/core/resource/Resource$Builder {
 
 public final class io/matthewnelson/kmp/tor/core/resource/Resource$Config {
 	public static final field Companion Lio/matthewnelson/kmp/tor/core/resource/Resource$Config$Companion;
-	public final field errors Lio/matthewnelson/kmp/tor/core/resource/ImmutableSet;
-	public final field resources Lio/matthewnelson/kmp/tor/core/resource/ImmutableSet;
-	public synthetic fun <init> (Lio/matthewnelson/kmp/tor/core/resource/ImmutableSet;Lio/matthewnelson/kmp/tor/core/resource/ImmutableSet;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final field errors Ljava/util/Set;
+	public final field resources Ljava/util/Set;
+	public synthetic fun <init> (Ljava/util/Set;Ljava/util/Set;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public static final fun create (Lkotlin/jvm/functions/Function1;)Lio/matthewnelson/kmp/tor/core/resource/Resource$Config;
 	public fun equals (Ljava/lang/Object;)Z
-	public final fun extractTo (Ljava/io/File;Z)Lio/matthewnelson/kmp/tor/core/resource/ImmutableMap;
+	public final fun extractTo (Ljava/io/File;Z)Ljava/util/Map;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
