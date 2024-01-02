@@ -16,7 +16,6 @@
 package io.matthewnelson.kmp.tor.core.resource
 
 import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
-import io.matthewnelson.kmp.tor.core.resource.ImmutableList.Companion.wrapImmutableList
 import io.matthewnelson.kmp.tor.core.resource.ImmutableSet.Companion.wrapImmutableSet
 import kotlin.jvm.JvmStatic
 import kotlin.jvm.JvmSynthetic
@@ -74,11 +73,25 @@ public class ImmutableMap<K, V> private constructor(
     private val delegate: Map<K, V>,
 ): Map<K, V> {
 
-    internal class Entry<K, V>(
+    private class Entry<K, V>(
         private val delegate: Map.Entry<K, V>,
     ): Map.Entry<K, V> {
         override val key: K get() = delegate.key
         override val value: V get() = delegate.value
+
+        override fun equals(other: Any?): Boolean = delegate == other
+        override fun hashCode(): Int = delegate.hashCode()
+        override fun toString(): String = delegate.toString()
+    }
+
+    private class Values<V>(
+        private val delegate: Collection<V>,
+    ): Collection<V> {
+        override val size: Int get() = delegate.size
+        override fun isEmpty(): Boolean = delegate.isEmpty()
+        override fun iterator(): Iterator<V> = delegate.iterator()
+        override fun containsAll(elements: Collection<V>): Boolean = delegate.containsAll(elements)
+        override fun contains(element: V): Boolean = delegate.contains(element)
 
         override fun equals(other: Any?): Boolean = delegate == other
         override fun hashCode(): Int = delegate.hashCode()
@@ -93,7 +106,7 @@ public class ImmutableMap<K, V> private constructor(
     }
     override val keys: Set<K> get() = delegate.keys.wrapImmutableSet()
     override val size: Int get() = delegate.size
-    override val values: Collection<V> get() = delegate.values.wrapImmutableList()
+    override val values: Collection<V> get() = Values(delegate.values)
     override fun isEmpty(): Boolean = delegate.isEmpty()
     override operator fun get(key: K): V? = delegate[key]
     override fun containsValue(value: V): Boolean = delegate.containsValue(value)

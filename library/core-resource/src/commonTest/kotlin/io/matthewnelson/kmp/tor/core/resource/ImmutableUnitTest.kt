@@ -52,15 +52,13 @@ class ImmutableUnitTest {
 
         val iMap1 = map1.toImmutableMap()
         val iMap2 = map2.toImmutableMap()
-        assertIs<ImmutableMap.Entry<String, String>>(iMap1.entries.first())
         assertIs<ImmutableSet<String>>(iMap1.entries)
-        assertIs<ImmutableList<String>>(iMap1.values)
         assertIs<ImmutableSet<String>>(iMap1.keys)
 
         assertEquals(iMap1, iMap2)
         assertEquals(iMap1.entries, iMap2.entries)
         assertEquals(iMap1.keys, iMap2.keys)
-        assertEquals(iMap1.values, iMap2.values)
+        assertNotEquals(iMap1.values, iMap2.values)
         assertContentEquals(iMap1.values, iMap2.values)
         assertEquals(iMap1.toString(), iMap2.toString())
         assertEquals(iMap1.hashCode(), iMap2.hashCode())
