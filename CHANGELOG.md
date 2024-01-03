@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Version 2.0.0-alpha04 (2023-01-03)
+ - Updates `kmp-file` [[#17]][17]
+
 ## Version 2.0.0-alpha03 (2023-01-01)
  - Fixes `Immutable` class implementations [[#14]][14]
  - Adds `ExperimentalKmpTorApi` annotation [[#16]][16]
@@ -15,3 +18,4 @@
 [13]: https://github.com/05nelsonm/kmp-tor-core/pull/13
 [14]: https://github.com/05nelsonm/kmp-tor-core/pull/14
 [16]: https://github.com/05nelsonm/kmp-tor-core/pull/16
+[17]: https://github.com/05nelsonm/kmp-tor-core/pull/17
