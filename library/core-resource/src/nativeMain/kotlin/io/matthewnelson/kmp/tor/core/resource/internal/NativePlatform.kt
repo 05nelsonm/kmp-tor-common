@@ -57,7 +57,7 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
     }
 
     try {
-        dest.open(flags = "wb") { file ->
+        dest.fOpen(flags = "wb") { file ->
             platform.nativeResource.read { buffer, len ->
                 val result = file.fWrite(buffer, 0, len)
                 if (result < 0) {
@@ -85,7 +85,7 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
 
     try {
         dest.gzOpenRead { gzFile ->
-            destFinal.open(flags = "wb") { file ->
+            destFinal.fOpen(flags = "wb") { file ->
                 val buf = ByteArray(4096)
 
                 while (true) {
