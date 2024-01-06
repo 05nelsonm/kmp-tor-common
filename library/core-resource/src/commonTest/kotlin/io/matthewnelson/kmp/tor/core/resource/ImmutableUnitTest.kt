@@ -32,6 +32,9 @@ class ImmutableUnitTest {
         assertEquals("ImmutableList", iList1::class.simpleName)
         assertNotEquals("ImmutableList", emptyList<String>().toImmutableList()::class.simpleName)
         assertNotEquals("ImmutableList", immutableListOf<String>()::class.simpleName)
+        assertEquals("ImmutableIterator", iList1.iterator()::class.simpleName)
+        assertEquals("ImmutableListIterator", iList1.listIterator()::class.simpleName)
+        assertEquals("ImmutableListIterator", iList1.listIterator(1)::class.simpleName)
 
         assertEquals(iList1, iList2)
         assertEquals(iList1.toString(), iList2.toString())
@@ -56,6 +59,9 @@ class ImmutableUnitTest {
         assertEquals("ImmutableMap", iMap1::class.simpleName)
         assertNotEquals("ImmutableMap", emptyMap<String, String>().toImmutableMap()::class.simpleName)
         assertNotEquals("ImmutableMap", immutableMapOf<String, String>()::class.simpleName)
+        assertEquals("ImmutableSet", iMap1.keys::class.simpleName)
+        assertEquals("ImmutableSet", iMap1.entries::class.simpleName)
+        assertEquals("ImmutableIterator", iMap1.values.iterator()::class.simpleName)
 
         assertEquals(iMap1, iMap2)
         assertEquals(iMap1.entries, iMap2.entries)
@@ -85,6 +91,7 @@ class ImmutableUnitTest {
         assertEquals("ImmutableSet", iSet1::class.simpleName)
         assertNotEquals("ImmutableSet", emptySet<String>().toImmutableSet()::class.simpleName)
         assertNotEquals("ImmutableSet", immutableSetOf<String>()::class.simpleName)
+        assertEquals("ImmutableIterator", iSet1.iterator()::class.simpleName)
 
         assertEquals(iSet1, iSet2)
         assertEquals(iSet1.toString(), iSet2.toString())

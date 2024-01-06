@@ -3,6 +3,8 @@ public final class io/matthewnelson/kmp/tor/core/resource/AndroidSdkIntKt {
 }
 
 public final class io/matthewnelson/kmp/tor/core/resource/Immutable {
+	public static final fun iteratorOf (Ljava/util/Iterator;)Ljava/util/Iterator;
+	public static final fun listIteratorOf (Ljava/util/ListIterator;)Ljava/util/ListIterator;
 	public static final fun listOf (Ljava/util/Collection;)Ljava/util/List;
 	public static final fun listOf ([Ljava/lang/Object;)Ljava/util/List;
 	public static final fun mapOf (Ljava/util/Map;)Ljava/util/Map;
