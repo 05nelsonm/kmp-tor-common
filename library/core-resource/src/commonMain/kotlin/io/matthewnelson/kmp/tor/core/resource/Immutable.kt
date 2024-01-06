@@ -118,7 +118,7 @@ private class ImmutableMap<K, V>(private val delegate: Map<K, V>): Map<K, V> {
 
     override val entries: Set<Map.Entry<K, V>> by lazy {
         val entries = delegate.entries
-        val set = HashSet<Entry<K, V>>(entries.size, 1.0F)
+        val set = LinkedHashSet<Entry<K, V>>(entries.size, 1.0F)
         entries.mapTo(set) { Entry(it) }
         ImmutableSet(set)
     }
