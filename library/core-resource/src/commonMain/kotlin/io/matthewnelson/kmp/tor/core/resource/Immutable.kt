@@ -65,20 +65,6 @@ public fun <T> immutableSetOf(vararg elements: T): Set<T> {
     return ImmutableSet(elements.toSet())
 }
 
-@InternalKmpTorApi
-@JvmName("iteratorOf")
-public fun <T> Iterator<T>.toImmutableIterator(): Iterator<T> {
-    if (this is ImmutableIterator<T>) return this
-    return ImmutableIterator(this)
-}
-
-@InternalKmpTorApi
-@JvmName("listIteratorOf")
-public fun <T> ListIterator<T>.toImmutableListIterator(): ListIterator<T> {
-    if (this is ImmutableListIterator<T>) return this
-    return ImmutableListIterator(this)
-}
-
 private class ImmutableList<T>(private val delegate: List<T>): List<T> {
 
     override val size: Int get() = delegate.size
