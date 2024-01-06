@@ -70,9 +70,9 @@ private class ImmutableList<T>(private val delegate: List<T>): List<T> {
     override val size: Int get() = delegate.size
     override operator fun get(index: Int): T = delegate[index]
     override fun isEmpty(): Boolean = delegate.isEmpty()
-    override fun iterator(): Iterator<T> = delegate.iterator()
-    override fun listIterator(): ListIterator<T> = delegate.listIterator()
-    override fun listIterator(index: Int): ListIterator<T> = delegate.listIterator(index)
+    override fun iterator(): Iterator<T> = ImmutableIterator(delegate.iterator())
+    override fun listIterator(): ListIterator<T> = ImmutableListIterator(delegate.listIterator())
+    override fun listIterator(index: Int): ListIterator<T> = ImmutableListIterator(delegate.listIterator(index))
 
     override fun subList(fromIndex: Int, toIndex: Int): List<T> {
         val sub = delegate.subList(fromIndex, toIndex)
@@ -107,7 +107,7 @@ private class ImmutableMap<K, V>(private val delegate: Map<K, V>): Map<K, V> {
     ): Collection<V> {
         override val size: Int get() = delegate.size
         override fun isEmpty(): Boolean = delegate.isEmpty()
-        override fun iterator(): Iterator<V> = delegate.iterator()
+        override fun iterator(): Iterator<V> = ImmutableIterator(delegate.iterator())
         override fun containsAll(elements: Collection<V>): Boolean = delegate.containsAll(elements)
         override fun contains(element: V): Boolean = delegate.contains(element)
 
@@ -139,11 +139,33 @@ private class ImmutableSet<T>(private val delegate: Set<T>): Set<T> {
 
     override val size: Int get() = delegate.size
     override fun isEmpty(): Boolean = delegate.isEmpty()
-    override fun iterator(): Iterator<T> = delegate.iterator()
+    override fun iterator(): Iterator<T> = ImmutableIterator(delegate.iterator())
     override fun containsAll(elements: Collection<T>): Boolean = delegate.containsAll(elements)
     override fun contains(element: T): Boolean = delegate.contains(element)
 
     override fun equals(other: Any?): Boolean = delegate == other
     override fun hashCode(): Int = delegate.hashCode()
     override fun toString(): String = delegate.toString()
+}
+
+private open class ImmutableIterator<T>(
+    protected val delegate: Iterator<T>
+): Iterator<T> {
+    final override fun hasNext(): Boolean = delegate.hasNext()
+    final override fun next(): T = delegate.next()
+    final override fun equals(other: Any?): Boolean = delegate == other
+    final override fun hashCode(): Int = delegate.hashCode()
+    final override fun toString(): String = delegate.toString()
+}
+
+private class ImmutableListIterator<T>(
+    delegate: ListIterator<T>
+): ImmutableIterator<T>(delegate), ListIterator<T> {
+
+    private inline val iterator: ListIterator<T> get() = delegate as ListIterator<T>
+
+    override fun hasPrevious(): Boolean = iterator.hasPrevious()
+    override fun nextIndex(): Int = iterator.nextIndex()
+    override fun previous(): T = iterator.previous()
+    override fun previousIndex(): Int = iterator.previousIndex()
 }
