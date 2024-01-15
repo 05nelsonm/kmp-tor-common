@@ -5,6 +5,7 @@
 [![badge-kotlin]][url-kotlin]
 [![badge-atomicfu]][url-atomicfu]
 [![badge-encoding]][url-encoding]
+[![badge-immutable]][url-immutable]
 [![badge-kotlincrypto-hash]][url-kotlincrypto-hash]
 [![badge-kmp-file]][url-kmp-file]
 [![badge-androidx-startup]][url-androidx-startup]
@@ -45,6 +46,7 @@ Core components for [kmp-tor][url-kmp-tor] and [kmp-tor-resource][url-kmp-tor-re
 [badge-androidx-startup]: https://img.shields.io/badge/androidx.startup-1.1.1-6EDB8D.svg?logo=android
 [badge-atomicfu]: https://img.shields.io/badge/kotlinx.atomicfu-0.23.1-blue.svg?logo=kotlin
 [badge-encoding]: https://img.shields.io/badge/encoding-2.1.0-blue.svg?style=flat
+[badge-immutable]: https://img.shields.io/badge/immutable-0.1.0--alpha01-blue.svg?style=flat
 [badge-kotlincrypto-hash]: https://img.shields.io/badge/KotlinCrypto.hash-0.4.0-blue.svg?style=flat
 [badge-kotlin]: https://img.shields.io/badge/kotlin-1.9.21-blue.svg?logo=kotlin
 [badge-kmp-file]: https://img.shields.io/badge/kmp--file-0.1.0--alpha05-blue.svg?style=flat
@@ -69,6 +71,7 @@ Core components for [kmp-tor][url-kmp-tor] and [kmp-tor-resource][url-kmp-tor-re
 [url-androidx-startup]: https://developer.android.com/jetpack/androidx/releases/startup
 [url-atomicfu]: https://github.com/Kotlin/kotlinx-atomicfu
 [url-encoding]: https://github.com/05nelsonm/encoding
+[url-immutable]: https://github.com/05nelsonm/immutable
 [url-kotlincrypto-hash]: https://github.com/KotlinCrypto/hash
 [url-latest-release]: https://github.com/05nelsonm/kmp-tor-core/releases/latest
 [url-license]: https://www.apache.org/licenses/LICENSE-2.0

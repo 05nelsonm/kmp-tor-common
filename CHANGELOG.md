@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Version 2.0.0-alpha05 (2023-01-15)
+ - Migrates `Immutable` implementations to `immutable` library [[#23]][23]
+
 ## Version 2.0.0-alpha04 (2023-01-03)
  - Updates `kmp-file` [[#17]][17]
 
@@ -19,3 +22,4 @@
 [14]: https://github.com/05nelsonm/kmp-tor-core/pull/14
 [16]: https://github.com/05nelsonm/kmp-tor-core/pull/16
 [17]: https://github.com/05nelsonm/kmp-tor-core/pull/17
+[23]: https://github.com/05nelsonm/kmp-tor-core/pull/23
