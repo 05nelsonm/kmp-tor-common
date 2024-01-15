@@ -15,9 +15,9 @@
  **/
 package io.matthewnelson.kmp.tor.core.resource.internal
 
+import io.matthewnelson.immutable.collections.immutableMapOf
 import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.core.resource.OSArch
-import io.matthewnelson.kmp.tor.core.resource.immutableMapOf
 import kotlin.jvm.JvmSynthetic
 
 @JvmSynthetic
