@@ -15,6 +15,8 @@
  **/
 package io.matthewnelson.kmp.tor.core.resource
 
+import io.matthewnelson.immutable.collections.toImmutableMap
+import io.matthewnelson.immutable.collections.toImmutableSet
 import io.matthewnelson.kmp.file.File
 import io.matthewnelson.kmp.file.IOException
 import io.matthewnelson.kmp.file.canonicalFile

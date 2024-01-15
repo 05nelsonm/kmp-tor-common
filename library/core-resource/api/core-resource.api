@@ -2,15 +2,6 @@ public final class io/matthewnelson/kmp/tor/core/resource/AndroidSdkIntKt {
 	public static final fun getANDROID_SDK_INT ()Ljava/lang/Integer;
 }
 
-public final class io/matthewnelson/kmp/tor/core/resource/Immutable {
-	public static final fun listOf (Ljava/util/Collection;)Ljava/util/List;
-	public static final fun listOf ([Ljava/lang/Object;)Ljava/util/List;
-	public static final fun mapOf (Ljava/util/Map;)Ljava/util/Map;
-	public static final fun mapOf ([Lkotlin/Pair;)Ljava/util/Map;
-	public static final fun setOf (Ljava/util/Collection;)Ljava/util/Set;
-	public static final fun setOf ([Ljava/lang/Object;)Ljava/util/Set;
-}
-
 public abstract class io/matthewnelson/kmp/tor/core/resource/OSArch {
 	public final field path Ljava/lang/String;
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V

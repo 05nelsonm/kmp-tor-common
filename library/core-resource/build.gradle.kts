@@ -35,6 +35,7 @@ kmpConfiguration {
             sourceSetMain {
                 dependencies {
                     api(project(":library:core-api"))
+                    api(libs.immutable.collections)
                 }
             }
 
