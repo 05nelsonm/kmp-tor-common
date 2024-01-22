@@ -39,7 +39,7 @@ kmpConfiguration {
         androidLibrary(namespace = "tools.check.publication") {
             sourceSetMain {
                 dependencies {
-                    implementation("$group:core-resource-initializer:$version")
+                    implementation("$group:core-lib-locator:$version")
                 }
             }
         }
