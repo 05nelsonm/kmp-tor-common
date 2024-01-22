@@ -39,7 +39,7 @@ Core components for [kmp-tor][url-kmp-tor] and [kmp-tor-resource][url-kmp-tor-re
       for installation to the filesystem. See [kmp-tor-resource][url-kmp-tor-resource].
 
 <!-- TAG_VERSION -->
-[badge-latest-release]: https://img.shields.io/badge/latest--release-2.0.0--alpha05-blue.svg?style=flat
+[badge-latest-release]: https://img.shields.io/badge/latest--release-2.0.0--alpha06-blue.svg?style=flat
 [badge-license]: https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat
 
 <!-- TAG_DEPENDENCIES -->

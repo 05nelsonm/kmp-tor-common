@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 2.0.0-alpha06 (2023-01-22)
+ - Update `immutable` to `0.1.0` [[#24]][24]
+ - Refactor `core-resource-initializer` [[#26]][26]
+     - Renamed module to `core-lib-locator`
+     - Renamed class to `io.matthewnelson.kmp.tor.core.lib.locator.KmpTorLibLocator`
+
 ## Version 2.0.0-alpha05 (2023-01-15)
  - Migrates `Immutable` implementations to `immutable` library [[#23]][23]
 
@@ -23,3 +29,5 @@
 [16]: https://github.com/05nelsonm/kmp-tor-core/pull/16
 [17]: https://github.com/05nelsonm/kmp-tor-core/pull/17
 [23]: https://github.com/05nelsonm/kmp-tor-core/pull/23
+[24]: https://github.com/05nelsonm/kmp-tor-core/pull/24
+[26]: https://github.com/05nelsonm/kmp-tor-core/pull/26
