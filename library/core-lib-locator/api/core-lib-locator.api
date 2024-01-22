@@ -1,0 +1,15 @@
+public final class io/matthewnelson/kmp/tor/core/lib/locator/KmpTorLibLocator {
+	public static final field Companion Lio/matthewnelson/kmp/tor/core/lib/locator/KmpTorLibLocator$Companion;
+	public static final fun errorMsg ()Ljava/lang/String;
+	public static final fun find (Ljava/lang/String;)Ljava/io/File;
+	public static final fun isInitialized ()Z
+	public static final fun require (Ljava/lang/String;)Ljava/io/File;
+}
+
+public final class io/matthewnelson/kmp/tor/core/lib/locator/KmpTorLibLocator$Companion {
+	public final fun errorMsg ()Ljava/lang/String;
+	public final fun find (Ljava/lang/String;)Ljava/io/File;
+	public final fun isInitialized ()Z
+	public final fun require (Ljava/lang/String;)Ljava/io/File;
+}
+
