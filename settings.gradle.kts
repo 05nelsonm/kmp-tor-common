@@ -20,7 +20,6 @@ if (CHECK_PUBLICATION != null) {
         "core-api",
         "core-lib-locator",
         "core-resource",
-        "core-resource-initializer",
         "core-test",
     ).forEach { module ->
         include(":library:$module")
