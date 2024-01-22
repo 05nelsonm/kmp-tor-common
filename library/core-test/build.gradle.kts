@@ -32,9 +32,16 @@ kmpConfiguration {
                 }
             }
 
+            sourceSetTest {
+                dependencies {
+                    implementation(project(":library:core-lib-locator"))
+                }
+            }
+
             sourceSetTestInstrumented {
                 dependencies {
                     implementation(libs.androidx.test.runner)
+                    implementation(project(":library:core-lib-locator"))
                 }
             }
         }
