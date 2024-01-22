@@ -19,8 +19,16 @@ plugins {
 
 kmpConfiguration {
     configure {
-        androidLibrary(namespace = "io.matthewnelson.kmp.tor.core.resource.initializer") {
+        androidLibrary(namespace = "io.matthewnelson.kmp.tor.core.lib.locator") {
             target { publishLibraryVariants("release") }
+
+            android {
+                lint {
+                    // Linter does not like the subclass. Tests are performed
+                    // via core-test to ensure everything is copacetic.
+                    disable.add("EnsureInitializerMetadata")
+                }
+            }
 
             sourceSetMain {
                 dependencies {

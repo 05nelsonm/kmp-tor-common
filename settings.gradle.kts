@@ -18,8 +18,8 @@ if (CHECK_PUBLICATION != null) {
 } else {
     listOf(
         "core-api",
+        "core-lib-locator",
         "core-resource",
-        "core-resource-initializer",
         "core-test",
     ).forEach { module ->
         include(":library:$module")
