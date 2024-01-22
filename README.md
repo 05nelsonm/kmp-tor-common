@@ -29,14 +29,14 @@ Core components for [kmp-tor][url-kmp-tor] and [kmp-tor-resource][url-kmp-tor-re
 
 - `:library:core-api` is the publicly exposed API for which consumers of [kmp-tor][url-kmp-tor] 
   and [kmp-tor-resource][url-kmp-tor-resource] interact.
-- `:library:core-resource` is a module not meant for public consumption
+- `:library:core-lib-locator` is a module not meant for public consumption.
+    - [kmp-tor-resource][url-kmp-tor-resource] modules utilizes this for Android to retrieve 
+      the native library path (which is extracted to the application's `nativeLibraryDir` at
+      time of application install) upon resource configuration/installation.
+- `:library:core-resource` is a module not meant for public consumption.
     - All classes and functions are annotated with `@InternalKmpTorApi`.
     - This is the workhorse that enables packaging and extraction of Jvm/Js/Native resources
-      for installation to the filesystem. See [kmp-tor-resource][url-kmp-tor-resource].  
-- `:library:core-resource-initializer` is a module not meant for public consumption
-    - [kmp-tor-resource][url-kmp-tor-resource] modules utilizes this for Android to retrieve 
-      the native library path (which is extracted to the application's `nativeLibraryDir`) upon 
-      resource configuration/installation.
+      for installation to the filesystem. See [kmp-tor-resource][url-kmp-tor-resource].
 
 <!-- TAG_VERSION -->
 [badge-latest-release]: https://img.shields.io/badge/latest--release-2.0.0--alpha05-blue.svg?style=flat
