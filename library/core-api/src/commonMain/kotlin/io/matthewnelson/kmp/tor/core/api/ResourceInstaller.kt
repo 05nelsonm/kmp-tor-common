@@ -21,6 +21,8 @@ import kotlin.jvm.JvmField
 
 /**
  * Abstraction for installing resources to the filesystem
+ *
+ * See [kmp-tor-resource](https://github.com/05nelsonm/kmp-tor-resource)
  * */
 public abstract class ResourceInstaller<P: ResourceInstaller.Paths>(
     @JvmField
