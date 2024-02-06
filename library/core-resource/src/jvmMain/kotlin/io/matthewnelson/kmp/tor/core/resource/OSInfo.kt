@@ -23,8 +23,7 @@ import io.matthewnelson.kmp.file.toFile
 import io.matthewnelson.kmp.tor.core.resource.internal.ARCH_MAP
 import io.matthewnelson.kmp.tor.core.resource.internal.PATH_MAP_FILES
 import io.matthewnelson.kmp.tor.core.resource.internal.PATH_OS_RELEASE
-import io.matthewnelson.kmp.tor.core.resource.internal.ProcessRunner
-import io.matthewnelson.kmp.tor.core.resource.internal.ProcessRunner.Companion.runAndWait
+import io.matthewnelson.kmp.tor.core.resource.ProcessRunner.Companion.runAndWait
 import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
 import java.util.Locale
 import kotlin.time.Duration.Companion.milliseconds
@@ -47,7 +46,6 @@ public actual class OSInfo private constructor(
         @JvmField
         public actual val INSTANCE: OSInfo = get()
 
-        @JvmStatic
         @JvmSynthetic
         internal fun get(
             process: ProcessRunner = ProcessRunner.Default,
@@ -229,12 +227,14 @@ public actual class OSInfo private constructor(
         // For java7, still need to run some shell commands to determine ABI of JVM
         val javaHome = System.getProperty("java.home")?.ifBlank { null } ?: return null
 
+        val processes = ArrayList<Process>(1)
+
         // determine if first JVM found uses ARM hard-float ABI
         try {
             Runtime.getRuntime().exec(arrayOf("which", "readelf")).let { process ->
                 // If it did not finish before timeout
                 if (!process.waitFor(250.milliseconds)) return null
-
+                processes.add(process)
                 if (process.exitValue() != 0) return null
             }
 
@@ -250,10 +250,13 @@ public actual class OSInfo private constructor(
             Runtime.getRuntime().exec(cmdArray).let { process ->
                 // If it did not finish before timeout
                 if (!process.waitFor(250.milliseconds)) return null
-
+                processes.add(process)
                 if (process.exitValue() == 0) return OSArch.Armv7
             }
         } catch (_: Throwable) {}
+        finally {
+            processes.forEach { p -> p.forciblyDestroy() }
+        }
 
         // Unsupported
         return null

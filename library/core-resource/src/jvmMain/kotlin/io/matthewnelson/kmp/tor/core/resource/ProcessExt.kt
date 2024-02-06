@@ -36,6 +36,7 @@ import kotlin.time.Duration
  * @return true if the process has completed, false if it has not.
  * */
 @InternalKmpTorApi
+@Throws(InterruptedException::class)
 public fun Process.waitFor(timeout: Duration, destroyOnTimeout: Boolean = true): Boolean {
     val startTime = System.nanoTime()
     var remaining = timeout.inWholeNanoseconds
