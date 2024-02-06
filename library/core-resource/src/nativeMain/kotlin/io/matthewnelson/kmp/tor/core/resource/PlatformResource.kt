@@ -35,7 +35,7 @@ public actual class PlatformResource private constructor(
         internal actual fun build(): PlatformResource? {
             val resource = nativeResource ?: return null
 
-            return io.matthewnelson.kmp.tor.core.resource.PlatformResource(resource)
+            return PlatformResource(resource)
         }
     }
 

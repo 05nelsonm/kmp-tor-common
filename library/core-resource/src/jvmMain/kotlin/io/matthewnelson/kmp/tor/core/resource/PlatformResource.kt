@@ -47,7 +47,7 @@ public actual class PlatformResource private constructor(
                 path = "/$path"
             }
 
-            return io.matthewnelson.kmp.tor.core.resource.PlatformResource(clazz, path)
+            return PlatformResource(clazz, path)
         }
     }
 
