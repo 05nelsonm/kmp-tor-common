@@ -2,10 +2,10 @@
 
 ## Version 2.0.0-alpha07 (2023-02-08)
  - Adds `ProcessRunner` to the "public" API for jvm [[#28]][28]
- - Updates `kmp-file`
+ - Updates `kmp-file` to `0.1.0-alpha06`
 
 ## Version 2.0.0-alpha06 (2023-01-22)
- - Update `immutable` to `0.1.0` [[#24]][24]
+ - Updates `immutable` to `0.1.0` [[#24]][24]
  - Refactor `core-resource-initializer` [[#26]][26]
      - Renamed module to `core-lib-locator`
      - Renamed class to `io.matthewnelson.kmp.tor.core.lib.locator.KmpTorLibLocator`
@@ -14,7 +14,7 @@
  - Migrates `Immutable` implementations to `immutable` library [[#23]][23]
 
 ## Version 2.0.0-alpha04 (2023-01-03)
- - Updates `kmp-file` [[#17]][17]
+ - Updates `kmp-file` to `0.1.0-alpha05` [[#17]][17]
 
 ## Version 2.0.0-alpha03 (2023-01-01)
  - Fixes `Immutable` class implementations [[#14]][14]
