@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 2.0.0-alpha07 (2023-02-08)
+ - Adds `ProcessRunner` to the "public" API for jvm [[#28]][28]
+ - Updates `kmp-file`
+
 ## Version 2.0.0-alpha06 (2023-01-22)
  - Update `immutable` to `0.1.0` [[#24]][24]
  - Refactor `core-resource-initializer` [[#26]][26]
@@ -31,3 +35,4 @@
 [23]: https://github.com/05nelsonm/kmp-tor-core/pull/23
 [24]: https://github.com/05nelsonm/kmp-tor-core/pull/24
 [26]: https://github.com/05nelsonm/kmp-tor-core/pull/26
+[28]: https://github.com/05nelsonm/kmp-tor-core/pull/28
