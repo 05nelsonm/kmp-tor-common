@@ -114,7 +114,7 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
 }
 
 @Throws(IOException::class)
-@OptIn(DelicateFileApi::class, ExperimentalContracts::class, ExperimentalForeignApi::class)
+@OptIn(ExperimentalContracts::class, ExperimentalForeignApi::class)
 private inline fun <T: Any?> File.gzOpenRead(
     block: (file: gzFile) -> T,
 ): T {

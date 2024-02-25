@@ -21,4 +21,4 @@ package io.matthewnelson.kmp.tor.core.resource.internal
 
 /** [docs](https://nodejs.org/api/fs.html#fsreaddirsyncpath-options) */
 @JsName("readdirSync")
-internal external fun fs_readdirSync(path: String, options: Options.ReadDir): Array<String>
+internal external fun fs_readdirSync(path: String, options: dynamic): Array<String>
