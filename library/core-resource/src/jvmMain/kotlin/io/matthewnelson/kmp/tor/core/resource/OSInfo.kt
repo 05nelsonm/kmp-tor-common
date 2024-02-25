@@ -20,11 +20,14 @@ package io.matthewnelson.kmp.tor.core.resource
 
 import io.matthewnelson.kmp.file.File
 import io.matthewnelson.kmp.file.toFile
+import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.core.resource.internal.ARCH_MAP
 import io.matthewnelson.kmp.tor.core.resource.internal.PATH_MAP_FILES
 import io.matthewnelson.kmp.tor.core.resource.internal.PATH_OS_RELEASE
-import io.matthewnelson.kmp.tor.core.resource.ProcessRunner.Companion.runAndWait
-import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
+import io.matthewnelson.kmp.tor.core.resource.internal.ProcessRunner
+import io.matthewnelson.kmp.tor.core.resource.internal.ProcessRunner.Companion.forciblyDestroy
+import io.matthewnelson.kmp.tor.core.resource.internal.ProcessRunner.Companion.runAndWait
+import io.matthewnelson.kmp.tor.core.resource.internal.ProcessRunner.Companion.waitFor
 import java.util.Locale
 import kotlin.time.Duration.Companion.milliseconds
 
