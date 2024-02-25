@@ -20,7 +20,6 @@ package io.matthewnelson.kmp.tor.core.resource
 import io.matthewnelson.kmp.file.*
 import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.core.resource.internal.ARCH_MAP
-import io.matthewnelson.kmp.tor.core.resource.internal.Options
 import io.matthewnelson.kmp.tor.core.resource.internal.PATH_MAP_FILES
 import io.matthewnelson.kmp.tor.core.resource.internal.PATH_OS_RELEASE
 import io.matthewnelson.kmp.tor.core.resource.internal.fs_readdirSync
@@ -97,7 +96,12 @@ public actual class OSInfo private constructor(
 
         if (pathMapFiles.exists()) {
             try {
-                fs_readdirSync(pathMapFiles.path, Options.ReadDir(recursive = false)).forEach { entry ->
+                val opts = js("{}")
+                opts["encoding"] = "utf8"
+                opts["withFileTypes"] = false
+                opts["recursive"] = false
+
+                fs_readdirSync(pathMapFiles.path, opts).forEach { entry ->
                     fileCount++
 
                     val canonical = pathMapFiles.resolve(entry).canonicalPath()

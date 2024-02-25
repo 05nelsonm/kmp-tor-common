@@ -19,7 +19,7 @@ import io.matthewnelson.kmp.file.*
 import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.core.resource.Resource
 
-@OptIn(DelicateFileApi::class, InternalKmpTorApi::class)
+@OptIn(InternalKmpTorApi::class)
 internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist: Boolean): File {
     var fileName = platform.resourcePath.substringAfterLast('/')
     val isGzipped = if (fileName.endsWith(".gz")) {
@@ -42,7 +42,8 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
     var buffer = moduleResource.read()
 
     if (isGzipped) {
-        buffer = Buffer.wrap(zlib_gunzipSync(buffer.unwrap()))
+        val gzBuffer = zlib_gunzipSync(buffer.unwrap())
+        buffer = Buffer.wrap(gzBuffer)
     }
 
     try {
@@ -60,6 +61,5 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
 private inline fun resolveResource(path: String): String = try {
     js("require.resolve(path)") as String
 } catch (t: Throwable) {
-    @OptIn(DelicateFileApi::class)
     throw t.toIOException()
 }
