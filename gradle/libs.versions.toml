@@ -5,17 +5,17 @@ androidx-test-runner = "1.5.2"
 encoding = "2.1.0"
 
 gradle-android = "8.1.4"
-gradle-binary-compat = "0.13.2"
-gradle-kmp-configuration = "0.1.7"
-gradle-kotlin = "1.9.21"
-gradle-publish-maven = "0.25.3"
+gradle-binary-compat = "0.14.0"
+gradle-kmp-configuration = "0.2.0"
+gradle-kotlin = "1.9.22"
+gradle-publish-maven = "0.27.0"
 
 immutable = "0.1.0"
 
 kmp-file = "0.1.0-alpha06"
 
 kotlincrypto-hash = "0.4.0"
-kotlinx-atomicfu = "0.23.1"
+kotlinx-atomicfu = "0.23.2"
 
 [libraries]
 androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
