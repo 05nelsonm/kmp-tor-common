@@ -15,8 +15,7 @@
  **/
 package io.matthewnelson.kmp.tor.core.resource.internal
 
-import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
-import io.matthewnelson.kmp.tor.core.resource.ANDROID_SDK_INT
+import io.matthewnelson.kmp.file.ANDROID
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 import kotlin.math.min
@@ -83,8 +82,7 @@ internal fun interface ProcessRunner {
 
         @Suppress("NOTHING_TO_INLINE", "NewApi")
         internal inline fun Process.forciblyDestroy(): Process {
-            @OptIn(InternalKmpTorApi::class)
-            return ANDROID_SDK_INT?.let { sdkInt ->
+            return ANDROID.SDK_INT?.let { sdkInt ->
                 if (sdkInt >= 26) {
                     destroyForcibly()
                 } else {
