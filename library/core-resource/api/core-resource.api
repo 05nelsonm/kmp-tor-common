@@ -1,7 +1,3 @@
-public final class io/matthewnelson/kmp/tor/core/resource/AndroidSdkIntKt {
-	public static final fun getANDROID_SDK_INT ()Ljava/lang/Integer;
-}
-
 public abstract class io/matthewnelson/kmp/tor/core/resource/OSArch {
 	public final field path Ljava/lang/String;
 	public synthetic fun <init> (Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V

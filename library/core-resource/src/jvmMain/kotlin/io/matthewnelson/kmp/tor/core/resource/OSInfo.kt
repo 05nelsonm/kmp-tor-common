@@ -18,6 +18,7 @@
 
 package io.matthewnelson.kmp.tor.core.resource
 
+import io.matthewnelson.kmp.file.ANDROID
 import io.matthewnelson.kmp.file.File
 import io.matthewnelson.kmp.file.toFile
 import io.matthewnelson.kmp.tor.core.api.annotation.InternalKmpTorApi
@@ -113,7 +114,7 @@ public actual class OSInfo private constructor(
         )
     }
 
-    public fun isAndroidRuntime(): Boolean = ANDROID_SDK_INT != null
+    public fun isAndroidRuntime(): Boolean = ANDROID.SDK_INT != null
 
     private fun isAndroidTermux(): Boolean {
         return try {
