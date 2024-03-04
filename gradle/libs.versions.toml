@@ -12,7 +12,7 @@ gradle-publish-maven = "0.27.0"
 
 immutable = "0.1.0"
 
-kmp-file = "0.1.0-beta01"
+kmp-file = "0.1.0-beta02"
 
 kotlincrypto-hash = "0.4.0"
 kotlinx-atomicfu = "0.23.2"
