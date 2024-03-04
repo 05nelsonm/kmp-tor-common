@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## Version 2.0.0-alpha08 (2024-02-08)
+## Version 2.0.0-alpha09 (2024-03-04)
+ - Updates `kmp-file` to `0.1.0-beta02` [[#36]][36]
+ - Use flag `O_CLOEXEC` when opening `gzip` file on `UNIX` [[#35]][35]
+
+## Version 2.0.0-alpha08 (2024-02-25)
  - Updates `kotlin` to `1.9.22` [[#30]][30]
  - Updates `atomicfu` to `0.23.2` [[#30]][30]
  - Updates `kmp-file` to `0.1.0-beta01` [[#30]][30]
@@ -47,3 +51,5 @@
 [30]: https://github.com/05nelsonm/kmp-tor-core/pull/30
 [31]: https://github.com/05nelsonm/kmp-tor-core/pull/31
 [33]: https://github.com/05nelsonm/kmp-tor-core/pull/33
+[35]: https://github.com/05nelsonm/kmp-tor-core/pull/35
+[36]: https://github.com/05nelsonm/kmp-tor-core/pull/36
