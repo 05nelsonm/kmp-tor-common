@@ -31,6 +31,8 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
+internal expect val IsWindows: Boolean
+
 @OptIn(DelicateFileApi::class, ExperimentalForeignApi::class, InternalKmpTorApi::class)
 internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist: Boolean): File {
     val name = platform.nativeResource.name
@@ -122,15 +124,30 @@ private inline fun <T: Any?> File.gzOpenRead(
         callsInPlace(block, InvocationKind.AT_MOST_ONCE)
     }
 
-    val ptr: gzFile = gzopen(path, "rb") ?: throw errnoToIOException(errno)
+    var flags = "rb"
+    if (!IsWindows) flags += 'e' // O_CLOEXEC
+
+    val ptr: gzFile = gzopen(path, flags) ?: throw errnoToIOException(errno)
+    var threw: Throwable? = null
 
     val result = try {
         block(ptr)
-    } finally {
-        if (gzclose_r(ptr) != Z_OK) {
-            throw errnoToIOException(errno)
+    } catch (t: Throwable) {
+        threw = t
+        null
+    }
+
+    if (gzclose_r(ptr) != Z_OK) {
+        val e = errnoToIOException(errno)
+        if (threw != null) {
+            threw?.addSuppressed(e)
+        } else {
+            threw = e
         }
     }
 
-    return result
+    threw?.let { throw it }
+
+    @Suppress("UNCHECKED_CAST")
+    return result as T
 }
