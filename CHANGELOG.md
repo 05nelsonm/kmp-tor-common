@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## Version 2.0.0-alpha10 (2024-03-19)
+ - Updates `encoding` to `2.2.1` [[#38]][38]
+ - Updates `immutable` to `0.1.2` [[#38]][38]
+ - Updates `kmp-file` to `0.1.0-beta03` [[#38]][38]
+ - Updates `kotlin` to `1.9.23` [[#38]][38]
+ - Updates `kotlincrypto.hash` to `0.5.1` [[#38]][38]
+ - Adds support for `JPMS` via Multi-Release Jar [[#38]][38]
+
 ## Version 2.0.0-alpha09 (2024-03-04)
  - Updates `kmp-file` to `0.1.0-beta02` [[#36]][36]
  - Use flag `O_CLOEXEC` when opening `gzip` file on `UNIX` [[#35]][35]
@@ -53,3 +61,4 @@
 [33]: https://github.com/05nelsonm/kmp-tor-core/pull/33
 [35]: https://github.com/05nelsonm/kmp-tor-core/pull/35
 [36]: https://github.com/05nelsonm/kmp-tor-core/pull/36
+[38]: https://github.com/05nelsonm/kmp-tor-core/pull/38
