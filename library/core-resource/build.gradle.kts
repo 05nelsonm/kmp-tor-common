@@ -20,9 +20,7 @@ plugins {
 private val testConfig = TestConfigInject()
 
 kmpConfiguration {
-    configureShared(publish = true) {
-        jvm { target { withJava() } }
-
+    configureShared(java9ModuleName = "io.matthewnelson.kmp.tor.core.resource", publish = true) {
         js {
             sourceSetTest {
                 dependencies {
