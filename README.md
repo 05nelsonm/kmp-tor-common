@@ -44,12 +44,12 @@ Core components for [kmp-tor][url-kmp-tor] and [kmp-tor-resource][url-kmp-tor-re
 
 <!-- TAG_DEPENDENCIES -->
 [badge-androidx-startup]: https://img.shields.io/badge/androidx.startup-1.1.1-6EDB8D.svg?logo=android
-[badge-atomicfu]: https://img.shields.io/badge/kotlinx.atomicfu-0.23.2-blue.svg?logo=kotlin
+[badge-atomicfu]: https://img.shields.io/badge/kotlinx.atomicfu-0.24.0-blue.svg?logo=kotlin
 [badge-encoding]: https://img.shields.io/badge/encoding-2.2.1-blue.svg?style=flat
-[badge-immutable]: https://img.shields.io/badge/immutable-0.1.2-blue.svg?style=flat
+[badge-immutable]: https://img.shields.io/badge/immutable-0.1.3-blue.svg?style=flat
 [badge-kotlincrypto-hash]: https://img.shields.io/badge/KotlinCrypto.hash-0.5.1-blue.svg?style=flat
-[badge-kotlin]: https://img.shields.io/badge/kotlin-1.9.23-blue.svg?logo=kotlin
-[badge-kmp-file]: https://img.shields.io/badge/kmp--file-0.1.0--beta03-blue.svg?style=flat
+[badge-kotlin]: https://img.shields.io/badge/kotlin-1.9.24-blue.svg?logo=kotlin
+[badge-kmp-file]: https://img.shields.io/badge/kmp--file-0.1.0-blue.svg?style=flat
 
 <!-- TAG_PLATFORMS -->
 [badge-platform-android]: http://img.shields.io/badge/-android-6EDB8D.svg?style=flat
