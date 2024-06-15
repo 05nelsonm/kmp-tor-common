@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 2.0.0 (2024-06-15)
+ - Updates `atomicfu` to `0.24.0` [[#39]][39]
+ - Updates `immutable` to `0.1.3` [[#39]][39]
+ - Updates `kmp-file` to `0.1.0` [[#39]][39]
+ - Updates `kotlin` to `1.9.24` [[#39]][39]
+
 ## Version 2.0.0-alpha10 (2024-03-19)
  - Updates `encoding` to `2.2.1` [[#38]][38]
  - Updates `immutable` to `0.1.2` [[#38]][38]
@@ -62,3 +68,4 @@
 [35]: https://github.com/05nelsonm/kmp-tor-core/pull/35
 [36]: https://github.com/05nelsonm/kmp-tor-core/pull/36
 [38]: https://github.com/05nelsonm/kmp-tor-core/pull/38
+[39]: https://github.com/05nelsonm/kmp-tor-core/pull/39
