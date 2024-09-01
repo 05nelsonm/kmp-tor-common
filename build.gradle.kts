@@ -30,12 +30,11 @@ allprojects {
 
     repositories {
         mavenCentral()
-        gradlePluginPortal()
     }
 }
 
 @Suppress("PropertyName")
-val CHECK_PUBLICATION = (findProperty("CHECK_PUBLICATION") as? String) != null
+val CHECK_PUBLICATION = findProperty("CHECK_PUBLICATION") != null
 
 plugins.withType<YarnPlugin> {
     the<YarnRootExtension>().lockFileDirectory = rootDir.resolve(".kotlin-js-store")
