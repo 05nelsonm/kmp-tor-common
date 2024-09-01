@@ -18,6 +18,8 @@ plugins {
 }
 
 repositories {
+    google()
+
     val host = "https://s01.oss.sonatype.org"
 
     if (version.toString().endsWith("-SNAPSHOT")) {
