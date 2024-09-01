@@ -1,0 +1,45 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.matthewnelson.kmp-tor:core-api>
+open annotation class io.matthewnelson.kmp.tor.core.api.annotation/ExperimentalKmpTorApi : kotlin/Annotation { // io.matthewnelson.kmp.tor.core.api.annotation/ExperimentalKmpTorApi|null[0]
+    constructor <init>() // io.matthewnelson.kmp.tor.core.api.annotation/ExperimentalKmpTorApi.<init>|<init>(){}[0]
+}
+
+open annotation class io.matthewnelson.kmp.tor.core.api.annotation/InternalKmpTorApi : kotlin/Annotation { // io.matthewnelson.kmp.tor.core.api.annotation/InternalKmpTorApi|null[0]
+    constructor <init>() // io.matthewnelson.kmp.tor.core.api.annotation/InternalKmpTorApi.<init>|<init>(){}[0]
+}
+
+open annotation class io.matthewnelson.kmp.tor.core.api.annotation/KmpTorDsl : kotlin/Annotation { // io.matthewnelson.kmp.tor.core.api.annotation/KmpTorDsl|null[0]
+    constructor <init>() // io.matthewnelson.kmp.tor.core.api.annotation/KmpTorDsl.<init>|<init>(){}[0]
+}
+
+abstract class <#A: io.matthewnelson.kmp.tor.core.api/ResourceInstaller.Paths> io.matthewnelson.kmp.tor.core.api/ResourceInstaller { // io.matthewnelson.kmp.tor.core.api/ResourceInstaller|null[0]
+    constructor <init>(io.matthewnelson.kmp.file/File) // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.<init>|<init>(io.matthewnelson.kmp.file.File){}[0]
+
+    final val installationDir // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.installationDir|{}installationDir[0]
+        final fun <get-installationDir>(): io.matthewnelson.kmp.file/File // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.installationDir.<get-installationDir>|<get-installationDir>(){}[0]
+
+    abstract fun install(): #A // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.install|install(){}[0]
+
+    abstract class Paths { // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.Paths|null[0]
+        final class Tor : io.matthewnelson.kmp.tor.core.api/ResourceInstaller.Paths { // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.Paths.Tor|null[0]
+            constructor <init>(io.matthewnelson.kmp.file/File, io.matthewnelson.kmp.file/File, io.matthewnelson.kmp.file/File) // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.Paths.Tor.<init>|<init>(io.matthewnelson.kmp.file.File;io.matthewnelson.kmp.file.File;io.matthewnelson.kmp.file.File){}[0]
+
+            final val geoip // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.Paths.Tor.geoip|{}geoip[0]
+                final fun <get-geoip>(): io.matthewnelson.kmp.file/File // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.Paths.Tor.geoip.<get-geoip>|<get-geoip>(){}[0]
+            final val geoip6 // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.Paths.Tor.geoip6|{}geoip6[0]
+                final fun <get-geoip6>(): io.matthewnelson.kmp.file/File // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.Paths.Tor.geoip6.<get-geoip6>|<get-geoip6>(){}[0]
+            final val tor // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.Paths.Tor.tor|{}tor[0]
+                final fun <get-tor>(): io.matthewnelson.kmp.file/File // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.Paths.Tor.tor.<get-tor>|<get-tor>(){}[0]
+
+            final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.Paths.Tor.equals|equals(kotlin.Any?){}[0]
+            final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.Paths.Tor.hashCode|hashCode(){}[0]
+            final fun toString(): kotlin/String // io.matthewnelson.kmp.tor.core.api/ResourceInstaller.Paths.Tor.toString|toString(){}[0]
+        }
+    }
+}

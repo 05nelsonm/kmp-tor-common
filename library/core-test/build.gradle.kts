@@ -17,6 +17,10 @@ plugins {
     id("configuration")
 }
 
+repositories {
+    google()
+}
+
 kmpConfiguration {
     configure {
         androidLibrary(namespace = "io.matthewnelson.kmp.tor.core.test") {
