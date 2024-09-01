@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-import io.matthewnelson.kmp.configuration.ExperimentalKmpConfigurationApi
-
 plugins {
     id("configuration")
 }
@@ -22,12 +20,7 @@ plugins {
 private val testConfig = TestConfigInject()
 
 kmpConfiguration {
-    configureShared(publish = true) {
-        jvm {
-            @OptIn(ExperimentalKmpConfigurationApi::class)
-            java9ModuleInfoName = "io.matthewnelson.kmp.tor.core.resource"
-        }
-
+    configureShared(java9ModuleName = "io.matthewnelson.kmp.tor.core.resource", publish = true) {
         js {
             sourceSetTest {
                 dependencies {
