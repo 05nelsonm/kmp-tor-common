@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## Version 2.0.1 (2024-09-01)
+ - Updates `encoding` to `2.2.2` [[#42]][42]
+ - Updates `immutable` to `0.1.4` [[#42]][42]
+ - Updates `kmp-file` to `0.1.1` [[#42]][42]
+ - Updates `kotlincrypto.hash` to `0.5.3` [[#42]][42]
+ - Fixes multiplatform metadata manifest `unique_name` parameter for
+   all source sets to be truly unique. [[#42]][42]
+ - Updates jvm `.kotlin_module` with truly unique file name. [[#42]][42]
+
 ## Version 2.0.0 (2024-06-15)
  - Updates `atomicfu` to `0.24.0` [[#39]][39]
  - Updates `immutable` to `0.1.3` [[#39]][39]
@@ -69,3 +78,4 @@
 [36]: https://github.com/05nelsonm/kmp-tor-core/pull/36
 [38]: https://github.com/05nelsonm/kmp-tor-core/pull/38
 [39]: https://github.com/05nelsonm/kmp-tor-core/pull/39
+[42]: https://github.com/05nelsonm/kmp-tor-core/pull/42
