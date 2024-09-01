@@ -18,23 +18,20 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 
 plugins {
+    alias(libs.plugins.android.library) apply(false)
     alias(libs.plugins.binary.compat)
     alias(libs.plugins.kotlin.multiplatform) apply(false)
-    alias(libs.plugins.android.library) apply(false)
 }
 
 allprojects {
-
     findProperty("GROUP")?.let { group = it }
     findProperty("VERSION_NAME")?.let { version = it }
     findProperty("POM_DESCRIPTION")?.let { description = it.toString() }
 
     repositories {
         mavenCentral()
-        google()
         gradlePluginPortal()
     }
-
 }
 
 @Suppress("PropertyName")
@@ -48,5 +45,10 @@ plugins.withType<YarnPlugin> {
 }
 
 apiValidation {
+    // Only enable when selectively enabled targets are not being passed via cli.
+    // See https://github.com/Kotlin/binary-compatibility-validator/issues/269
+    @OptIn(kotlinx.validation.ExperimentalBCVApi::class)
+    klib.enabled = findProperty("KMP_TARGETS") == null
+
     if (CHECK_PUBLICATION) ignoredProjects.add("check-publication")
 }
