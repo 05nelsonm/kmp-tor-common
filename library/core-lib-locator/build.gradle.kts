@@ -19,6 +19,10 @@ plugins {
 
 kmpConfiguration {
     configure {
+        options {
+            useUniqueModuleNames = true
+        }
+
         androidLibrary(namespace = "io.matthewnelson.kmp.tor.core.lib.locator") {
             target { publishLibraryVariants("release") }
 
