@@ -20,7 +20,7 @@ package io.matthewnelson.kmp.tor.common.core
 // This is an automatically generated file.
 // DO NOT MODIFY
 
-import io.matthewnelson.kmp.tor.common.api.annotation.InternalKmpTorApi
+import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 
 @InternalKmpTorApi
 internal object resource_lorem_ipsum: NativeResource(

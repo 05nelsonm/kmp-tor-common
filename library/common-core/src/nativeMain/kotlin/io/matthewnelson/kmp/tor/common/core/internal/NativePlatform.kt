@@ -16,7 +16,7 @@
 package io.matthewnelson.kmp.tor.common.core.internal
 
 import io.matthewnelson.kmp.file.*
-import io.matthewnelson.kmp.tor.common.api.annotation.InternalKmpTorApi
+import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.Resource
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf

@@ -18,8 +18,8 @@
 package io.matthewnelson.kmp.tor.common.core
 
 import io.matthewnelson.kmp.tor.common.core.internal.appendIndent
-import io.matthewnelson.kmp.tor.common.api.annotation.InternalKmpTorApi
-import io.matthewnelson.kmp.tor.common.api.annotation.KmpTorDsl
+import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
+import io.matthewnelson.kmp.tor.common.api.KmpTorDsl
 
 @InternalKmpTorApi
 public actual class PlatformResource private constructor(

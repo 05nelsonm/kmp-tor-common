@@ -15,7 +15,7 @@
  **/
 package io.matthewnelson.kmp.tor.common.test
 
-import io.matthewnelson.kmp.tor.common.api.annotation.InternalKmpTorApi
+import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.OSHost
 import io.matthewnelson.kmp.tor.common.core.OSInfo
 import kotlin.test.Test

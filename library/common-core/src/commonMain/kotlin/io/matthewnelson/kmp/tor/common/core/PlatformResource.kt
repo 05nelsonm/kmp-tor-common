@@ -17,8 +17,8 @@
 
 package io.matthewnelson.kmp.tor.common.core
 
-import io.matthewnelson.kmp.tor.common.api.annotation.InternalKmpTorApi
-import io.matthewnelson.kmp.tor.common.api.annotation.KmpTorDsl
+import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
+import io.matthewnelson.kmp.tor.common.api.KmpTorDsl
 
 /**
  * Platform specific arguments for Jvm/Js/Native resources

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Matthew Nelson
+ * Copyright (c) 2024 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-package io.matthewnelson.kmp.tor.common.api.annotation
+@file:JvmName("SynchronizedJvm")
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
-/**
- * A marker annotations for DSLs.
- */
-@DslMarker
-@Target(
-    AnnotationTarget.CLASS,
-    AnnotationTarget.FUNCTION,
-    AnnotationTarget.TYPEALIAS,
-    AnnotationTarget.TYPE,
-)
-public annotation class KmpTorDsl
+package io.matthewnelson.kmp.tor.common.api.internal
+
+import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
+
+@InternalKmpTorApi
+public actual typealias SynchronizedObject = Any
+
+@PublishedApi
+@OptIn(InternalKmpTorApi::class)
+internal actual inline fun <T: Any?> synchronizedImpl(
+    lock: SynchronizedObject,
+    block: () -> T
+): T = kotlin.synchronized(lock, block)

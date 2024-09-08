@@ -1,21 +1,22 @@
 // Klib ABI Dump
 // Targets: [iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
+// Alias: native => [iosArm64, iosSimulatorArm64, iosX64, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
 // Rendering settings:
 // - Signature version: 2
 // - Show manifest properties: true
 // - Show declarations: true
 
 // Library unique name: <io.matthewnelson.kmp-tor:common-api>
-open annotation class io.matthewnelson.kmp.tor.common.api.annotation/ExperimentalKmpTorApi : kotlin/Annotation { // io.matthewnelson.kmp.tor.common.api.annotation/ExperimentalKmpTorApi|null[0]
-    constructor <init>() // io.matthewnelson.kmp.tor.common.api.annotation/ExperimentalKmpTorApi.<init>|<init>(){}[0]
+open annotation class io.matthewnelson.kmp.tor.common.api/ExperimentalKmpTorApi : kotlin/Annotation { // io.matthewnelson.kmp.tor.common.api/ExperimentalKmpTorApi|null[0]
+    constructor <init>() // io.matthewnelson.kmp.tor.common.api/ExperimentalKmpTorApi.<init>|<init>(){}[0]
 }
 
-open annotation class io.matthewnelson.kmp.tor.common.api.annotation/InternalKmpTorApi : kotlin/Annotation { // io.matthewnelson.kmp.tor.common.api.annotation/InternalKmpTorApi|null[0]
-    constructor <init>() // io.matthewnelson.kmp.tor.common.api.annotation/InternalKmpTorApi.<init>|<init>(){}[0]
+open annotation class io.matthewnelson.kmp.tor.common.api/InternalKmpTorApi : kotlin/Annotation { // io.matthewnelson.kmp.tor.common.api/InternalKmpTorApi|null[0]
+    constructor <init>() // io.matthewnelson.kmp.tor.common.api/InternalKmpTorApi.<init>|<init>(){}[0]
 }
 
-open annotation class io.matthewnelson.kmp.tor.common.api.annotation/KmpTorDsl : kotlin/Annotation { // io.matthewnelson.kmp.tor.common.api.annotation/KmpTorDsl|null[0]
-    constructor <init>() // io.matthewnelson.kmp.tor.common.api.annotation/KmpTorDsl.<init>|<init>(){}[0]
+open annotation class io.matthewnelson.kmp.tor.common.api/KmpTorDsl : kotlin/Annotation { // io.matthewnelson.kmp.tor.common.api/KmpTorDsl|null[0]
+    constructor <init>() // io.matthewnelson.kmp.tor.common.api/KmpTorDsl.<init>|<init>(){}[0]
 }
 
 abstract class <#A: io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths> io.matthewnelson.kmp.tor.common.api/ResourceInstaller { // io.matthewnelson.kmp.tor.common.api/ResourceInstaller|null[0]
@@ -43,3 +44,15 @@ abstract class <#A: io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths>
         }
     }
 }
+
+// Targets: [native]
+final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.api.internal/synchronized(kotlinx.atomicfu.locks/SynchronizedObject, kotlin/Function0<#A>): #A // io.matthewnelson.kmp.tor.common.api.internal/synchronized|synchronized(kotlinx.atomicfu.locks.SynchronizedObject;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]
+
+// Targets: [native]
+final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.api.internal/synchronizedImpl(kotlinx.atomicfu.locks/SynchronizedObject, kotlin/Function0<#A>): #A // io.matthewnelson.kmp.tor.common.api.internal/synchronizedImpl|synchronizedImpl(kotlinx.atomicfu.locks.SynchronizedObject;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]
+
+// Targets: [js]
+final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.api.internal/synchronized(kotlin/Any, kotlin/Function0<#A>): #A // io.matthewnelson.kmp.tor.common.api.internal/synchronized|synchronized(kotlin.Any;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]
+
+// Targets: [js]
+final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.api.internal/synchronizedImpl(kotlin/Any, kotlin/Function0<#A>): #A // io.matthewnelson.kmp.tor.common.api.internal/synchronizedImpl|synchronizedImpl(kotlin.Any;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]

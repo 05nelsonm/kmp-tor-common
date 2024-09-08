@@ -15,7 +15,7 @@
  **/
 package io.matthewnelson.kmp.tor.common.core
 
-import io.matthewnelson.kmp.tor.common.api.annotation.InternalKmpTorApi
+import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import kotlin.jvm.JvmField
 
 /**

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Matthew Nelson
+ * Copyright (c) 2024 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,16 @@
  **/
 @file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
-package io.matthewnelson.kmp.tor.common.core
+package io.matthewnelson.kmp.tor.common.api.internal
 
-import io.matthewnelson.kmp.tor.common.api.annotation.InternalKmpTorApi
-import kotlinx.atomicfu.locks.withLock as _withLock
+import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 
 @InternalKmpTorApi
-public actual typealias SynchronizedObject = kotlinx.atomicfu.locks.SynchronizedObject
+public actual typealias SynchronizedObject = Any
 
 @PublishedApi
 @OptIn(InternalKmpTorApi::class)
 internal actual inline fun <T: Any?> synchronizedImpl(
     lock: SynchronizedObject,
-    block: () -> T
-): T = lock._withLock(block)
+    block: () -> T,
+): T = block()
