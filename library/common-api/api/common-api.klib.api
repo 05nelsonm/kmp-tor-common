@@ -19,30 +19,69 @@ open annotation class io.matthewnelson.kmp.tor.common.api/KmpTorDsl : kotlin/Ann
     constructor <init>() // io.matthewnelson.kmp.tor.common.api/KmpTorDsl.<init>|<init>(){}[0]
 }
 
-abstract class <#A: io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths> io.matthewnelson.kmp.tor.common.api/ResourceInstaller { // io.matthewnelson.kmp.tor.common.api/ResourceInstaller|null[0]
-    constructor <init>(io.matthewnelson.kmp.file/File) // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.<init>|<init>(io.matthewnelson.kmp.file.File){}[0]
+abstract class io.matthewnelson.kmp.tor.common.api/Paths { // io.matthewnelson.kmp.tor.common.api/Paths|null[0]
+    final class Geoips : io.matthewnelson.kmp.tor.common.api/Paths { // io.matthewnelson.kmp.tor.common.api/Paths.Geoips|null[0]
+        constructor <init>(io.matthewnelson.kmp.file/File, io.matthewnelson.kmp.file/File) // io.matthewnelson.kmp.tor.common.api/Paths.Geoips.<init>|<init>(io.matthewnelson.kmp.file.File;io.matthewnelson.kmp.file.File){}[0]
 
-    final val installationDir // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.installationDir|{}installationDir[0]
-        final fun <get-installationDir>(): io.matthewnelson.kmp.file/File // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.installationDir.<get-installationDir>|<get-installationDir>(){}[0]
+        final val geoip // io.matthewnelson.kmp.tor.common.api/Paths.Geoips.geoip|{}geoip[0]
+            final fun <get-geoip>(): io.matthewnelson.kmp.file/File // io.matthewnelson.kmp.tor.common.api/Paths.Geoips.geoip.<get-geoip>|<get-geoip>(){}[0]
+        final val geoip6 // io.matthewnelson.kmp.tor.common.api/Paths.Geoips.geoip6|{}geoip6[0]
+            final fun <get-geoip6>(): io.matthewnelson.kmp.file/File // io.matthewnelson.kmp.tor.common.api/Paths.Geoips.geoip6.<get-geoip6>|<get-geoip6>(){}[0]
 
-    abstract fun install(): #A // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.install|install(){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.api/Paths.Geoips.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.api/Paths.Geoips.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.api/Paths.Geoips.toString|toString(){}[0]
+    }
 
-    abstract class Paths { // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths|null[0]
-        final class Tor : io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths { // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths.Tor|null[0]
-            constructor <init>(io.matthewnelson.kmp.file/File, io.matthewnelson.kmp.file/File, io.matthewnelson.kmp.file/File) // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths.Tor.<init>|<init>(io.matthewnelson.kmp.file.File;io.matthewnelson.kmp.file.File;io.matthewnelson.kmp.file.File){}[0]
+    final class Tor : io.matthewnelson.kmp.tor.common.api/Paths { // io.matthewnelson.kmp.tor.common.api/Paths.Tor|null[0]
+        constructor <init>(io.matthewnelson.kmp.file/File, io.matthewnelson.kmp.tor.common.api/Paths.Geoips) // io.matthewnelson.kmp.tor.common.api/Paths.Tor.<init>|<init>(io.matthewnelson.kmp.file.File;io.matthewnelson.kmp.tor.common.api.Paths.Geoips){}[0]
 
-            final val geoip // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths.Tor.geoip|{}geoip[0]
-                final fun <get-geoip>(): io.matthewnelson.kmp.file/File // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths.Tor.geoip.<get-geoip>|<get-geoip>(){}[0]
-            final val geoip6 // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths.Tor.geoip6|{}geoip6[0]
-                final fun <get-geoip6>(): io.matthewnelson.kmp.file/File // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths.Tor.geoip6.<get-geoip6>|<get-geoip6>(){}[0]
-            final val tor // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths.Tor.tor|{}tor[0]
-                final fun <get-tor>(): io.matthewnelson.kmp.file/File // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths.Tor.tor.<get-tor>|<get-tor>(){}[0]
+        final val executable // io.matthewnelson.kmp.tor.common.api/Paths.Tor.executable|{}executable[0]
+            final fun <get-executable>(): io.matthewnelson.kmp.file/File // io.matthewnelson.kmp.tor.common.api/Paths.Tor.executable.<get-executable>|<get-executable>(){}[0]
+        final val geoips // io.matthewnelson.kmp.tor.common.api/Paths.Tor.geoips|{}geoips[0]
+            final fun <get-geoips>(): io.matthewnelson.kmp.tor.common.api/Paths.Geoips // io.matthewnelson.kmp.tor.common.api/Paths.Tor.geoips.<get-geoips>|<get-geoips>(){}[0]
 
-            final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths.Tor.equals|equals(kotlin.Any?){}[0]
-            final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths.Tor.hashCode|hashCode(){}[0]
-            final fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.api/ResourceInstaller.Paths.Tor.toString|toString(){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.api/Paths.Tor.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.api/Paths.Tor.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.api/Paths.Tor.toString|toString(){}[0]
+    }
+}
+
+abstract class io.matthewnelson.kmp.tor.common.api/ResourceLoader { // io.matthewnelson.kmp.tor.common.api/ResourceLoader|null[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.api/ResourceLoader.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.api/ResourceLoader.hashCode|hashCode(){}[0]
+
+    sealed class Tor : io.matthewnelson.kmp.tor.common.api/ResourceLoader { // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor|null[0]
+        final val resourceDir // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.resourceDir|{}resourceDir[0]
+            final fun <get-resourceDir>(): io.matthewnelson.kmp.file/File // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.resourceDir.<get-resourceDir>|<get-resourceDir>(){}[0]
+
+        abstract class Exec : io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor { // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.Exec|null[0]
+            constructor <init>() // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.Exec.<init>|<init>(){}[0]
+
+            open fun extract(): io.matthewnelson.kmp.tor.common.api/Paths.Tor // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.Exec.extract|extract(){}[0]
+
+            final object Companion // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.Exec.Companion|null[0]
+        }
+
+        abstract class Static : io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor { // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.Static|null[0]
+            constructor <init>() // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.Static.<init>|<init>(){}[0]
+
+            open fun extract(): io.matthewnelson.kmp.tor.common.api/Paths.Geoips // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.Static.extract|extract(){}[0]
+            open fun load(): io.matthewnelson.kmp.tor.common.api/TorApi // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.Static.load|load(){}[0]
+
+            final object Companion // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.Static.Companion|null[0]
         }
     }
+}
+
+abstract class io.matthewnelson.kmp.tor.common.api/TorApi { // io.matthewnelson.kmp.tor.common.api/TorApi|null[0]
+    constructor <init>() // io.matthewnelson.kmp.tor.common.api/TorApi.<init>|<init>(){}[0]
+
+    final val isRunning // io.matthewnelson.kmp.tor.common.api/TorApi.isRunning|{}isRunning[0]
+        final fun <get-isRunning>(): kotlin/Boolean // io.matthewnelson.kmp.tor.common.api/TorApi.isRunning.<get-isRunning>|<get-isRunning>(){}[0]
+
+    abstract fun torMain(kotlin/Array<kotlin/String>) // io.matthewnelson.kmp.tor.common.api/TorApi.torMain|torMain(kotlin.Array<kotlin.String>){}[0]
+    final fun startTor(kotlin.collections/List<kotlin/String>) // io.matthewnelson.kmp.tor.common.api/TorApi.startTor|startTor(kotlin.collections.List<kotlin.String>){}[0]
 }
 
 // Targets: [native]
