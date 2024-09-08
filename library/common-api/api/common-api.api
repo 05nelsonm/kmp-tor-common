@@ -7,23 +7,65 @@ public abstract interface annotation class io/matthewnelson/kmp/tor/common/api/I
 public abstract interface annotation class io/matthewnelson/kmp/tor/common/api/KmpTorDsl : java/lang/annotation/Annotation {
 }
 
-public abstract class io/matthewnelson/kmp/tor/common/api/ResourceInstaller {
-	public final field installationDir Ljava/io/File;
-	public fun <init> (Ljava/io/File;)V
-	public abstract fun install ()Lio/matthewnelson/kmp/tor/common/api/ResourceInstaller$Paths;
+public abstract class io/matthewnelson/kmp/tor/common/api/Paths {
 }
 
-public abstract class io/matthewnelson/kmp/tor/common/api/ResourceInstaller$Paths {
-}
-
-public final class io/matthewnelson/kmp/tor/common/api/ResourceInstaller$Paths$Tor : io/matthewnelson/kmp/tor/common/api/ResourceInstaller$Paths {
+public final class io/matthewnelson/kmp/tor/common/api/Paths$Geoips : io/matthewnelson/kmp/tor/common/api/Paths {
 	public final field geoip Ljava/io/File;
 	public final field geoip6 Ljava/io/File;
-	public final field tor Ljava/io/File;
-	public fun <init> (Ljava/io/File;Ljava/io/File;Ljava/io/File;)V
+	public fun <init> (Ljava/io/File;Ljava/io/File;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
+}
+
+public final class io/matthewnelson/kmp/tor/common/api/Paths$Tor : io/matthewnelson/kmp/tor/common/api/Paths {
+	public final field executable Ljava/io/File;
+	public final field geoips Lio/matthewnelson/kmp/tor/common/api/Paths$Geoips;
+	public fun <init> (Ljava/io/File;Lio/matthewnelson/kmp/tor/common/api/Paths$Geoips;)V
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader {
+	public final fun equals (Ljava/lang/Object;)Z
+	public final fun hashCode ()I
+}
+
+public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor : io/matthewnelson/kmp/tor/common/api/ResourceLoader {
+	public final field resourceDir Ljava/io/File;
+	public synthetic fun <init> (Ljava/io/File;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Exec : io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor {
+	protected static final field Companion Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Exec$Companion;
+	protected fun <init> ()V
+	public synthetic fun <init> (Ljava/io/File;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun extract ()Lio/matthewnelson/kmp/tor/common/api/Paths$Tor;
+	protected static final fun getOrCreate (Ljava/io/File;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor;
+}
+
+protected final class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Exec$Companion {
+}
+
+public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Static : io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor {
+	protected static final field Companion Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Static$Companion;
+	protected fun <init> ()V
+	public synthetic fun <init> (Ljava/io/File;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun extract ()Lio/matthewnelson/kmp/tor/common/api/Paths$Geoips;
+	protected static final fun getOrCreate (Ljava/io/File;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor;
+	public fun load ()Lio/matthewnelson/kmp/tor/common/api/TorApi;
+}
+
+protected final class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Static$Companion {
+}
+
+public abstract class io/matthewnelson/kmp/tor/common/api/TorApi {
+	public fun <init> ()V
+	public final fun isRunning ()Z
+	public final fun startTor (Ljava/util/List;)V
+	protected abstract fun torMain ([Ljava/lang/String;)V
 }
 
 public final class io/matthewnelson/kmp/tor/common/api/internal/SynchronizedCommon {
