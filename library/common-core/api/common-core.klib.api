@@ -1,0 +1,213 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
+// Alias: native => [iosArm64, iosSimulatorArm64, iosX64, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <io.matthewnelson.kmp-tor:common-core>
+final class io.matthewnelson.kmp.tor.common.core/PlatformResource { // io.matthewnelson.kmp.tor.common.core/PlatformResource|null[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/PlatformResource.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.core/PlatformResource.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.core/PlatformResource.toString|toString(){}[0]
+
+    final class Builder { // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder|null[0]
+        // Targets: [native]
+        final var nativeResource // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.nativeResource|{}nativeResource[0]
+            final fun <get-nativeResource>(): io.matthewnelson.kmp.tor.common.core/NativeResource? // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.nativeResource.<get-nativeResource>|<get-nativeResource>(){}[0]
+            final fun <set-nativeResource>(io.matthewnelson.kmp.tor.common.core/NativeResource?) // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.nativeResource.<set-nativeResource>|<set-nativeResource>(io.matthewnelson.kmp.tor.common.core.NativeResource?){}[0]
+
+        // Targets: [js]
+        final var moduleName // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.moduleName|{}moduleName[0]
+            final fun <get-moduleName>(): kotlin/String? // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.moduleName.<get-moduleName>|<get-moduleName>(){}[0]
+            final fun <set-moduleName>(kotlin/String?) // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.moduleName.<set-moduleName>|<set-moduleName>(kotlin.String?){}[0]
+
+        // Targets: [js]
+        final var resourcePath // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.resourcePath|{}resourcePath[0]
+            final fun <get-resourcePath>(): kotlin/String? // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.resourcePath.<get-resourcePath>|<get-resourcePath>(){}[0]
+            final fun <set-resourcePath>(kotlin/String?) // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.resourcePath.<set-resourcePath>|<set-resourcePath>(kotlin.String?){}[0]
+    }
+
+    // Targets: [native]
+    final val nativeResource // io.matthewnelson.kmp.tor.common.core/PlatformResource.nativeResource|{}nativeResource[0]
+        final fun <get-nativeResource>(): io.matthewnelson.kmp.tor.common.core/NativeResource // io.matthewnelson.kmp.tor.common.core/PlatformResource.nativeResource.<get-nativeResource>|<get-nativeResource>(){}[0]
+
+    // Targets: [js]
+    final val moduleName // io.matthewnelson.kmp.tor.common.core/PlatformResource.moduleName|{}moduleName[0]
+        final fun <get-moduleName>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/PlatformResource.moduleName.<get-moduleName>|<get-moduleName>(){}[0]
+
+    // Targets: [js]
+    final val resourcePath // io.matthewnelson.kmp.tor.common.core/PlatformResource.resourcePath|{}resourcePath[0]
+        final fun <get-resourcePath>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/PlatformResource.resourcePath.<get-resourcePath>|<get-resourcePath>(){}[0]
+}
+
+final class io.matthewnelson.kmp.tor.common.core/Resource { // io.matthewnelson.kmp.tor.common.core/Resource|null[0]
+    final val alias // io.matthewnelson.kmp.tor.common.core/Resource.alias|{}alias[0]
+        final fun <get-alias>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/Resource.alias.<get-alias>|<get-alias>(){}[0]
+    final val isExecutable // io.matthewnelson.kmp.tor.common.core/Resource.isExecutable|{}isExecutable[0]
+        final fun <get-isExecutable>(): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/Resource.isExecutable.<get-isExecutable>|<get-isExecutable>(){}[0]
+    final val platform // io.matthewnelson.kmp.tor.common.core/Resource.platform|{}platform[0]
+        final fun <get-platform>(): io.matthewnelson.kmp.tor.common.core/PlatformResource // io.matthewnelson.kmp.tor.common.core/Resource.platform.<get-platform>|<get-platform>(){}[0]
+
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/Resource.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.core/Resource.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.core/Resource.toString|toString(){}[0]
+
+    final class Builder { // io.matthewnelson.kmp.tor.common.core/Resource.Builder|null[0]
+        final val alias // io.matthewnelson.kmp.tor.common.core/Resource.Builder.alias|{}alias[0]
+            final fun <get-alias>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/Resource.Builder.alias.<get-alias>|<get-alias>(){}[0]
+
+        final var isExecutable // io.matthewnelson.kmp.tor.common.core/Resource.Builder.isExecutable|{}isExecutable[0]
+            final fun <get-isExecutable>(): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/Resource.Builder.isExecutable.<get-isExecutable>|<get-isExecutable>(){}[0]
+            final fun <set-isExecutable>(kotlin/Boolean) // io.matthewnelson.kmp.tor.common.core/Resource.Builder.isExecutable.<set-isExecutable>|<set-isExecutable>(kotlin.Boolean){}[0]
+
+        final fun platform(kotlin/Function1<io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder, kotlin/Unit>): io.matthewnelson.kmp.tor.common.core/Resource.Builder // io.matthewnelson.kmp.tor.common.core/Resource.Builder.platform|platform(kotlin.Function1<io.matthewnelson.kmp.tor.common.core.PlatformResource.Builder,kotlin.Unit>){}[0]
+    }
+
+    final class Config { // io.matthewnelson.kmp.tor.common.core/Resource.Config|null[0]
+        final val errors // io.matthewnelson.kmp.tor.common.core/Resource.Config.errors|{}errors[0]
+            final fun <get-errors>(): kotlin.collections/Set<kotlin/String> // io.matthewnelson.kmp.tor.common.core/Resource.Config.errors.<get-errors>|<get-errors>(){}[0]
+        final val resources // io.matthewnelson.kmp.tor.common.core/Resource.Config.resources|{}resources[0]
+            final fun <get-resources>(): kotlin.collections/Set<io.matthewnelson.kmp.tor.common.core/Resource> // io.matthewnelson.kmp.tor.common.core/Resource.Config.resources.<get-resources>|<get-resources>(){}[0]
+
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/Resource.Config.equals|equals(kotlin.Any?){}[0]
+        final fun extractTo(io.matthewnelson.kmp.file/File, kotlin/Boolean): kotlin.collections/Map<kotlin/String, io.matthewnelson.kmp.file/File> // io.matthewnelson.kmp.tor.common.core/Resource.Config.extractTo|extractTo(io.matthewnelson.kmp.file.File;kotlin.Boolean){}[0]
+        final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.core/Resource.Config.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.core/Resource.Config.toString|toString(){}[0]
+
+        final class Builder { // io.matthewnelson.kmp.tor.common.core/Resource.Config.Builder|null[0]
+            final fun error(kotlin/String): io.matthewnelson.kmp.tor.common.core/Resource.Config.Builder // io.matthewnelson.kmp.tor.common.core/Resource.Config.Builder.error|error(kotlin.String){}[0]
+            final fun resource(kotlin/String, kotlin/Boolean =..., kotlin/Function1<io.matthewnelson.kmp.tor.common.core/Resource.Builder, kotlin/Unit>): io.matthewnelson.kmp.tor.common.core/Resource.Config.Builder // io.matthewnelson.kmp.tor.common.core/Resource.Config.Builder.resource|resource(kotlin.String;kotlin.Boolean;kotlin.Function1<io.matthewnelson.kmp.tor.common.core.Resource.Builder,kotlin.Unit>){}[0]
+        }
+
+        final object Companion { // io.matthewnelson.kmp.tor.common.core/Resource.Config.Companion|null[0]
+            final fun create(kotlin/Function1<io.matthewnelson.kmp.tor.common.core/Resource.Config.Builder, kotlin/Unit>): io.matthewnelson.kmp.tor.common.core/Resource.Config // io.matthewnelson.kmp.tor.common.core/Resource.Config.Companion.create|create(kotlin.Function1<io.matthewnelson.kmp.tor.common.core.Resource.Config.Builder,kotlin.Unit>){}[0]
+        }
+    }
+}
+
+// Targets: [native]
+abstract class io.matthewnelson.kmp.tor.common.core/NativeResource { // io.matthewnelson.kmp.tor.common.core/NativeResource|null[0]
+    constructor <init>(kotlin/Int, kotlin/String, kotlin/Long, kotlin/String, kotlin/Long) // io.matthewnelson.kmp.tor.common.core/NativeResource.<init>|<init>(kotlin.Int;kotlin.String;kotlin.Long;kotlin.String;kotlin.Long){}[0]
+
+    final val chunks // io.matthewnelson.kmp.tor.common.core/NativeResource.chunks|{}chunks[0]
+        final fun <get-chunks>(): kotlin/Long // io.matthewnelson.kmp.tor.common.core/NativeResource.chunks.<get-chunks>|<get-chunks>(){}[0]
+    final val name // io.matthewnelson.kmp.tor.common.core/NativeResource.name|{}name[0]
+        final fun <get-name>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/NativeResource.name.<get-name>|<get-name>(){}[0]
+    final val sha256 // io.matthewnelson.kmp.tor.common.core/NativeResource.sha256|{}sha256[0]
+        final fun <get-sha256>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/NativeResource.sha256.<get-sha256>|<get-sha256>(){}[0]
+    final val size // io.matthewnelson.kmp.tor.common.core/NativeResource.size|{}size[0]
+        final fun <get-size>(): kotlin/Long // io.matthewnelson.kmp.tor.common.core/NativeResource.size.<get-size>|<get-size>(){}[0]
+    final val version // io.matthewnelson.kmp.tor.common.core/NativeResource.version|{}version[0]
+        final fun <get-version>(): kotlin/Int // io.matthewnelson.kmp.tor.common.core/NativeResource.version.<get-version>|<get-version>(){}[0]
+
+    abstract fun get(kotlin/Long): io.matthewnelson.kmp.tor.common.core/NativeResource.Chunk // io.matthewnelson.kmp.tor.common.core/NativeResource.get|get(kotlin.Long){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/NativeResource.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.core/NativeResource.hashCode|hashCode(){}[0]
+    final fun read(kotlin/Function2<kotlin/ByteArray, kotlin/Int, kotlin/Unit>) // io.matthewnelson.kmp.tor.common.core/NativeResource.read|read(kotlin.Function2<kotlin.ByteArray,kotlin.Int,kotlin.Unit>){}[0]
+    final fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.core/NativeResource.toString|toString(){}[0]
+
+    final value class Chunk { // io.matthewnelson.kmp.tor.common.core/NativeResource.Chunk|null[0]
+        final val data // io.matthewnelson.kmp.tor.common.core/NativeResource.Chunk.data|{}data[0]
+            final fun <get-data>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/NativeResource.Chunk.data.<get-data>|<get-data>(){}[0]
+
+        final fun decode(): kotlin/ByteArray // io.matthewnelson.kmp.tor.common.core/NativeResource.Chunk.decode|decode(){}[0]
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/NativeResource.Chunk.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.core/NativeResource.Chunk.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.core/NativeResource.Chunk.toString|toString(){}[0]
+    }
+
+    final object Companion // io.matthewnelson.kmp.tor.common.core/NativeResource.Companion|null[0]
+}
+
+// Targets: [native]
+final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.core/synchronized(kotlinx.atomicfu.locks/SynchronizedObject, kotlin/Function0<#A>): #A // io.matthewnelson.kmp.tor.common.core/synchronized|synchronized(kotlinx.atomicfu.locks.SynchronizedObject;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]
+
+// Targets: [native]
+final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.core/synchronizedImpl(kotlinx.atomicfu.locks/SynchronizedObject, kotlin/Function0<#A>): #A // io.matthewnelson.kmp.tor.common.core/synchronizedImpl|synchronizedImpl(kotlinx.atomicfu.locks.SynchronizedObject;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]
+
+// Targets: [js]
+final class io.matthewnelson.kmp.tor.common.core/OSInfo { // io.matthewnelson.kmp.tor.common.core/OSInfo|null[0]
+    final val osArch // io.matthewnelson.kmp.tor.common.core/OSInfo.osArch|{}osArch[0]
+        final fun <get-osArch>(): io.matthewnelson.kmp.tor.common.core/OSArch // io.matthewnelson.kmp.tor.common.core/OSInfo.osArch.<get-osArch>|<get-osArch>(){}[0]
+    final val osHost // io.matthewnelson.kmp.tor.common.core/OSInfo.osHost|{}osHost[0]
+        final fun <get-osHost>(): io.matthewnelson.kmp.tor.common.core/OSHost // io.matthewnelson.kmp.tor.common.core/OSInfo.osHost.<get-osHost>|<get-osHost>(){}[0]
+
+    final object Companion { // io.matthewnelson.kmp.tor.common.core/OSInfo.Companion|null[0]
+        final val INSTANCE // io.matthewnelson.kmp.tor.common.core/OSInfo.Companion.INSTANCE|{}INSTANCE[0]
+            final fun <get-INSTANCE>(): io.matthewnelson.kmp.tor.common.core/OSInfo // io.matthewnelson.kmp.tor.common.core/OSInfo.Companion.INSTANCE.<get-INSTANCE>|<get-INSTANCE>(){}[0]
+    }
+}
+
+// Targets: [js]
+sealed class io.matthewnelson.kmp.tor.common.core/OSArch { // io.matthewnelson.kmp.tor.common.core/OSArch|null[0]
+    final val path // io.matthewnelson.kmp.tor.common.core/OSArch.path|{}path[0]
+        final fun <get-path>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/OSArch.path.<get-path>|<get-path>(){}[0]
+
+    open fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/OSArch.equals|equals(kotlin.Any?){}[0]
+    open fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.core/OSArch.hashCode|hashCode(){}[0]
+    open fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.core/OSArch.toString|toString(){}[0]
+
+    final class Unsupported : io.matthewnelson.kmp.tor.common.core/OSArch { // io.matthewnelson.kmp.tor.common.core/OSArch.Unsupported|null[0]
+        constructor <init>(kotlin/String) // io.matthewnelson.kmp.tor.common.core/OSArch.Unsupported.<init>|<init>(kotlin.String){}[0]
+
+        final val arch // io.matthewnelson.kmp.tor.common.core/OSArch.Unsupported.arch|{}arch[0]
+            final fun <get-arch>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/OSArch.Unsupported.arch.<get-arch>|<get-arch>(){}[0]
+
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/OSArch.Unsupported.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.core/OSArch.Unsupported.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.core/OSArch.Unsupported.toString|toString(){}[0]
+    }
+
+    final object Aarch64 : io.matthewnelson.kmp.tor.common.core/OSArch // io.matthewnelson.kmp.tor.common.core/OSArch.Aarch64|null[0]
+
+    final object Armv7 : io.matthewnelson.kmp.tor.common.core/OSArch // io.matthewnelson.kmp.tor.common.core/OSArch.Armv7|null[0]
+
+    final object Ppc64 : io.matthewnelson.kmp.tor.common.core/OSArch // io.matthewnelson.kmp.tor.common.core/OSArch.Ppc64|null[0]
+
+    final object X86 : io.matthewnelson.kmp.tor.common.core/OSArch // io.matthewnelson.kmp.tor.common.core/OSArch.X86|null[0]
+
+    final object X86_64 : io.matthewnelson.kmp.tor.common.core/OSArch // io.matthewnelson.kmp.tor.common.core/OSArch.X86_64|null[0]
+}
+
+// Targets: [js]
+sealed class io.matthewnelson.kmp.tor.common.core/OSHost { // io.matthewnelson.kmp.tor.common.core/OSHost|null[0]
+    final val path // io.matthewnelson.kmp.tor.common.core/OSHost.path|{}path[0]
+        final fun <get-path>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/OSHost.path.<get-path>|<get-path>(){}[0]
+
+    open fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/OSHost.equals|equals(kotlin.Any?){}[0]
+    open fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.core/OSHost.hashCode|hashCode(){}[0]
+    open fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.core/OSHost.toString|toString(){}[0]
+
+    final class Unknown : io.matthewnelson.kmp.tor.common.core/OSHost { // io.matthewnelson.kmp.tor.common.core/OSHost.Unknown|null[0]
+        constructor <init>(kotlin/String) // io.matthewnelson.kmp.tor.common.core/OSHost.Unknown.<init>|<init>(kotlin.String){}[0]
+
+        final val name // io.matthewnelson.kmp.tor.common.core/OSHost.Unknown.name|{}name[0]
+            final fun <get-name>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/OSHost.Unknown.name.<get-name>|<get-name>(){}[0]
+
+        final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/OSHost.Unknown.equals|equals(kotlin.Any?){}[0]
+        final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.core/OSHost.Unknown.hashCode|hashCode(){}[0]
+        final fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.core/OSHost.Unknown.toString|toString(){}[0]
+    }
+
+    sealed class Linux : io.matthewnelson.kmp.tor.common.core/OSHost { // io.matthewnelson.kmp.tor.common.core/OSHost.Linux|null[0]
+        final object Android : io.matthewnelson.kmp.tor.common.core/OSHost.Linux // io.matthewnelson.kmp.tor.common.core/OSHost.Linux.Android|null[0]
+
+        final object Libc : io.matthewnelson.kmp.tor.common.core/OSHost.Linux // io.matthewnelson.kmp.tor.common.core/OSHost.Linux.Libc|null[0]
+
+        final object Musl : io.matthewnelson.kmp.tor.common.core/OSHost.Linux // io.matthewnelson.kmp.tor.common.core/OSHost.Linux.Musl|null[0]
+    }
+
+    final object FreeBSD : io.matthewnelson.kmp.tor.common.core/OSHost // io.matthewnelson.kmp.tor.common.core/OSHost.FreeBSD|null[0]
+
+    final object MacOS : io.matthewnelson.kmp.tor.common.core/OSHost // io.matthewnelson.kmp.tor.common.core/OSHost.MacOS|null[0]
+
+    final object Windows : io.matthewnelson.kmp.tor.common.core/OSHost // io.matthewnelson.kmp.tor.common.core/OSHost.Windows|null[0]
+}
+
+// Targets: [js]
+final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.core/synchronized(kotlin/Any, kotlin/Function0<#A>): #A // io.matthewnelson.kmp.tor.common.core/synchronized|synchronized(kotlin.Any;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]
+
+// Targets: [js]
+final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.core/synchronizedImpl(kotlin/Any, kotlin/Function0<#A>): #A // io.matthewnelson.kmp.tor.common.core/synchronizedImpl|synchronizedImpl(kotlin.Any;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]

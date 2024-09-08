@@ -1,4 +1,4 @@
-rootProject.name = "kmp-tor-core"
+rootProject.name = "kmp-tor-common"
 
 pluginManagement {
     repositories {
@@ -17,10 +17,10 @@ if (CHECK_PUBLICATION != null) {
     include(":tools:check-publication")
 } else {
     listOf(
-        "core-api",
-        "core-lib-locator",
-        "core-resource",
-        "core-test",
+        "common-api",
+        "common-lib-locator",
+        "common-core",
+        "common-test",
     ).forEach { module ->
         include(":library:$module")
     }

@@ -62,20 +62,20 @@
 ## Version 2.0.0-alpha01 (2023-12-23)
  - Initial `alpha01` release
 
-[9]: https://github.com/05nelsonm/kmp-tor-core/pull/9
-[13]: https://github.com/05nelsonm/kmp-tor-core/pull/13
-[14]: https://github.com/05nelsonm/kmp-tor-core/pull/14
-[16]: https://github.com/05nelsonm/kmp-tor-core/pull/16
-[17]: https://github.com/05nelsonm/kmp-tor-core/pull/17
-[23]: https://github.com/05nelsonm/kmp-tor-core/pull/23
-[24]: https://github.com/05nelsonm/kmp-tor-core/pull/24
-[26]: https://github.com/05nelsonm/kmp-tor-core/pull/26
-[28]: https://github.com/05nelsonm/kmp-tor-core/pull/28
-[30]: https://github.com/05nelsonm/kmp-tor-core/pull/30
-[31]: https://github.com/05nelsonm/kmp-tor-core/pull/31
-[33]: https://github.com/05nelsonm/kmp-tor-core/pull/33
-[35]: https://github.com/05nelsonm/kmp-tor-core/pull/35
-[36]: https://github.com/05nelsonm/kmp-tor-core/pull/36
-[38]: https://github.com/05nelsonm/kmp-tor-core/pull/38
-[39]: https://github.com/05nelsonm/kmp-tor-core/pull/39
-[42]: https://github.com/05nelsonm/kmp-tor-core/pull/42
+[9]: https://github.com/05nelsonm/kmp-tor-common/pull/9
+[13]: https://github.com/05nelsonm/kmp-tor-common/pull/13
+[14]: https://github.com/05nelsonm/kmp-tor-common/pull/14
+[16]: https://github.com/05nelsonm/kmp-tor-common/pull/16
+[17]: https://github.com/05nelsonm/kmp-tor-common/pull/17
+[23]: https://github.com/05nelsonm/kmp-tor-common/pull/23
+[24]: https://github.com/05nelsonm/kmp-tor-common/pull/24
+[26]: https://github.com/05nelsonm/kmp-tor-common/pull/26
+[28]: https://github.com/05nelsonm/kmp-tor-common/pull/28
+[30]: https://github.com/05nelsonm/kmp-tor-common/pull/30
+[31]: https://github.com/05nelsonm/kmp-tor-common/pull/31
+[33]: https://github.com/05nelsonm/kmp-tor-common/pull/33
+[35]: https://github.com/05nelsonm/kmp-tor-common/pull/35
+[36]: https://github.com/05nelsonm/kmp-tor-common/pull/36
+[38]: https://github.com/05nelsonm/kmp-tor-common/pull/38
+[39]: https://github.com/05nelsonm/kmp-tor-common/pull/39
+[42]: https://github.com/05nelsonm/kmp-tor-common/pull/42

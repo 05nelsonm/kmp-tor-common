@@ -41,7 +41,7 @@ kmpConfiguration {
         androidLibrary(namespace = "tools.check.publication") {
             sourceSetMain {
                 dependencies {
-                    implementation("$group:core-lib-locator:$version")
+                    implementation("$group:common-lib-locator:$version")
                 }
             }
         }
@@ -49,8 +49,8 @@ kmpConfiguration {
         common {
             sourceSetMain {
                 dependencies {
-                    implementation("$group:core-api:$version")
-                    implementation("$group:core-resource:$version")
+                    implementation("$group:common-api:$version")
+                    implementation("$group:common-core:$version")
                 }
             }
         }
