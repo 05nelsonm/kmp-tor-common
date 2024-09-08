@@ -1,4 +1,4 @@
-# kmp-tor-core
+# kmp-tor-common
 [![badge-license]][url-license]
 [![badge-latest-release]][url-latest-release]
 
@@ -23,23 +23,23 @@
 ![badge-support-js-ir]
 ![badge-support-linux-arm]
 
-Core components for [kmp-tor][url-kmp-tor] and [kmp-tor-resource][url-kmp-tor-resource]
+Common components for [kmp-tor][url-kmp-tor] and [kmp-tor-resource][url-kmp-tor-resource]
 
 ### Modules
 
-- `:library:core-api` is the publicly exposed API for which consumers of [kmp-tor][url-kmp-tor] 
+- `:library:common-api` is the publicly exposed API for which consumers of [kmp-tor][url-kmp-tor] 
   and [kmp-tor-resource][url-kmp-tor-resource] interact.
-- `:library:core-lib-locator` is a module not meant for public consumption.
+- `:library:common-lib-locator` is a module not meant for public consumption.
     - [kmp-tor-resource][url-kmp-tor-resource] modules utilizes this for Android to retrieve 
       the native library path (which is extracted to the application's `nativeLibraryDir` at
       time of application install) upon resource configuration/installation.
-- `:library:core-resource` is a module not meant for public consumption.
+- `:library:common-core` is a module not meant for public consumption.
     - All classes and functions are annotated with `@InternalKmpTorApi`.
     - This is the workhorse that enables packaging and extraction of Jvm/Js/Native resources
       for installation to the filesystem. See [kmp-tor-resource][url-kmp-tor-resource].
 
 <!-- TAG_VERSION -->
-[badge-latest-release]: https://img.shields.io/badge/latest--release-2.0.1-blue.svg?style=flat
+[badge-latest-release]: https://img.shields.io/badge/latest--release-2.1.0--SNAPSHOT-blue.svg?style=flat
 [badge-license]: https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat
 
 <!-- TAG_DEPENDENCIES -->
@@ -73,7 +73,7 @@ Core components for [kmp-tor][url-kmp-tor] and [kmp-tor-resource][url-kmp-tor-re
 [url-encoding]: https://github.com/05nelsonm/encoding
 [url-immutable]: https://github.com/05nelsonm/immutable
 [url-kotlincrypto-hash]: https://github.com/KotlinCrypto/hash
-[url-latest-release]: https://github.com/05nelsonm/kmp-tor-core/releases/latest
+[url-latest-release]: https://github.com/05nelsonm/kmp-tor-common/releases/latest
 [url-license]: https://www.apache.org/licenses/LICENSE-2.0
 [url-kotlin]: https://kotlinlang.org
 [url-kmp-file]: https://github.com/05nelsonm/kmp-file
