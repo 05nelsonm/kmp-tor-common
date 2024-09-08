@@ -18,7 +18,7 @@ package io.matthewnelson.kmp.tor.common.core
 import io.matthewnelson.kmp.file.SysTempDir
 import io.matthewnelson.kmp.file.readUtf8
 import io.matthewnelson.kmp.file.resolve
-import io.matthewnelson.kmp.tor.common.api.annotation.InternalKmpTorApi
+import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

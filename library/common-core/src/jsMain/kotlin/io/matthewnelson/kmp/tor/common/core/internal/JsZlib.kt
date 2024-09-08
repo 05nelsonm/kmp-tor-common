@@ -19,7 +19,7 @@
 
 package io.matthewnelson.kmp.tor.common.core.internal
 
-import io.matthewnelson.kmp.tor.common.api.annotation.InternalKmpTorApi
+import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 
 /** [docs](https://nodejs.org/api/zlib.html#zlibgunzipsyncbuffer-options) */
 @JsName("gunzipSync")

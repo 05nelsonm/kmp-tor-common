@@ -142,11 +142,3 @@ public final class io/matthewnelson/kmp/tor/common/core/Resource$Config$Companio
 	public final fun create (Lkotlin/jvm/functions/Function1;)Lio/matthewnelson/kmp/tor/common/core/Resource$Config;
 }
 
-public final class io/matthewnelson/kmp/tor/common/core/SynchronizedCommon {
-	public static final fun synchronized (Ljava/lang/Object;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
-}
-
-public final class io/matthewnelson/kmp/tor/common/core/SynchronizedJvm {
-	public static final fun synchronizedImpl (Ljava/lang/Object;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
-}
-

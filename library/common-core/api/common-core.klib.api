@@ -121,12 +121,6 @@ abstract class io.matthewnelson.kmp.tor.common.core/NativeResource { // io.matth
     final object Companion // io.matthewnelson.kmp.tor.common.core/NativeResource.Companion|null[0]
 }
 
-// Targets: [native]
-final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.core/synchronized(kotlinx.atomicfu.locks/SynchronizedObject, kotlin/Function0<#A>): #A // io.matthewnelson.kmp.tor.common.core/synchronized|synchronized(kotlinx.atomicfu.locks.SynchronizedObject;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]
-
-// Targets: [native]
-final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.core/synchronizedImpl(kotlinx.atomicfu.locks/SynchronizedObject, kotlin/Function0<#A>): #A // io.matthewnelson.kmp.tor.common.core/synchronizedImpl|synchronizedImpl(kotlinx.atomicfu.locks.SynchronizedObject;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]
-
 // Targets: [js]
 final class io.matthewnelson.kmp.tor.common.core/OSInfo { // io.matthewnelson.kmp.tor.common.core/OSInfo|null[0]
     final val osArch // io.matthewnelson.kmp.tor.common.core/OSInfo.osArch|{}osArch[0]
@@ -205,9 +199,3 @@ sealed class io.matthewnelson.kmp.tor.common.core/OSHost { // io.matthewnelson.k
 
     final object Windows : io.matthewnelson.kmp.tor.common.core/OSHost // io.matthewnelson.kmp.tor.common.core/OSHost.Windows|null[0]
 }
-
-// Targets: [js]
-final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.core/synchronized(kotlin/Any, kotlin/Function0<#A>): #A // io.matthewnelson.kmp.tor.common.core/synchronized|synchronized(kotlin.Any;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]
-
-// Targets: [js]
-final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.core/synchronizedImpl(kotlin/Any, kotlin/Function0<#A>): #A // io.matthewnelson.kmp.tor.common.core/synchronizedImpl|synchronizedImpl(kotlin.Any;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]

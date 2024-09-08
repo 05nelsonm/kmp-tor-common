@@ -23,8 +23,8 @@ import io.matthewnelson.kmp.file.canonicalFile
 import io.matthewnelson.kmp.file.wrapIOException
 import io.matthewnelson.kmp.tor.common.core.internal.appendIndent
 import io.matthewnelson.kmp.tor.common.core.internal.extractTo
-import io.matthewnelson.kmp.tor.common.api.annotation.InternalKmpTorApi
-import io.matthewnelson.kmp.tor.common.api.annotation.KmpTorDsl
+import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
+import io.matthewnelson.kmp.tor.common.api.KmpTorDsl
 import kotlin.jvm.JvmField
 import kotlin.jvm.JvmStatic
 import kotlin.jvm.JvmSynthetic

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Matthew Nelson
+ * Copyright (c) 2024 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,36 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:JvmName("SynchronizedCommon")
 @file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
-package io.matthewnelson.kmp.tor.common.core
+package io.matthewnelson.kmp.tor.common.api.internal
 
-import io.matthewnelson.kmp.tor.common.api.annotation.InternalKmpTorApi
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
-import kotlin.jvm.JvmName
+import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
+import kotlinx.atomicfu.locks.withLock as _withLock
 
 @InternalKmpTorApi
-public expect open class SynchronizedObject()
+public actual typealias SynchronizedObject = kotlinx.atomicfu.locks.SynchronizedObject
 
 @PublishedApi
 @OptIn(InternalKmpTorApi::class)
-internal expect inline fun <T: Any?> synchronizedImpl(
+internal actual inline fun <T: Any?> synchronizedImpl(
     lock: SynchronizedObject,
     block: () -> T
-): T
-
-@InternalKmpTorApi
-@OptIn(ExperimentalContracts::class)
-public inline fun <T: Any?> synchronized(
-    lock: SynchronizedObject,
-    block: () -> T
-): T {
-    contract {
-        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
-    }
-
-    return synchronizedImpl(lock, block)
-}
+): T = lock._withLock(block)
