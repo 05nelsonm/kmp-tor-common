@@ -1,16 +1,7 @@
 public abstract interface annotation class io/matthewnelson/kmp/tor/common/api/ExperimentalKmpTorApi : java/lang/annotation/Annotation {
 }
 
-public abstract interface annotation class io/matthewnelson/kmp/tor/common/api/InternalKmpTorApi : java/lang/annotation/Annotation {
-}
-
-public abstract interface annotation class io/matthewnelson/kmp/tor/common/api/KmpTorDsl : java/lang/annotation/Annotation {
-}
-
-public abstract class io/matthewnelson/kmp/tor/common/api/Paths {
-}
-
-public final class io/matthewnelson/kmp/tor/common/api/Paths$Geoips : io/matthewnelson/kmp/tor/common/api/Paths {
+public final class io/matthewnelson/kmp/tor/common/api/GeoipFiles {
 	public final field geoip Ljava/io/File;
 	public final field geoip6 Ljava/io/File;
 	public fun <init> (Ljava/io/File;Ljava/io/File;)V
@@ -19,13 +10,10 @@ public final class io/matthewnelson/kmp/tor/common/api/Paths$Geoips : io/matthew
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class io/matthewnelson/kmp/tor/common/api/Paths$Tor : io/matthewnelson/kmp/tor/common/api/Paths {
-	public final field executable Ljava/io/File;
-	public final field geoips Lio/matthewnelson/kmp/tor/common/api/Paths$Geoips;
-	public fun <init> (Ljava/io/File;Lio/matthewnelson/kmp/tor/common/api/Paths$Geoips;)V
-	public fun equals (Ljava/lang/Object;)Z
-	public fun hashCode ()I
-	public fun toString ()Ljava/lang/String;
+public abstract interface annotation class io/matthewnelson/kmp/tor/common/api/InternalKmpTorApi : java/lang/annotation/Annotation {
+}
+
+public abstract interface annotation class io/matthewnelson/kmp/tor/common/api/KmpTorDsl : java/lang/annotation/Annotation {
 }
 
 public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader {
@@ -36,14 +24,15 @@ public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader {
 public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor : io/matthewnelson/kmp/tor/common/api/ResourceLoader {
 	public final field resourceDir Ljava/io/File;
 	public synthetic fun <init> (Ljava/io/File;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun extract ()Lio/matthewnelson/kmp/tor/common/api/GeoipFiles;
 }
 
 public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Exec : io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor {
 	protected static final field Companion Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Exec$Companion;
 	protected fun <init> ()V
 	public synthetic fun <init> (Ljava/io/File;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun extract ()Lio/matthewnelson/kmp/tor/common/api/Paths$Tor;
-	protected static final fun getOrCreate (Ljava/io/File;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor;
+	public fun execute (Lkotlin/jvm/functions/Function2;)Ljava/lang/Object;
+	protected static final fun getOrCreate (Ljava/io/File;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor;
 }
 
 protected final class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Exec$Companion {
@@ -53,9 +42,8 @@ public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Sta
 	protected static final field Companion Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Static$Companion;
 	protected fun <init> ()V
 	public synthetic fun <init> (Ljava/io/File;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun extract ()Lio/matthewnelson/kmp/tor/common/api/Paths$Geoips;
 	protected static final fun getOrCreate (Ljava/io/File;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor;
-	public fun load ()Lio/matthewnelson/kmp/tor/common/api/TorApi;
+	public fun withApi (Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
 }
 
 protected final class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Static$Companion {
