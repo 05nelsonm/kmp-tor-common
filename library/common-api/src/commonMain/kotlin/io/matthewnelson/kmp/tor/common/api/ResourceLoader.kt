@@ -37,11 +37,11 @@ public abstract class ResourceLoader private constructor() {
      * API design is such that only 1 [Tor] loader can be instantiated. Any
      * attempts to instantiate a second will result in the return of the
      * first one that was created. This is to inhibit any attempts to switch
-     * between [Exec] and [Static] during runtime, as well as ensure resources
+     * between [Exec] and [NoExec] during runtime, as well as ensure resources
      * are only extracted to a single location.
      *
      * @see [Exec]
-     * @see [Static]
+     * @see [NoExec]
      * */
     public sealed class Tor private constructor(resourceDir: File): ResourceLoader() {
 
@@ -63,7 +63,7 @@ public abstract class ResourceLoader private constructor() {
          *  - Native Windows
          *  - Node.js
          *
-         * @see [Static]
+         * @see [NoExec]
          * */
         public abstract class Exec private constructor(directory: File?): Tor(directory.checkNotNull("Exec")) {
 
@@ -124,9 +124,9 @@ public abstract class ResourceLoader private constructor() {
         }
 
         /**
-         * Model for running statically compiled `tor` within your application's memory space.
+         * Model for running `tor` within your application's memory space.
          *
-         * Platform availability (for static compilation):
+         * Platform availability (for static compilation and/or dynamic loading):
          *  - Android
          *  - Jvm
          *  - Native Android
@@ -139,7 +139,7 @@ public abstract class ResourceLoader private constructor() {
          *
          * @see [Exec]
          * */
-        public abstract class Static private constructor(resourceDir: File?): Tor(resourceDir.checkNotNull("Static")) {
+        public abstract class NoExec private constructor(resourceDir: File?): Tor(resourceDir.checkNotNull("NoExec")) {
 
             protected companion object {
 
@@ -152,7 +152,7 @@ public abstract class ResourceLoader private constructor() {
                     toString: (resourceDir: File) -> String,
                 ): Tor = Tor.Companion.getOrCreate(create = {
                     @OptIn(InternalKmpTorApi::class)
-                    object : Static(resourceDir) {
+                    object : NoExec(resourceDir) {
 
                         private val lock = SynchronizedObject()
                         private val api = Singleton<TorApi>()

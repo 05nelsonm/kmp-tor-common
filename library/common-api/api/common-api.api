@@ -38,15 +38,15 @@ public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Exe
 protected final class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Exec$Companion {
 }
 
-public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Static : io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor {
-	protected static final field Companion Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Static$Companion;
+public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$NoExec : io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor {
+	protected static final field Companion Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$NoExec$Companion;
 	protected fun <init> ()V
 	public synthetic fun <init> (Ljava/io/File;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	protected static final fun getOrCreate (Ljava/io/File;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor;
 	public fun withApi (Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
 }
 
-protected final class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Static$Companion {
+protected final class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$NoExec$Companion {
 }
 
 public abstract class io/matthewnelson/kmp/tor/common/api/TorApi {
