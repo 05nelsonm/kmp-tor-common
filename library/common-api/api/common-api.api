@@ -52,8 +52,8 @@ protected final class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$NoE
 public abstract class io/matthewnelson/kmp/tor/common/api/TorApi {
 	public fun <init> ()V
 	public final fun isRunning ()Z
-	public final fun startTor (Ljava/util/List;)V
-	protected abstract fun torMain ([Ljava/lang/String;)V
+	public final fun torMain (Ljava/util/List;)V
+	protected abstract fun torMainProtected ([Ljava/lang/String;)V
 }
 
 public final class io/matthewnelson/kmp/tor/common/api/internal/SynchronizedCommon {

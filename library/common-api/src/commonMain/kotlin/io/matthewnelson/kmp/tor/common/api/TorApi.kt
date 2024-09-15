@@ -34,7 +34,7 @@ public constructor() {
     private var _isRunning: Boolean = false
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    public fun startTor(args: List<String>) {
+    public fun torMain(args: List<String>) {
         check(!_isRunning) { "tor is running" }
 
         @OptIn(InternalKmpTorApi::class)
@@ -49,14 +49,14 @@ public constructor() {
         }
 
         try {
-            torMain(argsArray)
+            torMainProtected(argsArray)
         } finally {
             _isRunning = false
         }
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    protected abstract fun torMain(args: Array<String>)
+    protected abstract fun torMainProtected(args: Array<String>)
 
     // TODO: Logger
 }
