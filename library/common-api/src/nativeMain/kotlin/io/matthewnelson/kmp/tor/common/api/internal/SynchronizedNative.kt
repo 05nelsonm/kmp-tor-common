@@ -17,14 +17,11 @@
 
 package io.matthewnelson.kmp.tor.common.api.internal
 
-import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import kotlinx.atomicfu.locks.withLock as _withLock
 
-@InternalKmpTorApi
-public actual typealias SynchronizedObject = kotlinx.atomicfu.locks.SynchronizedObject
+@Suppress("ACTUAL_WITHOUT_EXPECT")
+internal actual typealias SynchronizedObject = kotlinx.atomicfu.locks.SynchronizedObject
 
-@PublishedApi
-@OptIn(InternalKmpTorApi::class)
 internal actual inline fun <T: Any?> synchronizedImpl(
     lock: SynchronizedObject,
     block: () -> T

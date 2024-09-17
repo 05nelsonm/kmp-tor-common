@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:JvmName("SynchronizedJvm")
 @file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
 package io.matthewnelson.kmp.tor.common.api.internal
@@ -22,5 +23,5 @@ internal actual typealias SynchronizedObject = Any
 
 internal actual inline fun <T: Any?> synchronizedImpl(
     lock: SynchronizedObject,
-    block: () -> T,
-): T = block()
+    block: () -> T
+): T = kotlin.synchronized(lock, block)

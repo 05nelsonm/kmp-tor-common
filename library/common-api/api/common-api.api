@@ -56,11 +56,3 @@ public abstract class io/matthewnelson/kmp/tor/common/api/TorApi {
 	protected abstract fun torMainProtected ([Ljava/lang/String;)V
 }
 
-public final class io/matthewnelson/kmp/tor/common/api/internal/SynchronizedCommon {
-	public static final fun synchronized (Ljava/lang/Object;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
-}
-
-public final class io/matthewnelson/kmp/tor/common/api/internal/SynchronizedJvm {
-	public static final fun synchronizedImpl (Ljava/lang/Object;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
-}
-
