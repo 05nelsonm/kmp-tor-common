@@ -1,7 +1,6 @@
 // Klib ABI Dump
 // Targets: [iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
 // Alias: native => [iosArm64, iosSimulatorArm64, iosX64, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
-// Alias: apple => [iosArm64, iosSimulatorArm64, iosX64, macosArm64, macosX64, tvosArm64, tvosSimulatorArm64, tvosX64, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
 // Rendering settings:
 // - Signature version: 2
 // - Show manifest properties: true
@@ -29,10 +28,6 @@ final class io.matthewnelson.kmp.tor.common.core/PlatformResource { // io.matthe
             final fun <get-resourcePath>(): kotlin/String? // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.resourcePath.<get-resourcePath>|<get-resourcePath>(){}[0]
             final fun <set-resourcePath>(kotlin/String?) // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.resourcePath.<set-resourcePath>|<set-resourcePath>(kotlin.String?){}[0]
     }
-
-    // Targets: [apple]
-    final val nativeResource // io.matthewnelson.kmp.tor.common.core/PlatformResource.nativeResource|{}nativeResource[0]
-        final fun <get-nativeResource>(): io.matthewnelson.kmp.tor.common.core/NativeResource // io.matthewnelson.kmp.tor.common.core/PlatformResource.nativeResource.<get-nativeResource>|<get-nativeResource>(){}[0]
 }
 
 final class io.matthewnelson.kmp.tor.common.core/Resource { // io.matthewnelson.kmp.tor.common.core/Resource|null[0]
