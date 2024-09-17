@@ -91,8 +91,6 @@ public final class io/matthewnelson/kmp/tor/common/core/OSInfo$Companion {
 }
 
 public final class io/matthewnelson/kmp/tor/common/core/PlatformResource {
-	public final field resourceClass Ljava/lang/Class;
-	public final field resourcePath Ljava/lang/String;
 	public synthetic fun <init> (Ljava/lang/Class;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I

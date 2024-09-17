@@ -116,13 +116,13 @@ public class Resource private constructor(
                 require: Boolean = true,
                 block: Resource.Builder.() -> Unit
             ): Builder {
-                if (alias.isBlank()) return this
+                require(alias.isNotBlank()) { "alias cannot be blank" }
 
                 val resource = Builder(alias).apply(block).build()
                 if (resource != null) {
                     resources.add(resource)
                 } else if (require) {
-                    error("Resource[$alias] was malconfigured")
+                    error("Resource[$alias] was misconfigured")
                 }
                 return this
             }
