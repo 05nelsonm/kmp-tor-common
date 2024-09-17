@@ -32,7 +32,7 @@ public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Exe
 	protected fun <init> ()V
 	public synthetic fun <init> (Ljava/io/File;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun execute (Lkotlin/jvm/functions/Function2;)Ljava/lang/Object;
-	protected static final fun getOrCreate (Ljava/io/File;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor;
+	protected static final fun getOrCreate (Ljava/io/File;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function1;)Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor;
 }
 
 protected final class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$Exec$Companion {

@@ -75,7 +75,7 @@ public abstract class ResourceLoader private constructor() {
                     resourceDir: File,
                     extract: (resourceDir: File) -> GeoipFiles,
                     extractTor: (resourceDir: File) -> File,
-                    configureEnv: MutableMap<String, String>.() -> Unit,
+                    configureEnv: MutableMap<String, String>.(resourceDir: File) -> Unit,
                     toString: (resourceDir: File) -> String,
                 ): Tor = Tor.Companion.getOrCreate(create = {
                     @OptIn(InternalKmpTorApi::class)
@@ -90,8 +90,9 @@ public abstract class ResourceLoader private constructor() {
                         override fun <T: Any?> execute(
                             block: (tor: File, configureEnv: MutableMap<String, String>.() -> Unit) -> T
                         ): T {
-                            val tor = synchronized(lock) { extractTor(this.resourceDir) }
-                            return block(tor, configureEnv)
+                            val dir = this.resourceDir
+                            val tor = synchronized(lock) { extractTor(dir) }
+                            return block(tor) { configureEnv(dir) }
                         }
 
                         override fun toString(): String = toString(this.resourceDir)
