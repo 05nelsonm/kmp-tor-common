@@ -15,18 +15,15 @@
  **/
 package io.matthewnelson.kmp.tor.common.api.internal
 
-import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import kotlin.concurrent.Volatile
 
 internal open class Singleton<T: Any> internal constructor() {
 
     @Volatile
     private var instance: T? = null
-    @OptIn(InternalKmpTorApi::class)
     private val lock = SynchronizedObject()
 
     internal fun getOrCreate(create: () -> T): T {
-        @OptIn(InternalKmpTorApi::class)
         return instance ?: synchronized(lock) {
             instance ?: create().also { instance = it }
         }

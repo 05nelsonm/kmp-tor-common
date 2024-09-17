@@ -3,5 +3,4 @@ module io.matthewnelson.kmp.tor.common.api {
     requires transitive io.matthewnelson.kmp.file;
 
     exports io.matthewnelson.kmp.tor.common.api;
-    exports io.matthewnelson.kmp.tor.common.api.internal;
 }

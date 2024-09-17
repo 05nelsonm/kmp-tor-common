@@ -28,16 +28,14 @@ public constructor() {
     @get:JvmName("isRunning")
     public val isRunning: Boolean get() = _isRunning
 
-    @OptIn(InternalKmpTorApi::class)
-    private val lock = SynchronizedObject()
     @Volatile
     private var _isRunning: Boolean = false
+    private val lock = SynchronizedObject()
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     public fun torMain(args: List<String>) {
         check(!_isRunning) { "tor is running" }
 
-        @OptIn(InternalKmpTorApi::class)
         val argsArray = synchronized(lock) {
             check(!_isRunning) { "tor is running" }
 

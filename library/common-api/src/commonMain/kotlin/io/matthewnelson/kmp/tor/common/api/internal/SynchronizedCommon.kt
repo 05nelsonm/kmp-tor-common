@@ -18,25 +18,20 @@
 
 package io.matthewnelson.kmp.tor.common.api.internal
 
-import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 import kotlin.jvm.JvmName
 
-@InternalKmpTorApi
-public expect open class SynchronizedObject()
+internal expect open class SynchronizedObject()
 
-@PublishedApi
-@OptIn(InternalKmpTorApi::class)
 internal expect inline fun <T: Any?> synchronizedImpl(
     lock: SynchronizedObject,
     block: () -> T
 ): T
 
-@InternalKmpTorApi
 @OptIn(ExperimentalContracts::class)
-public inline fun <T: Any?> synchronized(
+internal inline fun <T: Any?> synchronized(
     lock: SynchronizedObject,
     block: () -> T
 ): T {

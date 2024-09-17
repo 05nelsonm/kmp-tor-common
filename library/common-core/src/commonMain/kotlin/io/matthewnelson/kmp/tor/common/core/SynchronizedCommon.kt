@@ -13,19 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:JvmName("SynchronizedJvm")
+@file:JvmName("SynchronizedCommon")
 @file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
-package io.matthewnelson.kmp.tor.common.api.internal
+package io.matthewnelson.kmp.tor.common.core
 
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
+import kotlin.jvm.JvmName
 
 @InternalKmpTorApi
-public actual typealias SynchronizedObject = Any
+public expect open class SynchronizedObject()
 
 @PublishedApi
 @OptIn(InternalKmpTorApi::class)
-internal actual inline fun <T: Any?> synchronizedImpl(
+internal expect inline fun <T: Any?> synchronizedImpl(
     lock: SynchronizedObject,
     block: () -> T
-): T = kotlin.synchronized(lock, block)
+): T
+
+@InternalKmpTorApi
+@OptIn(ExperimentalContracts::class)
+public inline fun <T: Any?> synchronized(
+    lock: SynchronizedObject,
+    block: () -> T
+): T {
+    contract {
+        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
+    }
+
+    return synchronizedImpl(lock, block)
+}
