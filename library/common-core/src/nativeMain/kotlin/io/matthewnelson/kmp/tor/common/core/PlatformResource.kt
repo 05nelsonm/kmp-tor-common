@@ -23,7 +23,7 @@ import io.matthewnelson.kmp.tor.common.api.KmpTorDsl
 
 @InternalKmpTorApi
 public actual class PlatformResource private constructor(
-    public val nativeResource: NativeResource,
+    internal val nativeResource: NativeResource,
 ) {
 
     @KmpTorDsl

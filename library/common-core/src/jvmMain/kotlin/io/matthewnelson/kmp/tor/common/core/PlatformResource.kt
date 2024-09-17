@@ -22,10 +22,8 @@ import io.matthewnelson.kmp.tor.common.api.KmpTorDsl
 
 @InternalKmpTorApi
 public actual class PlatformResource private constructor(
-    @JvmField
-    public val resourceClass: Class<*>,
-    @JvmField
-    public val resourcePath: String,
+    internal val resourceClass: Class<*>,
+    internal val resourcePath: String,
 ) {
 
     @KmpTorDsl
