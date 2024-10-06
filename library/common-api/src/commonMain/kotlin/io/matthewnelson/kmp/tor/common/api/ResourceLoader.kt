@@ -239,8 +239,8 @@ public abstract class ResourceLoader private constructor() {
      * For example, [Tor.Exec.process] and [Tor.NoExec.withApi] will be bound to
      * a [RuntimeBinder] upon first invocation. If a different [RuntimeBinder] is
      * utilized later (from someone who has access to the loader, but not the binder),
-     * an exception is raised. This is in order to export runtime functionality of
-     * to a single implementation.
+     * an exception is raised. This is in order to export runtime functionality to
+     * a single implementation and constrain access.
      * */
     public interface RuntimeBinder
 
