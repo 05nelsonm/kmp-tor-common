@@ -52,8 +52,8 @@ abstract class io.matthewnelson.kmp.tor.common.api/TorApi { // io.matthewnelson.
     final val isRunning // io.matthewnelson.kmp.tor.common.api/TorApi.isRunning|{}isRunning[0]
         final fun <get-isRunning>(): kotlin/Boolean // io.matthewnelson.kmp.tor.common.api/TorApi.isRunning.<get-isRunning>|<get-isRunning>(){}[0]
 
-    abstract fun torMainProtected(kotlin/Array<kotlin/String>) // io.matthewnelson.kmp.tor.common.api/TorApi.torMainProtected|torMainProtected(kotlin.Array<kotlin.String>){}[0]
-    final fun torMain(kotlin.collections/List<kotlin/String>) // io.matthewnelson.kmp.tor.common.api/TorApi.torMain|torMain(kotlin.collections.List<kotlin.String>){}[0]
+    abstract fun torRunMainProtected(kotlin/Array<kotlin/String>): kotlin/Int // io.matthewnelson.kmp.tor.common.api/TorApi.torRunMainProtected|torRunMainProtected(kotlin.Array<kotlin.String>){}[0]
+    final fun torRunMain(kotlin.collections/List<kotlin/String>) // io.matthewnelson.kmp.tor.common.api/TorApi.torRunMain|torRunMain(kotlin.collections.List<kotlin.String>){}[0]
 }
 
 final class io.matthewnelson.kmp.tor.common.api/GeoipFiles { // io.matthewnelson.kmp.tor.common.api/GeoipFiles|null[0]

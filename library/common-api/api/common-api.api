@@ -50,9 +50,9 @@ protected final class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$NoE
 }
 
 public abstract class io/matthewnelson/kmp/tor/common/api/TorApi {
-	public fun <init> ()V
+	protected fun <init> ()V
 	public final fun isRunning ()Z
-	public final fun torMain (Ljava/util/List;)V
-	protected abstract fun torMainProtected ([Ljava/lang/String;)V
+	public final fun torRunMain (Ljava/util/List;)V
+	protected abstract fun torRunMainProtected ([Ljava/lang/String;)I
 }
 
