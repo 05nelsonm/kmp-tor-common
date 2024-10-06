@@ -20,9 +20,10 @@ import io.matthewnelson.kmp.tor.common.api.internal.synchronized
 import kotlin.concurrent.Volatile
 import kotlin.jvm.JvmName
 
-public abstract class TorApi
-@InternalKmpTorApi
-protected constructor() {
+/**
+ * Abstraction for [ResourceLoader.Tor.NoExec] implementations to provide.
+ * */
+public abstract class TorApi protected constructor() {
 
     @get:JvmName("isRunning")
     public val isRunning: Boolean get() = _isRunning
@@ -32,7 +33,7 @@ protected constructor() {
     private val lock = SynchronizedObject()
 
     /**
-     * Executes tor's tor_run_main function.
+     * Executes tor's `tor_run_main` function.
      *
      * **NOTE:** `argv[0]` is **always** set to `"tor"` when converting [configurationArgs]
      * to an array before passing to [torRunMainProtected].
@@ -44,7 +45,7 @@ protected constructor() {
      *     torRunMain(listOf("--version"))
      *     torRunMain(listOf("--SocksPort", "0", "--verify-config"))
      *
-     * @param [configurationArgs] Arguments to populate tor's tor_main_configuration_t
+     * @param [configurationArgs] Arguments to populate tor's `tor_main_configuration_t`
      *   struct with.
      * @throws [IllegalArgumentException] if [configurationArgs] is empty, or if
      *   [torRunMainProtected] returns non-0 and `--verify-config` is present in
