@@ -22,6 +22,8 @@ abstract class io.matthewnelson.kmp.tor.common.api/ResourceLoader { // io.matthe
     final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.api/ResourceLoader.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.api/ResourceLoader.hashCode|hashCode(){}[0]
 
+    abstract interface RuntimeBinder // io.matthewnelson.kmp.tor.common.api/ResourceLoader.RuntimeBinder|null[0]
+
     sealed class Tor : io.matthewnelson.kmp.tor.common.api/ResourceLoader { // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor|null[0]
         final val resourceDir // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.resourceDir|{}resourceDir[0]
             final fun <get-resourceDir>(): io.matthewnelson.kmp.file/File // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.resourceDir.<get-resourceDir>|<get-resourceDir>(){}[0]
@@ -31,7 +33,7 @@ abstract class io.matthewnelson.kmp.tor.common.api/ResourceLoader { // io.matthe
         abstract class Exec : io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor { // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.Exec|null[0]
             constructor <init>() // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.Exec.<init>|<init>(){}[0]
 
-            open fun <#A3: kotlin/Any?> execute(kotlin/Function2<io.matthewnelson.kmp.file/File, kotlin/Function1<kotlin.collections/MutableMap<kotlin/String, kotlin/String>, kotlin/Unit>, #A3>): #A3 // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.Exec.execute|execute(kotlin.Function2<io.matthewnelson.kmp.file.File,kotlin.Function1<kotlin.collections.MutableMap<kotlin.String,kotlin.String>,kotlin.Unit>,0:0>){0§<kotlin.Any?>}[0]
+            open fun <#A3: kotlin/Any?> process(io.matthewnelson.kmp.tor.common.api/ResourceLoader.RuntimeBinder, kotlin/Function2<io.matthewnelson.kmp.file/File, kotlin/Function1<kotlin.collections/MutableMap<kotlin/String, kotlin/String>, kotlin/Unit>, #A3>): #A3 // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.Exec.process|process(io.matthewnelson.kmp.tor.common.api.ResourceLoader.RuntimeBinder;kotlin.Function2<io.matthewnelson.kmp.file.File,kotlin.Function1<kotlin.collections.MutableMap<kotlin.String,kotlin.String>,kotlin.Unit>,0:0>){0§<kotlin.Any?>}[0]
 
             final object Companion // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.Exec.Companion|null[0]
         }
@@ -39,11 +41,13 @@ abstract class io.matthewnelson.kmp.tor.common.api/ResourceLoader { // io.matthe
         abstract class NoExec : io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor { // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.NoExec|null[0]
             constructor <init>() // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.NoExec.<init>|<init>(){}[0]
 
-            open fun <#A3: kotlin/Any?> withApi(kotlin/Function1<io.matthewnelson.kmp.tor.common.api/TorApi, #A3>): #A3 // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.NoExec.withApi|withApi(kotlin.Function1<io.matthewnelson.kmp.tor.common.api.TorApi,0:0>){0§<kotlin.Any?>}[0]
+            open fun <#A3: kotlin/Any?> withApi(io.matthewnelson.kmp.tor.common.api/ResourceLoader.RuntimeBinder, kotlin/Function1<io.matthewnelson.kmp.tor.common.api/TorApi, #A3>): #A3 // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.NoExec.withApi|withApi(io.matthewnelson.kmp.tor.common.api.ResourceLoader.RuntimeBinder;kotlin.Function1<io.matthewnelson.kmp.tor.common.api.TorApi,0:0>){0§<kotlin.Any?>}[0]
 
             final object Companion // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.NoExec.Companion|null[0]
         }
     }
+
+    final object Companion // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Companion|null[0]
 }
 
 abstract class io.matthewnelson.kmp.tor.common.api/TorApi { // io.matthewnelson.kmp.tor.common.api/TorApi|null[0]

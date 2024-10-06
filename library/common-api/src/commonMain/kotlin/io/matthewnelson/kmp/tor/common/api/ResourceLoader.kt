@@ -21,8 +21,11 @@ import io.matthewnelson.kmp.file.*
 import io.matthewnelson.kmp.tor.common.api.internal.Singleton
 import io.matthewnelson.kmp.tor.common.api.internal.SynchronizedObject
 import io.matthewnelson.kmp.tor.common.api.internal.synchronized
+import kotlin.concurrent.Volatile
 import kotlin.jvm.JvmField
 import kotlin.jvm.JvmStatic
+import kotlin.jvm.JvmSynthetic
+import kotlin.reflect.KClass
 
 /**
  * Abstraction for loadable resources.
@@ -52,6 +55,12 @@ public abstract class ResourceLoader private constructor() {
         public val resourceDir: File = resourceDir.absoluteFile.normalize()
 
         /**
+         * Extract tor's geoip & geoip6 files from application resources to [resourceDir].
+         * */
+        @Throws(IllegalStateException::class, IOException::class)
+        public open fun extract(): GeoipFiles = error("overridden")
+
+        /**
          * Model for running `tor` as an executable within a child process.
          *
          * Platform availability (for running executables):
@@ -67,10 +76,32 @@ public abstract class ResourceLoader private constructor() {
          * */
         public abstract class Exec private constructor(directory: File?): Tor(directory.checkNotNull("Exec")) {
 
+            /**
+             * Lambda for building and/or spawning a process.
+             *
+             * e.g. (Using the `kmp-process` library)
+             *
+             *     val builder = loaderExec.process(myBinder) { tor, configureEnv ->
+             *         Process.Builder(command = tor.path)
+             *             .args(myTorArgs)
+             *             .environment { configureEnv() }
+             *             .stdin(Stdio.Null)
+             *     }
+             *
+             * @see [RuntimeBinder]
+             * */
+            @Throws(IllegalStateException::class, IOException::class)
+            public open fun <T: Any?> process(
+                binder: RuntimeBinder,
+                block: (tor: File, configureEnv: MutableMap<String, String>.() -> Unit) -> T
+            ): T = error("overridden")
+
             protected companion object {
 
+                /**
+                 * For implementors of [Exec].
+                 * */
                 @JvmStatic
-                @InternalKmpTorApi
                 protected fun getOrCreate(
                     resourceDir: File,
                     extract: (resourceDir: File) -> GeoipFiles,
@@ -78,7 +109,6 @@ public abstract class ResourceLoader private constructor() {
                     configureEnv: MutableMap<String, String>.(resourceDir: File) -> Unit,
                     toString: (resourceDir: File) -> String,
                 ): Tor = Tor.Companion.getOrCreate(create = {
-                    @OptIn(InternalKmpTorApi::class)
                     object : Exec(resourceDir) {
 
                         private val lock = SynchronizedObject()
@@ -87,11 +117,17 @@ public abstract class ResourceLoader private constructor() {
                         override fun extract(): GeoipFiles = synchronized(lock) { extract(this.resourceDir) }
 
                         @Throws(IllegalStateException::class, IOException::class)
-                        override fun <T: Any?> execute(
+                        override fun <T: Any?> process(
+                            binder: RuntimeBinder,
                             block: (tor: File, configureEnv: MutableMap<String, String>.() -> Unit) -> T
                         ): T {
                             val dir = this.resourceDir
-                            val tor = synchronized(lock) { extractTor(dir) }
+
+                            val tor = synchronized(lock) {
+                                checkBinderInternal(binder)
+                                extractTor(dir)
+                            }
+
                             return block(tor) { configureEnv(dir) }
                         }
 
@@ -100,26 +136,7 @@ public abstract class ResourceLoader private constructor() {
                 })
             }
 
-            /**
-             * Lambda for building and/or spawning a process.
-             *
-             * e.g. (Using `kmp-process`)
-             *
-             *     val builder = loaderExec.execute { tor, configureEnv ->
-             *         Process.Builder(tor.path)
-             *             .args(torArgs)
-             *             .environment { configureEnv() }
-             *             .stdin(Stdio.Null)
-             *     }
-             * */
-            @InternalKmpTorApi
-            @Throws(IllegalStateException::class, IOException::class)
-            public open fun <T: Any?> execute(
-                block: (tor: File, configureEnv: MutableMap<String, String>.() -> Unit) -> T
-            ): T = error("overridden")
-
             /** Can extend to gain access to protected static functions, but never instantiate. */
-            @InternalKmpTorApi
             @Throws(IllegalStateException::class)
             protected constructor(): this(directory = null)
         }
@@ -142,28 +159,52 @@ public abstract class ResourceLoader private constructor() {
          * */
         public abstract class NoExec private constructor(resourceDir: File?): Tor(resourceDir.checkNotNull("NoExec")) {
 
+            /**
+             * Lambda for running tor via [TorApi].
+             *
+             * e.g.
+             *
+             *     loaderNoExec.withApi { torRunMain(myTorArgs) }
+             *
+             * @see [RuntimeBinder]
+             * */
+            @Throws(IllegalStateException::class, IOException::class)
+            public open fun <T: Any?> withApi(
+                binder: RuntimeBinder,
+                block: TorApi.() -> T,
+            ): T = error("overridden")
+
             protected companion object {
 
+                /**
+                 * For implementors of [NoExec].
+                 * */
                 @JvmStatic
-                @InternalKmpTorApi
                 protected fun getOrCreate(
                     resourceDir: File,
                     extract: (resourceDir: File) -> GeoipFiles,
                     load: () -> TorApi,
                     toString: (resourceDir: File) -> String,
                 ): Tor = Tor.Companion.getOrCreate(create = {
-                    @OptIn(InternalKmpTorApi::class)
                     object : NoExec(resourceDir) {
 
+                        @Volatile
+                        private var _api: TorApi? = null
                         private val lock = SynchronizedObject()
-                        private val api = Singleton<TorApi>()
 
                         @Throws(IllegalStateException::class, IOException::class)
                         override fun extract(): GeoipFiles = synchronized(lock) { extract(this.resourceDir) }
 
                         @Throws(IllegalStateException::class, IOException::class)
-                        override fun <T: Any?> withApi(block: TorApi.() -> T): T {
-                            val api = api.getOrCreate(load)
+                        override fun <T: Any?> withApi(
+                            binder: RuntimeBinder,
+                            block: TorApi.() -> T,
+                        ): T {
+                            val api = synchronized(lock) {
+                                checkBinderInternal(binder)
+                                _api ?: load().also { _api = it }
+                            }
+
                             return block(api)
                         }
 
@@ -172,19 +213,10 @@ public abstract class ResourceLoader private constructor() {
                 })
             }
 
-            @InternalKmpTorApi
-            @Throws(IllegalStateException::class, IOException::class)
-            public open fun <T: Any?> withApi(block: TorApi.() -> T): T = error("overridden")
-
             /** Can extend to gain access to protected static functions, but never instantiate. */
-            @InternalKmpTorApi
             @Throws(IllegalStateException::class)
             protected constructor(): this(resourceDir = null)
         }
-
-        @InternalKmpTorApi
-        @Throws(IllegalStateException::class, IOException::class)
-        public open fun extract(): GeoipFiles = error("overridden")
 
         // Ensures that only 1 instance of ResourceLoader.Tor is created.
         private companion object: Singleton<Tor>() {
@@ -198,6 +230,35 @@ public abstract class ResourceLoader private constructor() {
                 return this
             }
         }
+    }
+
+    /**
+     * Interface for runtime implementations to use for binding [ResourceLoader]
+     * instances, inhibit any external invocations.
+     *
+     * For example, [Tor.Exec.process] and [Tor.NoExec.withApi] will be bound to
+     * a [RuntimeBinder] upon first invocation. If a different [RuntimeBinder] is
+     * utilized later (from someone who has access to the loader, but not the binder),
+     * an exception is raised. This is in order to export runtime functionality of
+     * to a single implementation.
+     * */
+    public interface RuntimeBinder
+
+    @Volatile
+    private var _binder: KClass<out RuntimeBinder>? = null
+
+    @Throws(IllegalStateException::class)
+    private fun checkBinder(instance: RuntimeBinder) {
+        val clazz = instance::class
+        if (_binder == null) {
+            require(clazz.simpleName != null) {
+                "binder instance must have a fully qualified name. " +
+                "It cannot be an anonymous instance."
+            }
+            _binder = clazz
+        }
+
+        check(clazz == _binder) { "ResourceLoader is already bound to $_binder" }
     }
 
     public final override fun equals(other: Any?): Boolean {
@@ -218,5 +279,11 @@ public abstract class ResourceLoader private constructor() {
         result = result * 31 + this::class.hashCode()
 
         return result
+    }
+
+    protected companion object {
+
+        @JvmSynthetic
+        internal fun ResourceLoader.checkBinderInternal(instance: RuntimeBinder) = checkBinder(instance)
     }
 }
