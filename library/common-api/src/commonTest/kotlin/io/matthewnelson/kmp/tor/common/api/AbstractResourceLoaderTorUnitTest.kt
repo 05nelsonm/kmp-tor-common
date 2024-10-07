@@ -34,6 +34,7 @@ abstract class AbstractResourceLoaderTorUnitTest {
     fun givenAlreadyBound_whenDifferentBinder_thenThrowsException() {
         when (val l = loader()) {
             is ResourceLoader.Tor.Exec -> {
+                println("Testing Tor.Exec")
                 assertFailsWith<IllegalArgumentException> {
                     l.process(object : ResourceLoader.RuntimeBinder {}) { _, _ -> }
                 }
@@ -45,6 +46,7 @@ abstract class AbstractResourceLoaderTorUnitTest {
                 }
             }
             is ResourceLoader.Tor.NoExec -> {
+                println("Testing Tor.NoExec")
                 assertFailsWith<IllegalArgumentException> {
                     l.withApi(object : ResourceLoader.RuntimeBinder {}) { }
                 }
