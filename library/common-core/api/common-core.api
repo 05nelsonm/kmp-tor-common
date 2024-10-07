@@ -91,6 +91,8 @@ public final class io/matthewnelson/kmp/tor/common/core/OSInfo$Companion {
 }
 
 public final class io/matthewnelson/kmp/tor/common/core/PlatformResource {
+	public final field fsFileName Ljava/lang/String;
+	public final field isGzipped Z
 	public synthetic fun <init> (Ljava/lang/Class;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
@@ -126,6 +128,7 @@ public final class io/matthewnelson/kmp/tor/common/core/Resource$Config {
 	public static final fun create (Lkotlin/jvm/functions/Function1;)Lio/matthewnelson/kmp/tor/common/core/Resource$Config;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun extractTo (Ljava/io/File;Z)Ljava/util/Map;
+	public final fun get (Ljava/lang/String;)Lio/matthewnelson/kmp/tor/common/core/Resource;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }

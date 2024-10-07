@@ -8,6 +8,11 @@
 
 // Library unique name: <io.matthewnelson.kmp-tor:common-core>
 final class io.matthewnelson.kmp.tor.common.core/PlatformResource { // io.matthewnelson.kmp.tor.common.core/PlatformResource|null[0]
+    final val fsFileName // io.matthewnelson.kmp.tor.common.core/PlatformResource.fsFileName|{}fsFileName[0]
+        final fun <get-fsFileName>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/PlatformResource.fsFileName.<get-fsFileName>|<get-fsFileName>(){}[0]
+    final val isGzipped // io.matthewnelson.kmp.tor.common.core/PlatformResource.isGzipped|{}isGzipped[0]
+        final fun <get-isGzipped>(): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/PlatformResource.isGzipped.<get-isGzipped>|<get-isGzipped>(){}[0]
+
     final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/PlatformResource.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.core/PlatformResource.hashCode|hashCode(){}[0]
     final fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.core/PlatformResource.toString|toString(){}[0]
@@ -61,6 +66,7 @@ final class io.matthewnelson.kmp.tor.common.core/Resource { // io.matthewnelson.
 
         final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/Resource.Config.equals|equals(kotlin.Any?){}[0]
         final fun extractTo(io.matthewnelson.kmp.file/File, kotlin/Boolean): kotlin.collections/Map<kotlin/String, io.matthewnelson.kmp.file/File> // io.matthewnelson.kmp.tor.common.core/Resource.Config.extractTo|extractTo(io.matthewnelson.kmp.file.File;kotlin.Boolean){}[0]
+        final fun get(kotlin/String): io.matthewnelson.kmp.tor.common.core/Resource // io.matthewnelson.kmp.tor.common.core/Resource.Config.get|get(kotlin.String){}[0]
         final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.core/Resource.Config.hashCode|hashCode(){}[0]
         final fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.core/Resource.Config.toString|toString(){}[0]
 

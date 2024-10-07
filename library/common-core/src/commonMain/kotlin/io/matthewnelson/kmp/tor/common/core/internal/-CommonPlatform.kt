@@ -27,5 +27,9 @@ internal inline fun StringBuilder.appendIndent(
     indent: String = "    "
 ): StringBuilder = append(indent).append(value)
 
+@Suppress("NOTHING_TO_INLINE")
+internal inline fun String.toFinalFileName(): String = substringAfterLast('/')
+    .substringBeforeLast(".gz")
+
 @OptIn(InternalKmpTorApi::class)
 internal expect fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist: Boolean): File

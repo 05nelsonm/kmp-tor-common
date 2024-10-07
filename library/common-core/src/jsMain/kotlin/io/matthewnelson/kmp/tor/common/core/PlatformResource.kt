@@ -19,12 +19,16 @@ package io.matthewnelson.kmp.tor.common.core
 
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.api.KmpTorDsl
+import io.matthewnelson.kmp.tor.common.core.internal.toFinalFileName
 
 @InternalKmpTorApi
 public actual class PlatformResource private constructor(
     internal val moduleName: String,
     internal val resourcePath: String,
 ) {
+
+    public actual val fsFileName: String = resourcePath.toFinalFileName()
+    public actual val isGzipped: Boolean = resourcePath.endsWith(".gz")
 
     @KmpTorDsl
     @InternalKmpTorApi

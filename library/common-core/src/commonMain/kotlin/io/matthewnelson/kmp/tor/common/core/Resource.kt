@@ -47,6 +47,9 @@ public class Resource private constructor(
         public val resources: Set<Resource>,
     ) {
 
+        @Throws(NoSuchElementException::class)
+        public operator fun get(alias: String): Resource = resources.first { it.alias == alias }
+
         @InternalKmpTorApi
         public companion object {
 

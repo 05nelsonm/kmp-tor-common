@@ -21,15 +21,7 @@ import io.matthewnelson.kmp.tor.common.core.Resource
 
 @OptIn(InternalKmpTorApi::class)
 internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist: Boolean): File {
-    var fileName = platform.resourcePath.substringAfterLast('/')
-    val isGzipped = if (fileName.endsWith(".gz")) {
-        fileName = fileName.substringBeforeLast(".gz")
-        true
-    } else {
-        false
-    }
-
-    val destination = destinationDir.resolve(fileName)
+    val destination = destinationDir.resolve(platform.fsFileName)
 
     if (onlyIfDoesNotExist && destination.exists()) return destination
 
@@ -41,7 +33,7 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
 
     var buffer = moduleResource.read()
 
-    if (isGzipped) {
+    if (platform.isGzipped) {
         val gzBuffer = zlib_gunzipSync(buffer.unwrap())
         buffer = Buffer.wrap(gzBuffer)
     }
