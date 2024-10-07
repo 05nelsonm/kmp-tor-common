@@ -22,6 +22,8 @@ import io.matthewnelson.kmp.file.resolve
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @OptIn(InternalKmpTorApi::class)
 class JsResourceUnitTest {
@@ -38,6 +40,9 @@ class JsResourceUnitTest {
                 }
             }
         }
+
+        assertEquals("hello_world", config[alias].platform.fsFileName)
+        assertTrue(config[alias].platform.isGzipped)
 
         val dir = SysTempDir.resolve(randomName())
         val dir2 = dir.resolve(randomName())
@@ -65,6 +70,9 @@ class JsResourceUnitTest {
                 }
             }
         }
+
+        assertEquals("hello_world", config[alias].platform.fsFileName)
+        assertFalse(config[alias].platform.isGzipped)
 
         val dir = SysTempDir.resolve(randomName())
         val dir2 = dir.resolve(randomName())

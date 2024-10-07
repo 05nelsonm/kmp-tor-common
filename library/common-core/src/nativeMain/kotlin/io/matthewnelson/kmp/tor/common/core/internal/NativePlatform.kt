@@ -36,8 +36,8 @@ internal expect val IsWindows: Boolean
 @OptIn(DelicateFileApi::class, ExperimentalForeignApi::class, InternalKmpTorApi::class)
 internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist: Boolean): File {
     val name = platform.nativeResource.name
-    val destFinal = if (name.endsWith(".gz")) {
-        destinationDir.resolve(name.substringBeforeLast(".gz"))
+    val destFinal = if (platform.isGzipped) {
+        destinationDir.resolve(platform.fsFileName)
     } else {
         null
     }

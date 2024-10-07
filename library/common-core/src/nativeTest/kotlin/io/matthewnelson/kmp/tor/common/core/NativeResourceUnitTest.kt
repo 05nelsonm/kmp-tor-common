@@ -55,6 +55,9 @@ class NativeResourceUnitTest {
             }
         }
 
+        assertEquals("LoremIpsum", config[alias].platform.fsFileName)
+        assertTrue(config[alias].platform.isGzipped)
+
         val dir = SysTempDir.resolve(randomName())
         val file = config.extractTo(dir, onlyIfDoesNotExist = false)[alias]!!
 
@@ -82,6 +85,9 @@ class NativeResourceUnitTest {
                 platform { nativeResource = resource_lorem_ipsum }
             }
         }
+
+        assertEquals("lorem_ipsum", config[alias].platform.fsFileName)
+        assertFalse(config[alias].platform.isGzipped)
 
         val dir = SysTempDir.resolve(randomName())
         val dir2 = dir.resolve(randomName())
