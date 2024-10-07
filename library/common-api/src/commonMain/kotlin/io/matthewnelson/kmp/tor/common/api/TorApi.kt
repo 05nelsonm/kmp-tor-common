@@ -18,7 +18,9 @@ package io.matthewnelson.kmp.tor.common.api
 import io.matthewnelson.kmp.tor.common.api.internal.SynchronizedObject
 import io.matthewnelson.kmp.tor.common.api.internal.synchronized
 import kotlin.concurrent.Volatile
+import kotlin.jvm.JvmField
 import kotlin.jvm.JvmName
+import kotlin.jvm.JvmStatic
 
 /**
  * Abstraction for [ResourceLoader.Tor.NoExec] implementations to provide.
@@ -35,53 +37,138 @@ public abstract class TorApi protected constructor() {
     /**
      * Executes tor's `tor_run_main` function.
      *
-     * **NOTE:** `argv[0]` is **always** set to `"tor"` when converting [configurationArgs]
-     * to an array before passing to [torRunMainProtected].
+     * **NOTE:** `argv[0]` is **always** set to `"tor"` when converting [configuration]
+     * to an array before passing them to [torRunMainProtected].
      *
      * **NOTE:** This is a blocking API and should be called from a background thread.
      *
      * e.g.
      *
-     *     torRunMain(listOf("--version"))
      *     torRunMain(listOf("--SocksPort", "0", "--verify-config"))
      *
-     * @param [configurationArgs] Arguments to populate tor's `tor_main_configuration_t`
+     * @param [configuration] Arguments to populate tor's `tor_main_configuration_t`
      *   struct with.
-     * @throws [IllegalArgumentException] if [configurationArgs] is empty, or if
-     *   [torRunMainProtected] returns non-0 and `--verify-config` is present in
-     *   [configurationArgs]
-     * @throws [IllegalStateException] if [isRunning], or if [torRunMainProtected]
-     *   returns non-0 and `--verify-config` is **not** present in [configurationArgs]
+     * @return 0 on successful completion, non-0 on exceptional completion.
      * */
-    @Throws(IllegalArgumentException::class, IllegalStateException::class)
-    public fun torRunMain(configurationArgs: List<String>) {
-        check(!_isRunning) { "tor is running" }
+    public fun torRunMain(configuration: List<String>): Int {
+        return torRunMain(configuration, NO_OP_LOGGER)
+    }
+
+    /**
+     * Executes tor's `tor_run_main` function.
+     *
+     * **NOTE:** `argv[0]` is **always** set to `"tor"` when converting [configuration]
+     * to an array before passing them to [torRunMainProtected].
+     *
+     * **NOTE:** This is a blocking API and should be called from a background thread.
+     *
+     * e.g.
+     *
+     *     torRunMain(listOf("--version"), TorApi.Logger { println(it) })
+     *     torRunMain(listOf("--SocksPort", mySocksPort, "--verify-config"), myLogger)
+     *
+     * @param [configuration] Arguments to populate tor's `tor_main_configuration_t`
+     *   struct with.
+     * @param [log] pass in a [Logger] to receive log messages.
+     * @return 0 on successful completion, non-0 on exceptional completion.
+     * */
+    public fun torRunMain(configuration: List<String>, log: Logger): Int {
+        if (_isRunning) {
+            log.notifyErr("tor is running")
+            return -1
+        }
 
         val args = synchronized(lock) {
-            check(!_isRunning) { "tor is running" }
-            require(configurationArgs.isNotEmpty()) { "args cannot be empty" }
-
+            if (_isRunning) return@synchronized null
             _isRunning = true
-            Array(configurationArgs.size + 1) { i -> if (i == 0) "tor" else configurationArgs[i - 1] }
+            Array(configuration.size + 1) { i ->
+                if (i == 0) "tor" else configuration[i - 1]
+            }
+        }
+
+        if (args == null) {
+            log.notifyErr("tor is running")
+            return -1
         }
 
         val result = try {
-            torRunMainProtected(args)
+            torRunMainProtected(args, log)
         } finally {
             _isRunning = false
         }
 
-        if (result == 0) return
+        return result
+    }
 
-        val msg = "tor_run_main completed exceptionally."
-        throw if (args.contains("--verify-config")) {
-            IllegalArgumentException("$msg ARGS: ${configurationArgs}.")
-        } else {
-            IllegalStateException(msg)
+    /**
+     * Logging to supplement what would normally be observed from process stdout.
+     *
+     * @see [Severity]
+     * */
+    public abstract class Logger {
+
+        /**
+         * The minimum severity for tor to use.
+         *
+         * [tor-man#Log][https://github.com/05nelsonm/kmp-tor-resource/blob/master/docs/tor-man.adoc#Log]
+         * */
+        @JvmField
+        public val minSeverity: Severity
+
+        public constructor(): this(Severity.NOTICE)
+        public constructor(minSeverity: Severity) { this.minSeverity = minSeverity }
+
+        public abstract fun notify(log: String)
+
+        /**
+         * [tor-man#Log][https://github.com/05nelsonm/kmp-tor-resource/blob/master/docs/tor-man.adoc#Log]
+         * */
+        public enum class Severity {
+            DEBUG,
+            INFO,
+            NOTICE,
+            WARN,
+            ERR;
+        }
+
+        public companion object {
+
+            @JvmStatic
+            public operator fun invoke(
+                notify: (log: String) -> Unit,
+            ): Logger = invoke(Severity.NOTICE, notify)
+
+            @JvmStatic
+            public operator fun invoke(
+                severity: Severity,
+                notify: (log: String) -> Unit,
+            ): Logger = object : Logger(severity) {
+                override fun notify(log: String) { notify.invoke(log) }
+            }
         }
     }
 
-    protected abstract fun torRunMainProtected(args: Array<String>): Int
+    protected abstract fun torRunMainProtected(args: Array<String>, log: Logger): Int
 
-    // TODO: Logger
+    /**
+     * Helper for implementations to utilize which formats [msg] to the expected
+     * error output.
+     * */
+    protected fun Logger.notifyErr(msg: String) {
+        val formatted = StringBuilder(msg.length).apply {
+            for (line in msg.lines()) {
+                if (line.isBlank()) continue
+                append("[err] ")
+                appendLine(line.trim())
+            }
+        }.toString()
+
+        if (formatted.isBlank()) return
+
+        notify(formatted)
+    }
+
+    private companion object {
+        private val NO_OP_LOGGER = Logger(Logger.Severity.ERR) {}
+    }
 }

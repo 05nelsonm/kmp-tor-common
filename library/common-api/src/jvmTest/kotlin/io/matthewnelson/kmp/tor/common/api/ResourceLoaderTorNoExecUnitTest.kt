@@ -28,7 +28,7 @@ class ResourceLoaderTorNoExecUnitTest: AbstractResourceLoaderTorUnitTest() {
                 resourceDir = "".toFile(),
                 extract = { GeoipFiles(it.resolve("geoip"), it.resolve("geoip6")) },
                 load = { object : TorApi() {
-                    override fun torRunMainProtected(args: Array<String>): Int {
+                    override fun torRunMainProtected(args: Array<String>, log: Logger): Int {
                         TODO("Not yet implemented")
                     }
                 } },

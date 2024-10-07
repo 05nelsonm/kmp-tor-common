@@ -89,6 +89,10 @@ public abstract class ResourceLoader private constructor() {
              *     }
              *
              * @see [RuntimeBinder]
+             * @throws [IllegalStateException] if [binder] is inappropriate, or there
+             *   was a failure to extract the tor executable from application resources.
+             * @throws [IOException] if there was a failure to extract the tor executable
+             *   from application resources.
              * */
             @Throws(IllegalStateException::class, IOException::class)
             public open fun <T: Any?> process(
@@ -167,6 +171,11 @@ public abstract class ResourceLoader private constructor() {
              *     loaderNoExec.withApi { torRunMain(myTorArgs) }
              *
              * @see [RuntimeBinder]
+             * @throws [IllegalStateException] if [binder] is inappropriate, there
+             *   was a failure to extract libtor from application resources, or
+             *   libtor failed to load.
+             * @throws [IOException] if there was a failure to extract libtor from
+             *   application resources.
              * */
             @Throws(IllegalStateException::class, IOException::class)
             public open fun <T: Any?> withApi(
