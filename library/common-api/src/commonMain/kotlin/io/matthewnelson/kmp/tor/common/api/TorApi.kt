@@ -15,30 +15,47 @@
  **/
 package io.matthewnelson.kmp.tor.common.api
 
-import io.matthewnelson.kmp.tor.common.api.internal.SynchronizedObject
-import io.matthewnelson.kmp.tor.common.api.internal.synchronized
-import kotlin.concurrent.Volatile
-import kotlin.jvm.JvmField
-import kotlin.jvm.JvmName
-import kotlin.jvm.JvmStatic
+import io.matthewnelson.kmp.file.IOException
 
 /**
  * Abstraction for [ResourceLoader.Tor.NoExec] implementations to provide.
  * */
 public abstract class TorApi protected constructor() {
 
-    @get:JvmName("isRunning")
-    public val isRunning: Boolean get() = _isRunning
+    public enum class State {
 
-    @Volatile
-    private var _isRunning: Boolean = false
-    private val lock = SynchronizedObject()
+        /**
+         * Nothing happening. Free to call [torRunMain].
+         * */
+        OFF,
+
+        /**
+         * [torRunMain] is awaiting return.
+         * */
+        STARTING,
+
+        /**
+         * Tor's `tor_run_main` function is running in its thread.
+         * */
+        STARTED,
+
+        /**
+         * Tor's `tor_run_main` function has returned and a call to
+         * [terminateAndAwaitResult] is needed to clean up resources.
+         * */
+        STOPPED,
+    }
 
     /**
-     * Executes tor's `tor_run_main` function.
+     * Executes tor's `tor_run_main` function. If it does not throw, tor has been
+     * started. A following call to [terminateAndAwaitResult] MUST be had before
+     * calling [torRunMain] again.
+     *
+     * Callers are expected to poll [state] for a value of [State.STOPPED], then
+     * call [terminateAndAwaitResult] to release resources.
      *
      * **NOTE:** `argv[0]` is **always** set to `"tor"` when converting [configuration]
-     * to an array before passing them to [torRunMainProtected].
+     * to an array to pass to the implementation.
      *
      * **NOTE:** This is a blocking API and should be called from a background thread.
      *
@@ -48,127 +65,42 @@ public abstract class TorApi protected constructor() {
      *
      * @param [configuration] Arguments to populate tor's `tor_main_configuration_t`
      *   struct with.
-     * @return 0 on successful completion, non-0 on exceptional completion.
+     * @throws [IllegalStateException] If [State] is not [State.OFF], or there was
+     *   an issue with startup.
+     * @throws [IOException] If there was an issue extracting tor to the filesystem.
      * */
-    public fun torRunMain(configuration: List<String>): Int {
-        return torRunMain(configuration, NO_OP_LOGGER)
+    @Throws(IllegalStateException::class, IOException::class)
+    public fun torRunMain(configuration: List<String>) {
+        val args = Array(configuration.size + 1) { i ->
+            if (i == 0) "tor" else configuration[i - 1]
+        }
+
+        torRunMain(args)
     }
 
     /**
-     * Executes tor's `tor_run_main` function.
-     *
-     * **NOTE:** `argv[0]` is **always** set to `"tor"` when converting [configuration]
-     * to an array before passing them to [torRunMainProtected].
+     * Retrieve the current [State] of the [TorApi] implementation.
+     * */
+    public abstract fun state(): State
+
+    /**
+     * Terminates tor (if it is running) and releases resources. This
+     * MUST be called before another invocation of [torRunMain] can be had.
      *
      * **NOTE:** This is a blocking API and should be called from a background thread.
      *
-     * e.g.
-     *
-     *     torRunMain(listOf("--version"), TorApi.Logger { println(it) })
-     *     torRunMain(listOf("--SocksPort", mySocksPort, "--verify-config"), myLogger)
-     *
-     * @param [configuration] Arguments to populate tor's `tor_main_configuration_t`
-     *   struct with.
-     * @param [log] pass in a [Logger] to receive log messages.
-     * @return 0 on successful completion, non-0 on exceptional completion.
+     * @return `-1` if [state] == [State.OFF] (nothing to terminate). Otherwise,
+     *   the exit value of `tor_run_main`.
      * */
-    public fun torRunMain(configuration: List<String>, log: Logger): Int {
-        if (_isRunning) {
-            log.notifyErr("tor is running")
-            return -1
-        }
-
-        val args = synchronized(lock) {
-            if (_isRunning) return@synchronized null
-            _isRunning = true
-            Array(configuration.size + 1) { i ->
-                if (i == 0) "tor" else configuration[i - 1]
-            }
-        }
-
-        if (args == null) {
-            log.notifyErr("tor is running")
-            return -1
-        }
-
-        val result = try {
-            torRunMainProtected(args, log)
-        } finally {
-            _isRunning = false
-        }
-
-        return result
-    }
+    public abstract fun terminateAndAwaitResult(): Int
 
     /**
-     * Logging to supplement what would normally be observed from process stdout.
-     *
-     * @see [Severity]
+     * Design is such that implementations **must** start `tor` in its own thread
+     * and return upon successful startup. Any errors must be thrown as the annotated
+     * exceptions.
      * */
-    public abstract class Logger {
+    @Throws(IllegalStateException::class, IOException::class)
+    protected abstract fun torRunMain(args: Array<String>)
 
-        /**
-         * The minimum severity for tor to use.
-         *
-         * [tor-man#Log][https://github.com/05nelsonm/kmp-tor-resource/blob/master/docs/tor-man.adoc#Log]
-         * */
-        @JvmField
-        public val minSeverity: Severity
-
-        public constructor(): this(Severity.NOTICE)
-        public constructor(minSeverity: Severity) { this.minSeverity = minSeverity }
-
-        public abstract fun notify(log: String)
-
-        /**
-         * [tor-man#Log][https://github.com/05nelsonm/kmp-tor-resource/blob/master/docs/tor-man.adoc#Log]
-         * */
-        public enum class Severity {
-            DEBUG,
-            INFO,
-            NOTICE,
-            WARN,
-            ERR;
-        }
-
-        public companion object {
-
-            @JvmStatic
-            public operator fun invoke(
-                notify: (log: String) -> Unit,
-            ): Logger = invoke(Severity.NOTICE, notify)
-
-            @JvmStatic
-            public operator fun invoke(
-                severity: Severity,
-                notify: (log: String) -> Unit,
-            ): Logger = object : Logger(severity) {
-                override fun notify(log: String) { notify.invoke(log) }
-            }
-        }
-    }
-
-    protected abstract fun torRunMainProtected(args: Array<String>, log: Logger): Int
-
-    /**
-     * Helper for implementations to utilize which formats [msg] to the expected
-     * error output.
-     * */
-    protected fun Logger.notifyErr(msg: String) {
-        val formatted = StringBuilder(msg.length).apply {
-            for (line in msg.lines()) {
-                if (line.isBlank()) continue
-                append("[err] ")
-                appendLine(line.trim())
-            }
-        }.toString()
-
-        if (formatted.isBlank()) return
-
-        notify(formatted)
-    }
-
-    private companion object {
-        private val NO_OP_LOGGER = Logger(Logger.Severity.ERR) {}
-    }
+    public final override fun toString(): String = "TorApi[state=${state()}]"
 }
