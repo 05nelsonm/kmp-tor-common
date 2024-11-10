@@ -19,6 +19,7 @@ open annotation class io.matthewnelson.kmp.tor.common.api/KmpTorDsl : kotlin/Ann
 }
 
 abstract class io.matthewnelson.kmp.tor.common.api/ResourceLoader { // io.matthewnelson.kmp.tor.common.api/ResourceLoader|null[0]
+    final fun <#A1: kotlin/Any?> withLock(io.matthewnelson.kmp.tor.common.api/ResourceLoader.RuntimeBinder? =..., kotlin/Function0<#A1>): #A1 // io.matthewnelson.kmp.tor.common.api/ResourceLoader.withLock|withLock(io.matthewnelson.kmp.tor.common.api.ResourceLoader.RuntimeBinder?;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.api/ResourceLoader.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.api/ResourceLoader.hashCode|hashCode(){}[0]
 
@@ -46,48 +47,28 @@ abstract class io.matthewnelson.kmp.tor.common.api/ResourceLoader { // io.matthe
             final object Companion // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.NoExec.Companion|null[0]
         }
     }
-
-    final object Companion // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Companion|null[0]
 }
 
 abstract class io.matthewnelson.kmp.tor.common.api/TorApi { // io.matthewnelson.kmp.tor.common.api/TorApi|null[0]
     constructor <init>() // io.matthewnelson.kmp.tor.common.api/TorApi.<init>|<init>(){}[0]
 
-    final val isRunning // io.matthewnelson.kmp.tor.common.api/TorApi.isRunning|{}isRunning[0]
-        final fun <get-isRunning>(): kotlin/Boolean // io.matthewnelson.kmp.tor.common.api/TorApi.isRunning.<get-isRunning>|<get-isRunning>(){}[0]
+    abstract fun state(): io.matthewnelson.kmp.tor.common.api/TorApi.State // io.matthewnelson.kmp.tor.common.api/TorApi.state|state(){}[0]
+    abstract fun terminateAndAwaitResult(): kotlin/Int // io.matthewnelson.kmp.tor.common.api/TorApi.terminateAndAwaitResult|terminateAndAwaitResult(){}[0]
+    abstract fun torRunMain(kotlin/Array<kotlin/String>) // io.matthewnelson.kmp.tor.common.api/TorApi.torRunMain|torRunMain(kotlin.Array<kotlin.String>){}[0]
+    final fun toString(): kotlin/String // io.matthewnelson.kmp.tor.common.api/TorApi.toString|toString(){}[0]
+    final fun torRunMain(kotlin.collections/List<kotlin/String>) // io.matthewnelson.kmp.tor.common.api/TorApi.torRunMain|torRunMain(kotlin.collections.List<kotlin.String>){}[0]
 
-    abstract fun torRunMainProtected(kotlin/Array<kotlin/String>, io.matthewnelson.kmp.tor.common.api/TorApi.Logger): kotlin/Int // io.matthewnelson.kmp.tor.common.api/TorApi.torRunMainProtected|torRunMainProtected(kotlin.Array<kotlin.String>;io.matthewnelson.kmp.tor.common.api.TorApi.Logger){}[0]
-    final fun (io.matthewnelson.kmp.tor.common.api/TorApi.Logger).notifyErr(kotlin/String) // io.matthewnelson.kmp.tor.common.api/TorApi.notifyErr|notifyErr@io.matthewnelson.kmp.tor.common.api.TorApi.Logger(kotlin.String){}[0]
-    final fun torRunMain(kotlin.collections/List<kotlin/String>): kotlin/Int // io.matthewnelson.kmp.tor.common.api/TorApi.torRunMain|torRunMain(kotlin.collections.List<kotlin.String>){}[0]
-    final fun torRunMain(kotlin.collections/List<kotlin/String>, io.matthewnelson.kmp.tor.common.api/TorApi.Logger): kotlin/Int // io.matthewnelson.kmp.tor.common.api/TorApi.torRunMain|torRunMain(kotlin.collections.List<kotlin.String>;io.matthewnelson.kmp.tor.common.api.TorApi.Logger){}[0]
+    final enum class State : kotlin/Enum<io.matthewnelson.kmp.tor.common.api/TorApi.State> { // io.matthewnelson.kmp.tor.common.api/TorApi.State|null[0]
+        enum entry OFF // io.matthewnelson.kmp.tor.common.api/TorApi.State.OFF|null[0]
+        enum entry STARTED // io.matthewnelson.kmp.tor.common.api/TorApi.State.STARTED|null[0]
+        enum entry STARTING // io.matthewnelson.kmp.tor.common.api/TorApi.State.STARTING|null[0]
+        enum entry STOPPED // io.matthewnelson.kmp.tor.common.api/TorApi.State.STOPPED|null[0]
 
-    abstract class Logger { // io.matthewnelson.kmp.tor.common.api/TorApi.Logger|null[0]
-        constructor <init>() // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.<init>|<init>(){}[0]
-        constructor <init>(io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity) // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.<init>|<init>(io.matthewnelson.kmp.tor.common.api.TorApi.Logger.Severity){}[0]
+        final val entries // io.matthewnelson.kmp.tor.common.api/TorApi.State.entries|#static{}entries[0]
+            final fun <get-entries>(): kotlin.enums/EnumEntries<io.matthewnelson.kmp.tor.common.api/TorApi.State> // io.matthewnelson.kmp.tor.common.api/TorApi.State.entries.<get-entries>|<get-entries>#static(){}[0]
 
-        final val minSeverity // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.minSeverity|{}minSeverity[0]
-            final fun <get-minSeverity>(): io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.minSeverity.<get-minSeverity>|<get-minSeverity>(){}[0]
-
-        abstract fun notify(kotlin/String) // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.notify|notify(kotlin.String){}[0]
-
-        final enum class Severity : kotlin/Enum<io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity> { // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity|null[0]
-            enum entry DEBUG // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity.DEBUG|null[0]
-            enum entry ERR // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity.ERR|null[0]
-            enum entry INFO // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity.INFO|null[0]
-            enum entry NOTICE // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity.NOTICE|null[0]
-            enum entry WARN // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity.WARN|null[0]
-
-            final val entries // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity.entries|#static{}entries[0]
-                final fun <get-entries>(): kotlin.enums/EnumEntries<io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity> // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity.entries.<get-entries>|<get-entries>#static(){}[0]
-
-            final fun valueOf(kotlin/String): io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity.valueOf|valueOf#static(kotlin.String){}[0]
-            final fun values(): kotlin/Array<io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity> // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity.values|values#static(){}[0]
-        }
-
-        final object Companion { // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Companion|null[0]
-            final fun invoke(io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Severity, kotlin/Function1<kotlin/String, kotlin/Unit>): io.matthewnelson.kmp.tor.common.api/TorApi.Logger // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Companion.invoke|invoke(io.matthewnelson.kmp.tor.common.api.TorApi.Logger.Severity;kotlin.Function1<kotlin.String,kotlin.Unit>){}[0]
-            final fun invoke(kotlin/Function1<kotlin/String, kotlin/Unit>): io.matthewnelson.kmp.tor.common.api/TorApi.Logger // io.matthewnelson.kmp.tor.common.api/TorApi.Logger.Companion.invoke|invoke(kotlin.Function1<kotlin.String,kotlin.Unit>){}[0]
-        }
+        final fun valueOf(kotlin/String): io.matthewnelson.kmp.tor.common.api/TorApi.State // io.matthewnelson.kmp.tor.common.api/TorApi.State.valueOf|valueOf#static(kotlin.String){}[0]
+        final fun values(): kotlin/Array<io.matthewnelson.kmp.tor.common.api/TorApi.State> // io.matthewnelson.kmp.tor.common.api/TorApi.State.values|values#static(){}[0]
     }
 }
 

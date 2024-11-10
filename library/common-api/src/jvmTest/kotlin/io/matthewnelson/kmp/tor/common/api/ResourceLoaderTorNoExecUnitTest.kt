@@ -27,10 +27,12 @@ class ResourceLoaderTorNoExecUnitTest: AbstractResourceLoaderTorUnitTest() {
             fun get(): Tor = getOrCreate(
                 resourceDir = "".toFile(),
                 extract = { GeoipFiles(it.resolve("geoip"), it.resolve("geoip6")) },
-                load = { object : TorApi() {
-                    override fun torRunMainProtected(args: Array<String>, log: Logger): Int {
-                        TODO("Not yet implemented")
+                create = { object : TorApi() {
+                    override fun torRunMain(args: Array<String>) {
+                        throw IllegalStateException("Not yet implemented")
                     }
+                    override fun terminateAndAwaitResult(): Int = 0
+                    override fun state(): State = State.OFF
                 } },
                 toString = { "" }
             )

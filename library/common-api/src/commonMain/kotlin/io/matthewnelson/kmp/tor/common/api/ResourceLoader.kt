@@ -24,7 +24,6 @@ import io.matthewnelson.kmp.tor.common.api.internal.synchronized
 import kotlin.concurrent.Volatile
 import kotlin.jvm.JvmField
 import kotlin.jvm.JvmStatic
-import kotlin.jvm.JvmSynthetic
 import kotlin.reflect.KClass
 
 /**
@@ -97,13 +96,16 @@ public abstract class ResourceLoader private constructor() {
             @Throws(IllegalStateException::class, IOException::class)
             public open fun <T: Any?> process(
                 binder: RuntimeBinder,
-                block: (tor: File, configureEnv: MutableMap<String, String>.() -> Unit) -> T
+                block: (tor: File, configureEnv: MutableMap<String, String>.() -> Unit) -> T,
             ): T = error("overridden")
 
             protected companion object {
 
                 /**
                  * For implementors of [Exec].
+                 *
+                 * **NOTE:** `extract` and `extractTor` are always invoked
+                 * while holding a lock and are synchronized.
                  * */
                 @JvmStatic
                 protected fun getOrCreate(
@@ -115,23 +117,16 @@ public abstract class ResourceLoader private constructor() {
                 ): Tor = Tor.Companion.getOrCreate(create = {
                     object : Exec(resourceDir) {
 
-                        private val lock = SynchronizedObject()
-
                         @Throws(IllegalStateException::class, IOException::class)
-                        override fun extract(): GeoipFiles = synchronized(lock) { extract(this.resourceDir) }
+                        override fun extract(): GeoipFiles = withLock { extract(this.resourceDir) }
 
                         @Throws(IllegalStateException::class, IOException::class)
                         override fun <T: Any?> process(
                             binder: RuntimeBinder,
-                            block: (tor: File, configureEnv: MutableMap<String, String>.() -> Unit) -> T
+                            block: (tor: File, configureEnv: MutableMap<String, String>.() -> Unit) -> T,
                         ): T {
                             val dir = this.resourceDir
-
-                            val tor = synchronized(lock) {
-                                checkBinderInternal(binder)
-                                extractTor(dir)
-                            }
-
+                            val tor = withLock(binder = binder) { extractTor(dir) }
                             return block(tor) { configureEnv(dir) }
                         }
 
@@ -168,7 +163,10 @@ public abstract class ResourceLoader private constructor() {
              *
              * e.g.
              *
-             *     loaderNoExec.withApi { torRunMain(myTorArgs) }
+             *     loaderNoExec.withApi(myBinder) {
+             *         torRunMain(myTorArgs)
+             *         assertEquals(TorApi.State.STARTED, state())
+             *     }
              *
              * @see [RuntimeBinder]
              * @throws [IllegalStateException] if [binder] is inappropriate, there
@@ -187,31 +185,34 @@ public abstract class ResourceLoader private constructor() {
 
                 /**
                  * For implementors of [NoExec].
+                 *
+                 * **NOTE:** `extract` and `create` are always invoked
+                 * while holding a lock and are synchronized. The resulting
+                 * [TorApi] reference from `create` is cached so a single
+                 * instance is only every created, and subsequently reused.
                  * */
                 @JvmStatic
                 protected fun getOrCreate(
                     resourceDir: File,
                     extract: (resourceDir: File) -> GeoipFiles,
-                    load: () -> TorApi,
+                    create: () -> TorApi,
                     toString: (resourceDir: File) -> String,
                 ): Tor = Tor.Companion.getOrCreate(create = {
                     object : NoExec(resourceDir) {
 
                         @Volatile
                         private var _api: TorApi? = null
-                        private val lock = SynchronizedObject()
 
                         @Throws(IllegalStateException::class, IOException::class)
-                        override fun extract(): GeoipFiles = synchronized(lock) { extract(this.resourceDir) }
+                        override fun extract(): GeoipFiles = withLock { extract(this.resourceDir) }
 
                         @Throws(IllegalStateException::class, IOException::class)
                         override fun <T: Any?> withApi(
                             binder: RuntimeBinder,
                             block: TorApi.() -> T,
                         ): T {
-                            val api = synchronized(lock) {
-                                checkBinderInternal(binder)
-                                _api ?: load().also { _api = it }
+                            val api = withLock(binder = binder) {
+                                _api ?: create().also { _api = it }
                             }
 
                             return block(api)
@@ -255,19 +256,42 @@ public abstract class ResourceLoader private constructor() {
 
     @Volatile
     private var _binder: KClass<out RuntimeBinder>? = null
+    private val lock = SynchronizedObject()
 
-    @Throws(IllegalStateException::class)
-    private fun checkBinder(instance: RuntimeBinder) {
-        val clazz = instance::class
-        if (_binder == null) {
-            require(clazz.simpleName != null) {
-                "binder instance must have a fully qualified name. " +
-                "It cannot be an anonymous instance."
+    protected fun <T: Any?> withLock(binder: RuntimeBinder? = null, block: () -> T): T {
+        var error: Exception? = null
+
+        val result: T? = synchronized(lock) {
+            if (binder == null) return@synchronized block()
+
+            val clazz = binder::class
+
+            if (_binder == null) {
+                if (clazz.simpleName == null) {
+                    error = IllegalArgumentException(
+                        "binder instance must have a fully qualified name. " +
+                        "It cannot be an anonymous instance."
+                    )
+                    return@synchronized null
+                } else {
+                    _binder = clazz
+                }
+            } else {
+                if (clazz != _binder) {
+                    error = IllegalStateException(
+                        "ResourceLoader is already bound to $_binder"
+                    )
+                    return@synchronized null
+                }
             }
-            _binder = clazz
+
+            block()
         }
 
-        check(clazz == _binder) { "ResourceLoader is already bound to $_binder" }
+        error?.let { throw it }
+
+        @Suppress("UNCHECKED_CAST")
+        return result as T
     }
 
     public final override fun equals(other: Any?): Boolean {
@@ -288,11 +312,5 @@ public abstract class ResourceLoader private constructor() {
         result = result * 31 + this::class.hashCode()
 
         return result
-    }
-
-    protected companion object {
-
-        @JvmSynthetic
-        internal fun ResourceLoader.checkBinderInternal(instance: RuntimeBinder) = checkBinder(instance)
     }
 }
