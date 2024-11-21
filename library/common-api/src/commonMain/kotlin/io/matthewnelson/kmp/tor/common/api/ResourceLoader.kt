@@ -83,7 +83,7 @@ public abstract class ResourceLoader private constructor() {
              *     val builder = loaderExec.process(myBinder) { tor, configureEnv ->
              *         Process.Builder(command = tor.path)
              *             .args(myTorArgs)
-             *             .environment { configureEnv() }
+             *             .environment(configureEnv)
              *             .stdin(Stdio.Null)
              *     }
              *
@@ -195,7 +195,7 @@ public abstract class ResourceLoader private constructor() {
                 protected fun getOrCreate(
                     resourceDir: File,
                     extract: (resourceDir: File) -> GeoipFiles,
-                    create: () -> TorApi,
+                    create: (resourceDir: File) -> TorApi,
                     toString: (resourceDir: File) -> String,
                 ): Tor = Tor.Companion.getOrCreate(create = {
                     object : NoExec(resourceDir) {
@@ -212,7 +212,7 @@ public abstract class ResourceLoader private constructor() {
                             block: TorApi.() -> T,
                         ): T {
                             val api = withLock(binder = binder) {
-                                _api ?: create().also { _api = it }
+                                _api ?: create(this.resourceDir).also { _api = it }
                             }
 
                             return block(api)
