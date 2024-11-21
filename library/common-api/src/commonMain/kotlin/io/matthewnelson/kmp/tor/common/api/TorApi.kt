@@ -19,6 +19,16 @@ import io.matthewnelson.kmp.file.IOException
 
 /**
  * Abstraction for [ResourceLoader.Tor.NoExec] implementations to provide.
+ *
+ * Implementations of [TorApi] **must** support restart capabilities. The only
+ * reliable way to do this with the `tor` C library is dynamic loading/unloading
+ * before/after each invocation of `tor_run_main`. This is due to static variables
+ * in `tor` that are never uninitialized, requiring that it be unloaded from memory
+ * via `dlclose` (or `FreeLibrary` for `Windows`) after `tor_run_main` completes
+ * and all necessary cleanup has been performed. If `tor` is not unloaded after
+ * completion of `tor_run_main`, successive calls to [torRunMain] run the highly
+ * probable risk of encountering a segmentation fault. The API design of [TorApi]
+ * was conceived with this necessity in mind.
  * */
 public abstract class TorApi protected constructor() {
 
@@ -97,7 +107,7 @@ public abstract class TorApi protected constructor() {
     /**
      * Design is such that implementations **must** start `tor` in its own thread
      * and return upon successful startup. Any errors must be thrown as the annotated
-     * exceptions.
+     * exceptions and [state] must be reset to [State.OFF].
      * */
     @Throws(IllegalStateException::class, IOException::class)
     protected abstract fun torRunMain(args: Array<String>)

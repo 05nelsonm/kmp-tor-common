@@ -47,7 +47,7 @@ public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$NoE
 	protected static final field Companion Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor$NoExec$Companion;
 	protected fun <init> ()V
 	public synthetic fun <init> (Ljava/io/File;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	protected static final fun getOrCreate (Ljava/io/File;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function1;)Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor;
+	protected static final fun getOrCreate (Ljava/io/File;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function1;)Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Tor;
 	public fun withApi (Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$RuntimeBinder;Lkotlin/jvm/functions/Function1;)Ljava/lang/Object;
 }
 
