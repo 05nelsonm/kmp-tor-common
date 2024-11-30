@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Version 2.1.0 (2024-11-30)
+ - Rename repository to `kmp-tor-common` [[#45]][45]
+ - Rename modules/packages to use `io.matthewnelson.kmp.tor.common...` prefix [[#45]][45]
+ - Replace `ResourceInstaller` with `ResourceLoader.Tor.Exec` and `ResourceLoader.Tor.NoExec` 
+   abstractions [[#49]][49], [[#53]][53], [[#54]][54], [[#55]][55], [[#57]][57], [[#59]][59], 
+   [[#61]][61], [[#63]][63], [[#66]][66], [[#67]][67], [[#69]][69], [[#71]][71]
+
 ## Version 2.0.1 (2024-09-01)
  - Updates `encoding` to `2.2.2` [[#42]][42]
  - Updates `immutable` to `0.1.4` [[#42]][42]
@@ -79,3 +86,17 @@
 [38]: https://github.com/05nelsonm/kmp-tor-common/pull/38
 [39]: https://github.com/05nelsonm/kmp-tor-common/pull/39
 [42]: https://github.com/05nelsonm/kmp-tor-common/pull/42
+[45]: https://github.com/05nelsonm/kmp-tor-common/pull/45
+[49]: https://github.com/05nelsonm/kmp-tor-common/pull/49
+[53]: https://github.com/05nelsonm/kmp-tor-common/pull/53
+[54]: https://github.com/05nelsonm/kmp-tor-common/pull/54
+
+[55]: https://github.com/05nelsonm/kmp-tor-common/pull/55
+[57]: https://github.com/05nelsonm/kmp-tor-common/pull/57
+[59]: https://github.com/05nelsonm/kmp-tor-common/pull/59
+[61]: https://github.com/05nelsonm/kmp-tor-common/pull/61
+[63]: https://github.com/05nelsonm/kmp-tor-common/pull/63
+[66]: https://github.com/05nelsonm/kmp-tor-common/pull/66
+[67]: https://github.com/05nelsonm/kmp-tor-common/pull/67
+[69]: https://github.com/05nelsonm/kmp-tor-common/pull/69
+[71]: https://github.com/05nelsonm/kmp-tor-common/pull/71
