@@ -258,6 +258,7 @@ public abstract class ResourceLoader private constructor() {
     private var _binder: KClass<out RuntimeBinder>? = null
     private val lock = SynchronizedObject()
 
+    /** @suppress */
     protected fun <T: Any?> withLock(binder: RuntimeBinder? = null, block: () -> T): T {
         var error: Exception? = null
 
@@ -294,6 +295,7 @@ public abstract class ResourceLoader private constructor() {
         return result as T
     }
 
+    /** @suppress */
     public final override fun equals(other: Any?): Boolean {
         if (other == null) return false
         if (other === this) return true
@@ -301,6 +303,7 @@ public abstract class ResourceLoader private constructor() {
         return other.hashCode() == hashCode()
     }
 
+    /** @suppress */
     public final override fun hashCode(): Int {
         var result = 17
 
