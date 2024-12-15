@@ -1,0 +1,153 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Tor</title>
+<link href="../../../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../../../index.html">
+                            kmp-tor-common
+                    </a>            </div>
+            <div class="library-version">2.1.0
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector common-like" data-active="" data-filter=":library:common-api:dokkaHtmlPartial/commonMain">common</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="common-api::io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor///PointingToDeclaration//-1983990372">
+  <div class="breadcrumbs"><a href="../../../index.html">common-api</a><span class="delimiter">/</span><a href="../../index.html">io.matthewnelson.kmp.tor.common.api</a><span class="delimiter">/</span><a href="../index.html">ResourceLoader</a><span class="delimiter">/</span><span class="current">Tor</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Tor</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:common-api:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">sealed </span><span class="token keyword">class </span><a href="index.html">Tor</a> : <a href="../index.html">ResourceLoader</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/05nelsonm/kmp-tor-common/tree/master/library/common-api/src/commonMain/kotlin/io/matthewnelson/kmp/tor/common/api/ResourceLoader.kt#L48">source</a>)</span></span></div><p class="paragraph">Model for loading <code class="lang-kotlin">tor</code> resources.</p><p class="paragraph">API design is such that only 1 <a href="index.html">Tor</a> loader can be instantiated. Any attempts to instantiate a second will result in the return of the first one that was created. This is to inhibit any attempts to switch between <a href="-exec/index.html">Exec</a> and <a href="-no-exec/index.html">NoExec</a> during runtime, as well as ensure resources are only extracted to a single location.</p><h4 class="">See also</h4><div class="table"><div class="table-row" data-filterable-current=":library:common-api:dokkaHtmlPartial/commonMain" data-filterable-set=":library:common-api:dokkaHtmlPartial/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-exec/index.html"><span>Resource</span><wbr><span>Loader.</span><wbr><span>Tor.</span><wbr><span>Exec</span></a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":library:common-api:dokkaHtmlPartial/commonMain" data-filterable-set=":library:common-api:dokkaHtmlPartial/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-no-exec/index.html"><span>Resource</span><wbr><span>Loader.</span><wbr><span>Tor.</span><wbr><span>NoExec</span></a></div></span></div><div></div></div></div></div><h4 class="">Inheritors</h4><div class="table"><div class="table-row" data-filterable-current=":library:common-api:dokkaHtmlPartial/commonMain" data-filterable-set=":library:common-api:dokkaHtmlPartial/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-exec/index.html">Exec</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":library:common-api:dokkaHtmlPartial/commonMain" data-filterable-set=":library:common-api:dokkaHtmlPartial/commonMain"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-no-exec/index.html">NoExec</a></div></span></div><div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-210193462%2FClasslikes%2F-1983990372" anchor-label="Exec" id="-210193462%2FClasslikes%2F-1983990372" data-filterable-set=":library:common-api:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":library:common-api:dokkaHtmlPartial/commonMain" data-filterable-set=":library:common-api:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-exec/index.html"><span><span>Exec</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-210193462%2FClasslikes%2F-1983990372"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:common-api:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-exec/index.html">Exec</a> : <a href="index.html">ResourceLoader.Tor</a></div><div class="brief "><p class="paragraph">Model for running <code class="lang-kotlin">tor</code> as an executable within a child process.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1789165321%2FClasslikes%2F-1983990372" anchor-label="NoExec" id="1789165321%2FClasslikes%2F-1983990372" data-filterable-set=":library:common-api:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":library:common-api:dokkaHtmlPartial/commonMain" data-filterable-set=":library:common-api:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-no-exec/index.html"><span>No</span><wbr><span><span>Exec</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1789165321%2FClasslikes%2F-1983990372"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:common-api:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="-no-exec/index.html">NoExec</a> : <a href="index.html">ResourceLoader.Tor</a></div><div class="brief "><p class="paragraph">Model for running <code class="lang-kotlin">tor</code> within your application's memory space.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-813613547%2FProperties%2F-1983990372" anchor-label="resourceDir" id="-813613547%2FProperties%2F-1983990372" data-filterable-set=":library:common-api:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":library:common-api:dokkaHtmlPartial/commonMain" data-filterable-set=":library:common-api:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="resource-dir.html"><span>resource</span><wbr><span><span>Dir</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-813613547%2FProperties%2F-1983990372"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:common-api:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="kotlin.jvm/JvmField///PointingToDeclaration/"><span class="token annotation builtin">JvmField</span></span></div></div><span class="token keyword">val </span><a href="resource-dir.html">resourceDir</a><span class="token operator">: </span><a href="https://kmp-file.matthewnelson.io/library/file/io.matthewnelson.kmp.file/-file/index.html">File</a></div><div class="brief "><p class="paragraph">The absolute path to the directory for which resources will be extracted.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-238498573%2FFunctions%2F-1983990372" anchor-label="extract" id="-238498573%2FFunctions%2F-1983990372" data-filterable-set=":library:common-api:dokkaHtmlPartial/commonMain"></a>
+          <div class="table-row" data-filterable-current=":library:common-api:dokkaHtmlPartial/commonMain" data-filterable-set=":library:common-api:dokkaHtmlPartial/commonMain">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="extract.html"><span><span>extract</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-238498573%2FFunctions%2F-1983990372"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:common-api:dokkaHtmlPartial/commonMain"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="extract.html"><span class="token function">extract</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../-geoip-files/index.html">GeoipFiles</a></div><div class="brief "><p class="paragraph">Extract tor's geoip &amp; geoip6 files from application resources to <a href="resource-dir.html">resourceDir</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
