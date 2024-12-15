@@ -20,6 +20,8 @@ plugins {
 kmpConfiguration {
     configureShared(java9ModuleName = "io.matthewnelson.kmp.tor.common.api", publish = true) {
         common {
+            pluginIds("dokka")
+
             sourceSetMain {
                 dependencies {
                     api(libs.kmp.file)

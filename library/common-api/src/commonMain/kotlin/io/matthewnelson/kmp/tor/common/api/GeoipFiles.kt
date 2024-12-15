@@ -27,12 +27,14 @@ public class GeoipFiles(geoip: File, geoip6: File) {
     @JvmField
     public val geoip6: File = geoip6.absoluteFile.normalize()
 
+    /** @suppress */
     public override fun equals(other: Any?): Boolean {
         return  other is GeoipFiles
                 && other.geoip == geoip
                 && other.geoip6 == geoip6
     }
 
+    /** @suppress */
     public override fun hashCode(): Int {
         var result = 17
         result = result * 42 + geoip.hashCode()
@@ -40,6 +42,7 @@ public class GeoipFiles(geoip: File, geoip6: File) {
         return result
     }
 
+    /** @suppress */
     public override fun toString(): String = buildString {
         appendLine("GeoipFiles: [")
         append("    geoip: ")

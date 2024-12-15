@@ -112,5 +112,6 @@ public abstract class TorApi protected constructor() {
     @Throws(IllegalStateException::class, IOException::class)
     protected abstract fun torRunMain(args: Array<String>)
 
+    /** @suppress */
     public final override fun toString(): String = "TorApi[state=${state()}]"
 }
