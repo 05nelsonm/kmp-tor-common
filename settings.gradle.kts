@@ -12,7 +12,9 @@ dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
     repositories { mavenCentral() }
 
-    val vCatalogKC = File("gradle/libs.versions.toml")
+    val vCatalogKC = rootDir
+        .resolve("gradle")
+        .resolve("libs.versions.toml")
         .readLines()
         .first { it.startsWith("kotlincrypto-catalog = \"") }
         .substringAfter('"')
