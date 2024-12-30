@@ -1,5 +1,6 @@
 [versions]
 androidx-startup = "1.1.1"
+androidx-test-runner = "1.5.2"
 
 encoding = "2.3.0"
 
@@ -14,11 +15,9 @@ immutable = "0.1.4"
 
 kmp-file = "0.1.1"
 
-kotlincrypto-hash = "0.5.3"
+# Utilized from settings.gradle.kts
+kotlincrypto-catalog = "0.5.6"
 kotlinx-atomicfu = "0.24.0"
-
-# tests
-androidx-test-runner = "1.5.2"
 
 [libraries]
 androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
@@ -35,7 +34,6 @@ gradle-publish-maven = { module = "com.vanniktech:gradle-maven-publish-plugin", 
 immutable-collections = { module = "io.matthewnelson.immutable:collections", version.ref = "immutable" }
 kmp-file = { module = "io.matthewnelson.kmp-file:file", version.ref = "kmp-file" }
 
-kotlincrypto-hash-sha2 = { module = "org.kotlincrypto.hash:sha2", version.ref = "kotlincrypto-hash" }
 kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "kotlinx-atomicfu" }
 
 # tests
