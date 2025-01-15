@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## Version 2.1.1 (2025-01-15)
+ - Adds Dokka documentation at `https://kmp-tor-common.matthewnelson.io` [[#73]][73]
+ - Updates `encoding` to `2.3.1` [[#75]][75]
+ - Updates `kotlincrypto.hash` to `0.6.0` [[#76]][76]
+
 ## Version 2.1.0 (2024-11-30)
  - Rename repository to `kmp-tor-common` [[#45]][45]
  - Rename modules/packages to use `io.matthewnelson.kmp.tor.common...` prefix [[#45]][45]
@@ -100,3 +105,6 @@
 [67]: https://github.com/05nelsonm/kmp-tor-common/pull/67
 [69]: https://github.com/05nelsonm/kmp-tor-common/pull/69
 [71]: https://github.com/05nelsonm/kmp-tor-common/pull/71
+[73]: https://github.com/05nelsonm/kmp-tor-common/pull/73
+[75]: https://github.com/05nelsonm/kmp-tor-common/pull/75
+[76]: https://github.com/05nelsonm/kmp-tor-common/pull/76
