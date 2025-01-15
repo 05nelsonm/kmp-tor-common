@@ -14,9 +14,7 @@ gradle-publish-maven = "0.29.0"
 immutable = "0.1.4"
 
 kmp-file = "0.1.1"
-
-# Utilized from settings.gradle.kts
-kotlincrypto-catalog = "0.5.6"
+kotlincrypto-catalog = "0.6.0" # Utilized from settings.gradle.kts
 kotlinx-atomicfu = "0.24.0"
 
 [libraries]
@@ -32,8 +30,8 @@ gradle-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 gradle-publish-maven = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "gradle-publish-maven" }
 
 immutable-collections = { module = "io.matthewnelson.immutable:collections", version.ref = "immutable" }
-kmp-file = { module = "io.matthewnelson.kmp-file:file", version.ref = "kmp-file" }
 
+kmp-file = { module = "io.matthewnelson.kmp-file:file", version.ref = "kmp-file" }
 kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "kotlinx-atomicfu" }
 
 # tests
