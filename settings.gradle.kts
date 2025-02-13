@@ -16,7 +16,7 @@ dependencyResolutionManagement {
         .resolve("gradle")
         .resolve("libs.versions.toml")
         .readLines()
-        .first { it.startsWith("kotlincrypto-catalog = \"") }
+        .first { it.startsWith("kotlincrypto-catalog ") }
         .substringAfter('"')
         .substringBeforeLast('"')
 

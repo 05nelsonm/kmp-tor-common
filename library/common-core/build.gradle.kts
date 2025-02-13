@@ -33,6 +33,7 @@ kmpConfiguration {
             sourceSetMain {
                 dependencies {
                     api(project(":library:common-api"))
+                    // TODO: Switch to implementation
                     api(libs.immutable.collections)
                 }
             }
