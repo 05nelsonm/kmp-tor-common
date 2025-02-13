@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Version 2.1.2 (2025-02-13)
+- Updates `kotlincrypto.hash` to `0.6.1` [[#77]][77]
+
 ## Version 2.1.1 (2025-01-15)
  - Adds Dokka documentation at `https://kmp-tor-common.matthewnelson.io` [[#73]][73]
  - Updates `encoding` to `2.3.1` [[#75]][75]
@@ -108,3 +111,4 @@
 [73]: https://github.com/05nelsonm/kmp-tor-common/pull/73
 [75]: https://github.com/05nelsonm/kmp-tor-common/pull/75
 [76]: https://github.com/05nelsonm/kmp-tor-common/pull/76
+[77]: https://github.com/05nelsonm/kmp-tor-common/pull/77
