@@ -47,7 +47,7 @@ Common components for [kmp-tor][url-kmp-tor] and [kmp-tor-resource][url-kmp-tor-
 [badge-atomicfu]: https://img.shields.io/badge/kotlinx.atomicfu-0.24.0-blue.svg?logo=kotlin
 [badge-encoding]: https://img.shields.io/badge/encoding-2.3.1-blue.svg?style=flat
 [badge-immutable]: https://img.shields.io/badge/immutable-0.1.4-blue.svg?style=flat
-[badge-kotlincrypto-hash]: https://img.shields.io/badge/KotlinCrypto.hash-0.6.0-blue.svg?style=flat
+[badge-kotlincrypto-hash]: https://img.shields.io/badge/KotlinCrypto.hash-0.6.1-blue.svg?style=flat
 [badge-kotlin]: https://img.shields.io/badge/kotlin-1.9.24-blue.svg?logo=kotlin
 [badge-kmp-file]: https://img.shields.io/badge/kmp--file-0.1.1-blue.svg?style=flat
 
