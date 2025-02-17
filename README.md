@@ -29,14 +29,14 @@ Common components for [kmp-tor][url-kmp-tor] and [kmp-tor-resource][url-kmp-tor-
 
 - `:library:common-api` is the publicly exposed API for which consumers of [kmp-tor][url-kmp-tor] 
   and [kmp-tor-resource][url-kmp-tor-resource] interact.
-- `:library:common-lib-locator` is a module not meant for public consumption.
-    - [kmp-tor-resource][url-kmp-tor-resource] modules utilizes this for Android to retrieve 
-      the native library paths of executable resources which are extracted to the device
-      upon application install.
 - `:library:common-core` is a module not meant for public consumption.
     - All classes and functions are annotated with `@InternalKmpTorApi`.
     - This is the workhorse which enables packaging and extraction of Jvm/Js/Native resources
       for installation to the filesystem. See [kmp-tor-resource][url-kmp-tor-resource].
+- `:library:common-lib-locator` is a module not meant for public consumption.
+    - [kmp-tor-resource][url-kmp-tor-resource] modules utilizes this for Android to retrieve
+      the native library paths of executable resources which are extracted to the device
+      upon application install.
 
 <!-- TAG_VERSION -->
 [badge-latest-release]: https://img.shields.io/badge/latest--release-2.1.2-blue.svg?style=flat

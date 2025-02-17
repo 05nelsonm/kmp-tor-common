@@ -72,7 +72,7 @@ final class io.matthewnelson.kmp.tor.common.core/Resource { // io.matthewnelson.
 
         final class Builder { // io.matthewnelson.kmp.tor.common.core/Resource.Config.Builder|null[0]
             final fun error(kotlin/String): io.matthewnelson.kmp.tor.common.core/Resource.Config.Builder // io.matthewnelson.kmp.tor.common.core/Resource.Config.Builder.error|error(kotlin.String){}[0]
-            final fun resource(kotlin/String, kotlin/Boolean =..., kotlin/Function1<io.matthewnelson.kmp.tor.common.core/Resource.Builder, kotlin/Unit>): io.matthewnelson.kmp.tor.common.core/Resource.Config.Builder // io.matthewnelson.kmp.tor.common.core/Resource.Config.Builder.resource|resource(kotlin.String;kotlin.Boolean;kotlin.Function1<io.matthewnelson.kmp.tor.common.core.Resource.Builder,kotlin.Unit>){}[0]
+            final fun resource(kotlin/String, kotlin/Boolean = ..., kotlin/Function1<io.matthewnelson.kmp.tor.common.core/Resource.Builder, kotlin/Unit>): io.matthewnelson.kmp.tor.common.core/Resource.Config.Builder // io.matthewnelson.kmp.tor.common.core/Resource.Config.Builder.resource|resource(kotlin.String;kotlin.Boolean;kotlin.Function1<io.matthewnelson.kmp.tor.common.core.Resource.Builder,kotlin.Unit>){}[0]
         }
 
         final object Companion { // io.matthewnelson.kmp.tor.common.core/Resource.Config.Companion|null[0]

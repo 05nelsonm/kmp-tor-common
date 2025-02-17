@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Matthew Nelson
+ * Copyright (c) 2023 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,13 @@ allprojects {
 
     repositories {
         mavenCentral()
+
+        if (version.toString().endsWith("-SNAPSHOT")) {
+            // Only allow snapshot dependencies for non-release versions.
+            // This would cause a build failure if attempting to make a release
+            // while depending on a -SNAPSHOT version (such as core).
+            maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+        }
     }
 }
 
@@ -45,8 +52,6 @@ plugins.withType<YarnPlugin> {
 }
 
 apiValidation {
-    // Only enable when selectively enabled targets are not being passed via cli.
-    // See https://github.com/Kotlin/binary-compatibility-validator/issues/269
     @OptIn(kotlinx.validation.ExperimentalBCVApi::class)
     klib.enabled = findProperty("KMP_TARGETS") == null
 

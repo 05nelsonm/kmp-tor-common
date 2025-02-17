@@ -31,7 +31,6 @@ public expect class OSInfo {
 
     public companion object {
 
-        @JvmField
         public val INSTANCE: OSInfo
     }
 }

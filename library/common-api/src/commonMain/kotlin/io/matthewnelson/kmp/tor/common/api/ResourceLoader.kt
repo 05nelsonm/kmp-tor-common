@@ -231,6 +231,7 @@ public abstract class ResourceLoader private constructor() {
         // Ensures that only 1 instance of ResourceLoader.Tor is created.
         private companion object: Singleton<Tor>() {
 
+            @Suppress("WRONG_INVOCATION_KIND")
             @OptIn(ExperimentalContracts::class)
             @Throws(IllegalStateException::class)
             private inline fun File?.checkNotNull(subclassName: () -> String): File {

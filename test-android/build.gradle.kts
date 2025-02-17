@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021 Matthew Nelson
+ * Copyright (c) 2023 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,9 +17,7 @@ plugins {
     id("configuration")
 }
 
-repositories {
-    google()
-}
+repositories { google() }
 
 kmpConfiguration {
     configure {
