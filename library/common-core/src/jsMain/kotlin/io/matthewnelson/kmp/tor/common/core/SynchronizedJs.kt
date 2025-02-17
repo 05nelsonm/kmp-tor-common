@@ -19,8 +19,16 @@ package io.matthewnelson.kmp.tor.common.core
 
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 
+@PublishedApi
+@InternalKmpTorApi
+internal val SYNCHRONIZED_OBJECT: SynchronizedObject by lazy { SynchronizedObject() }
+
 @InternalKmpTorApi
 public actual typealias SynchronizedObject = Any
+
+@InternalKmpTorApi
+@Suppress("NOTHING_TO_INLINE", "KotlinRedundantDiagnosticSuppress")
+public actual inline fun synchronizedObject(): SynchronizedObject = SYNCHRONIZED_OBJECT
 
 @PublishedApi
 @OptIn(InternalKmpTorApi::class)

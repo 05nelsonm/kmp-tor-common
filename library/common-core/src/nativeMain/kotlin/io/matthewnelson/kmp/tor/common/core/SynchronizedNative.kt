@@ -23,6 +23,10 @@ import kotlinx.atomicfu.locks.withLock as _withLock
 @InternalKmpTorApi
 public actual typealias SynchronizedObject = kotlinx.atomicfu.locks.SynchronizedObject
 
+@InternalKmpTorApi
+@Suppress("NOTHING_TO_INLINE", "KotlinRedundantDiagnosticSuppress")
+public actual inline fun synchronizedObject(): SynchronizedObject = SynchronizedObject()
+
 @PublishedApi
 @OptIn(InternalKmpTorApi::class)
 internal actual inline fun <T: Any?> synchronizedImpl(

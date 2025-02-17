@@ -27,6 +27,10 @@ import kotlin.jvm.JvmName
 @InternalKmpTorApi
 public expect open class SynchronizedObject()
 
+@InternalKmpTorApi
+@Suppress("NOTHING_TO_INLINE", "KotlinRedundantDiagnosticSuppress")
+public expect inline fun synchronizedObject(): SynchronizedObject
+
 @PublishedApi
 @OptIn(InternalKmpTorApi::class)
 internal expect inline fun <T: Any?> synchronizedImpl(

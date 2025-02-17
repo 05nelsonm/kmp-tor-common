@@ -149,5 +149,6 @@ public final class io/matthewnelson/kmp/tor/common/core/SynchronizedCommon {
 
 public final class io/matthewnelson/kmp/tor/common/core/SynchronizedJvm {
 	public static final fun synchronizedImpl (Ljava/lang/Object;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
+	public static final fun synchronizedObject ()Ljava/lang/Object;
 }
 
