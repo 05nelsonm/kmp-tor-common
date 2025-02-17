@@ -25,7 +25,13 @@ import kotlin.contracts.contract
 import kotlin.jvm.JvmName
 
 @InternalKmpTorApi
-public expect open class SynchronizedObject()
+public expect open class SynchronizedObject
+@Deprecated("Use synchronizedObject()", ReplaceWith("synchronizedObject()"))
+public constructor()
+
+@InternalKmpTorApi
+@Suppress("NOTHING_TO_INLINE", "KotlinRedundantDiagnosticSuppress")
+public expect inline fun synchronizedObject(): SynchronizedObject
 
 @PublishedApi
 @OptIn(InternalKmpTorApi::class)

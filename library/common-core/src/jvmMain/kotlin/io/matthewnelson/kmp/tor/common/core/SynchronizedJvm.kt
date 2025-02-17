@@ -23,6 +23,10 @@ import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 @InternalKmpTorApi
 public actual typealias SynchronizedObject = Any
 
+@InternalKmpTorApi
+@Suppress("NOTHING_TO_INLINE", "KotlinRedundantDiagnosticSuppress")
+public actual inline fun synchronizedObject(): SynchronizedObject = SynchronizedObject()
+
 @PublishedApi
 @OptIn(InternalKmpTorApi::class)
 internal actual inline fun <T: Any?> synchronizedImpl(
