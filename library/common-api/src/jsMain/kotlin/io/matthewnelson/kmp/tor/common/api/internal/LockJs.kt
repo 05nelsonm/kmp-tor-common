@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Matthew Nelson
+ * Copyright (c) 2025 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:JvmName("SynchronizedCommon")
 @file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
 package io.matthewnelson.kmp.tor.common.api.internal
 
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
-import kotlin.jvm.JvmName
+private val LOCK by lazy { Lock() }
 
-internal expect open class SynchronizedObject()
+internal actual class Lock
 
-internal expect inline fun <T: Any?> synchronizedImpl(
-    lock: SynchronizedObject,
-    block: () -> T
-): T
+internal actual fun newLock(): Lock = LOCK
 
-@OptIn(ExperimentalContracts::class)
-internal inline fun <T: Any?> synchronized(
-    lock: SynchronizedObject,
-    block: () -> T
-): T {
-    contract {
-        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
-    }
-
-    return synchronizedImpl(lock, block)
-}
+internal actual inline fun <T: Any?> Lock.withLockImpl(block: () -> T): T = block()

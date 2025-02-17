@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Matthew Nelson
+ * Copyright (c) 2025 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,8 @@
 
 package io.matthewnelson.kmp.tor.common.api.internal
 
-@Suppress("ACTUAL_WITHOUT_EXPECT")
-internal actual typealias SynchronizedObject = Any
+internal actual class Lock
 
-internal actual inline fun <T: Any?> synchronizedImpl(
-    lock: SynchronizedObject,
-    block: () -> T,
-): T = block()
+internal actual fun newLock(): Lock = Lock()
+
+internal actual inline fun <T: Any?> Lock.withLockImpl(block: () -> T): T = kotlin.synchronized(this, block)

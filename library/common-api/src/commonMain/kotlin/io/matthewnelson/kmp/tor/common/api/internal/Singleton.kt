@@ -16,16 +16,34 @@
 package io.matthewnelson.kmp.tor.common.api.internal
 
 import kotlin.concurrent.Volatile
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
+
+/**
+ * Internal reminder to not do stupid things
+ * */
+@MustBeDocumented
+@Target(AnnotationTarget.PROPERTY)
+@Retention(AnnotationRetention.BINARY)
+@RequiresOptIn("Use Singleton.getOrCreate extension")
+internal annotation class UseGetOrCreate
 
 internal open class Singleton<T: Any> internal constructor() {
 
     @Volatile
-    private var instance: T? = null
-    private val lock = SynchronizedObject()
+    @UseGetOrCreate
+    internal var instance: T? = null
+    @UseGetOrCreate
+    internal val lock = newLock()
+}
 
-    internal fun getOrCreate(create: () -> T): T {
-        return instance ?: synchronized(lock) {
-            instance ?: create().also { instance = it }
-        }
+@OptIn(ExperimentalContracts::class)
+internal inline fun <T: Any> Singleton<T>.getOrCreate(create: () -> T): T {
+    contract { callsInPlace(create, InvocationKind.AT_MOST_ONCE) }
+
+    @OptIn(UseGetOrCreate::class)
+    return instance ?: lock.withLock {
+        instance ?: create().also { instance = it }
     }
 }
