@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Matthew Nelson
+ * Copyright (c) 2025 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,15 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:JvmName("SynchronizedJvm")
 @file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
 package io.matthewnelson.kmp.tor.common.api.internal
 
-@Suppress("ACTUAL_WITHOUT_EXPECT")
-internal actual typealias SynchronizedObject = Any
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
-internal actual inline fun <T: Any?> synchronizedImpl(
-    lock: SynchronizedObject,
-    block: () -> T
-): T = kotlin.synchronized(lock, block)
+internal expect class Lock
+
+internal expect fun newLock(): Lock
+
+@OptIn(ExperimentalContracts::class)
+@Suppress("WRONG_INVOCATION_KIND", "LEAKED_IN_PLACE_LAMBDA")
+internal inline fun <T: Any?> Lock.withLock(block: () -> T): T {
+    contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
+    return withLockImpl(block)
+}
+
+internal expect inline fun <T: Any?> Lock.withLockImpl(block: () -> T): T

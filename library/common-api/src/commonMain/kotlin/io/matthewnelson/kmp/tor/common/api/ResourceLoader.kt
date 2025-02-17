@@ -18,10 +18,13 @@
 package io.matthewnelson.kmp.tor.common.api
 
 import io.matthewnelson.kmp.file.*
+import io.matthewnelson.kmp.tor.common.api.internal.*
 import io.matthewnelson.kmp.tor.common.api.internal.Singleton
-import io.matthewnelson.kmp.tor.common.api.internal.SynchronizedObject
-import io.matthewnelson.kmp.tor.common.api.internal.synchronized
+import io.matthewnelson.kmp.tor.common.api.internal.newLock
 import kotlin.concurrent.Volatile
+import kotlin.contracts.ExperimentalContracts
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 import kotlin.jvm.JvmField
 import kotlin.jvm.JvmStatic
 import kotlin.reflect.KClass
@@ -73,7 +76,7 @@ public abstract class ResourceLoader private constructor() {
          *
          * @see [NoExec]
          * */
-        public abstract class Exec private constructor(directory: File?): Tor(directory.checkNotNull("Exec")) {
+        public abstract class Exec private constructor(directory: File?): Tor(directory.checkNotNull { "Exec" }) {
 
             /**
              * Lambda for building and/or spawning a process.
@@ -118,7 +121,7 @@ public abstract class ResourceLoader private constructor() {
                     object : Exec(resourceDir) {
 
                         @Throws(IllegalStateException::class, IOException::class)
-                        override fun extract(): GeoipFiles = withLock { extract(this.resourceDir) }
+                        override fun extract(): GeoipFiles = withBinderLock(null) { extract(this.resourceDir) }
 
                         @Throws(IllegalStateException::class, IOException::class)
                         override fun <T: Any?> process(
@@ -126,7 +129,7 @@ public abstract class ResourceLoader private constructor() {
                             block: (tor: File, configureEnv: MutableMap<String, String>.() -> Unit) -> T,
                         ): T {
                             val dir = this.resourceDir
-                            val tor = withLock(binder = binder) { extractTor(dir) }
+                            val tor = withBinderLock(binder) { extractTor(dir) }
                             return block(tor) { configureEnv(dir) }
                         }
 
@@ -156,7 +159,7 @@ public abstract class ResourceLoader private constructor() {
          *
          * @see [Exec]
          * */
-        public abstract class NoExec private constructor(resourceDir: File?): Tor(resourceDir.checkNotNull("NoExec")) {
+        public abstract class NoExec private constructor(resourceDir: File?): Tor(resourceDir.checkNotNull { "NoExec" }) {
 
             /**
              * Lambda for running tor via [TorApi].
@@ -204,17 +207,14 @@ public abstract class ResourceLoader private constructor() {
                         private var _api: TorApi? = null
 
                         @Throws(IllegalStateException::class, IOException::class)
-                        override fun extract(): GeoipFiles = withLock { extract(this.resourceDir) }
+                        override fun extract(): GeoipFiles = withBinderLock(null) { extract(this.resourceDir) }
 
                         @Throws(IllegalStateException::class, IOException::class)
                         override fun <T: Any?> withApi(
                             binder: RuntimeBinder,
                             block: TorApi.() -> T,
                         ): T {
-                            val api = withLock(binder = binder) {
-                                _api ?: create(this.resourceDir).also { _api = it }
-                            }
-
+                            val api = withBinderLock(binder) { _api ?: create(this.resourceDir).also { _api = it } }
                             return block(api)
                         }
 
@@ -231,9 +231,15 @@ public abstract class ResourceLoader private constructor() {
         // Ensures that only 1 instance of ResourceLoader.Tor is created.
         private companion object: Singleton<Tor>() {
 
-            private fun File?.checkNotNull(subclassName: String): File {
+            @OptIn(ExperimentalContracts::class)
+            @Throws(IllegalStateException::class)
+            private inline fun File?.checkNotNull(subclassName: () -> String): File {
+                contract {
+                    callsInPlace(subclassName, InvocationKind.AT_MOST_ONCE)
+                }
+
                 check(this != null) {
-                    "ResourceLoader.Tor.$subclassName cannot be instantiated. " +
+                    "ResourceLoader.Tor.${subclassName()} cannot be instantiated. " +
                     "Use a private constructor and static factory function 'getOrCreate'."
                 }
 
@@ -256,43 +262,48 @@ public abstract class ResourceLoader private constructor() {
 
     @Volatile
     private var _binder: KClass<out RuntimeBinder>? = null
-    private val lock = SynchronizedObject()
+    private val lock = newLock()
 
     /** @suppress */
-    protected fun <T: Any?> withLock(binder: RuntimeBinder? = null, block: () -> T): T {
-        var error: Exception? = null
+    protected companion object {
 
-        val result: T? = synchronized(lock) {
-            if (binder == null) return@synchronized block()
-
-            val clazz = binder::class
-
-            if (_binder == null) {
-                if (clazz.simpleName == null) {
-                    error = IllegalArgumentException(
-                        "binder instance must have a fully qualified name. " +
-                        "It cannot be an anonymous instance."
-                    )
-                    return@synchronized null
-                } else {
-                    _binder = clazz
-                }
-            } else {
-                if (clazz != _binder) {
-                    error = IllegalStateException(
-                        "ResourceLoader is already bound to $_binder"
-                    )
-                    return@synchronized null
-                }
+        @OptIn(ExperimentalContracts::class)
+        @Throws(IllegalArgumentException::class, IllegalStateException::class)
+        internal inline fun <T: Any?> ResourceLoader.withBinderLock(binder: RuntimeBinder?, block: () -> T): T {
+            contract {
+                callsInPlace(block, InvocationKind.AT_MOST_ONCE)
             }
 
-            block()
+            var e: Exception? = null
+
+            val result = lock.withLock lock@ {
+                if (binder == null) return@lock block()
+                val clazz = binder::class
+                if (_binder == null) {
+                    if (clazz.simpleName == null) {
+                        e = IllegalArgumentException(
+                            "binder instance must have a fully qualified name. " +
+                            "It cannot be an anonymous instance."
+                        )
+                        return@lock null
+                    } else {
+                        _binder = clazz
+                    }
+                } else {
+                    if (clazz != _binder) {
+                        e = IllegalStateException("ResourceLoader is already bound to $_binder")
+                        return@lock null
+                    }
+                }
+
+                block()
+            }
+
+            e?.let { throw it }
+
+            @Suppress("UNCHECKED_CAST")
+            return result as T
         }
-
-        error?.let { throw it }
-
-        @Suppress("UNCHECKED_CAST")
-        return result as T
     }
 
     /** @suppress */

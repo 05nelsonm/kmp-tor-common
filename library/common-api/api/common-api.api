@@ -17,10 +17,12 @@ public abstract interface annotation class io/matthewnelson/kmp/tor/common/api/K
 }
 
 public abstract class io/matthewnelson/kmp/tor/common/api/ResourceLoader {
+	protected static final field Companion Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$Companion;
 	public final fun equals (Ljava/lang/Object;)Z
 	public final fun hashCode ()I
-	protected final fun withLock (Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$RuntimeBinder;Lkotlin/jvm/functions/Function0;)Ljava/lang/Object;
-	public static synthetic fun withLock$default (Lio/matthewnelson/kmp/tor/common/api/ResourceLoader;Lio/matthewnelson/kmp/tor/common/api/ResourceLoader$RuntimeBinder;Lkotlin/jvm/functions/Function0;ILjava/lang/Object;)Ljava/lang/Object;
+}
+
+protected final class io/matthewnelson/kmp/tor/common/api/ResourceLoader$Companion {
 }
 
 public abstract interface class io/matthewnelson/kmp/tor/common/api/ResourceLoader$RuntimeBinder {

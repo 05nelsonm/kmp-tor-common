@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Matthew Nelson
+ * Copyright (c) 2025 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,11 @@
 
 package io.matthewnelson.kmp.tor.common.api.internal
 
-import kotlinx.atomicfu.locks.withLock as _withLock
+import kotlinx.atomicfu.locks.SynchronizedObject
+import kotlinx.atomicfu.locks.synchronized
 
-@Suppress("ACTUAL_WITHOUT_EXPECT")
-internal actual typealias SynchronizedObject = kotlinx.atomicfu.locks.SynchronizedObject
+internal actual class Lock: SynchronizedObject()
 
-internal actual inline fun <T: Any?> synchronizedImpl(
-    lock: SynchronizedObject,
-    block: () -> T
-): T = lock._withLock(block)
+internal actual fun newLock(): Lock = Lock()
+
+internal actual inline fun <T: Any?> Lock.withLockImpl(block: () -> T): T = synchronized(this, block)

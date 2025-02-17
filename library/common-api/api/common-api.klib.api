@@ -19,7 +19,6 @@ open annotation class io.matthewnelson.kmp.tor.common.api/KmpTorDsl : kotlin/Ann
 }
 
 abstract class io.matthewnelson.kmp.tor.common.api/ResourceLoader { // io.matthewnelson.kmp.tor.common.api/ResourceLoader|null[0]
-    final fun <#A1: kotlin/Any?> withLock(io.matthewnelson.kmp.tor.common.api/ResourceLoader.RuntimeBinder? =..., kotlin/Function0<#A1>): #A1 // io.matthewnelson.kmp.tor.common.api/ResourceLoader.withLock|withLock(io.matthewnelson.kmp.tor.common.api.ResourceLoader.RuntimeBinder?;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]
     final fun equals(kotlin/Any?): kotlin/Boolean // io.matthewnelson.kmp.tor.common.api/ResourceLoader.equals|equals(kotlin.Any?){}[0]
     final fun hashCode(): kotlin/Int // io.matthewnelson.kmp.tor.common.api/ResourceLoader.hashCode|hashCode(){}[0]
 
@@ -47,6 +46,8 @@ abstract class io.matthewnelson.kmp.tor.common.api/ResourceLoader { // io.matthe
             final object Companion // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Tor.NoExec.Companion|null[0]
         }
     }
+
+    final object Companion // io.matthewnelson.kmp.tor.common.api/ResourceLoader.Companion|null[0]
 }
 
 abstract class io.matthewnelson.kmp.tor.common.api/TorApi { // io.matthewnelson.kmp.tor.common.api/TorApi|null[0]
