@@ -40,8 +40,9 @@ if (CHECK_PUBLICATION != null) {
         "common-api",
         "common-lib-locator",
         "common-core",
-        "common-test",
     ).forEach { module ->
         include(":library:$module")
     }
+
+    include(":test-android")
 }
