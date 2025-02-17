@@ -16,7 +16,7 @@ gradle-publish-maven        = "0.30.0"
 immutable                   = "0.1.4"
 
 kmp-file                    = "0.1.1"
-kotlincrypto-catalog        = "0.6.1" # Utilized from settings.gradle.kts
+kotlincrypto-catalog        = "0.7.0-SNAPSHOT" # Utilized from settings.gradle.kts
 kotlinx-atomicfu            = "0.27.0"
 
 [libraries]

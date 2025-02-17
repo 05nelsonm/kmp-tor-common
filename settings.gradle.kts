@@ -8,9 +8,21 @@ pluginManagement {
     }
 }
 
+@Suppress("PrivatePropertyName")
+private val VERSION_NAME: String? by settings
+
 dependencyResolutionManagement {
     @Suppress("UnstableApiUsage")
-    repositories { mavenCentral() }
+    repositories {
+        mavenCentral()
+
+        if (VERSION_NAME?.endsWith("-SNAPSHOT") == true) {
+            // Only allow snapshot dependencies for non-release versions.
+            // This would cause a build failure if attempting to make a release
+            // while depending on a -SNAPSHOT version (such as core).
+            maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+        }
+    }
 
     val vCatalogKC = rootDir
         .resolve("gradle")
@@ -38,8 +50,8 @@ if (CHECK_PUBLICATION != null) {
 } else {
     listOf(
         "common-api",
-        "common-lib-locator",
         "common-core",
+        "common-lib-locator",
     ).forEach { module ->
         include(":library:$module")
     }
