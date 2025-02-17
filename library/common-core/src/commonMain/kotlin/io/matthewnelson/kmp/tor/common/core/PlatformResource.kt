@@ -19,7 +19,6 @@ package io.matthewnelson.kmp.tor.common.core
 
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.api.KmpTorDsl
-import kotlin.jvm.JvmField
 
 /**
  * Platform specific arguments for Jvm/Js/Native resources
@@ -31,13 +30,11 @@ public expect class PlatformResource {
      * The name of the file that will be utilized when extracting
      * the resource to the filesystem.
      * */
-    @JvmField
     public val fsFileName: String
 
     /**
      * If the resource ends with .gz or not.
      * */
-    @JvmField
     public val isGzipped: Boolean
 
     @KmpTorDsl

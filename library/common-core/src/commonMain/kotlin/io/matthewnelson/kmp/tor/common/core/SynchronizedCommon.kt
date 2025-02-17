@@ -42,13 +42,11 @@ internal expect inline fun <T: Any?> synchronizedImpl(
 
 @InternalKmpTorApi
 @OptIn(ExperimentalContracts::class)
+@Suppress("WRONG_INVOCATION_KIND", "LEAKED_IN_PLACE_LAMBDA")
 public inline fun <T: Any?> synchronized(
     lock: SynchronizedObject,
     block: () -> T
 ): T {
-    contract {
-        callsInPlace(block, InvocationKind.EXACTLY_ONCE)
-    }
-
+    contract { callsInPlace(block, InvocationKind.EXACTLY_ONCE) }
     return synchronizedImpl(lock, block)
 }
