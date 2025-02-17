@@ -15,7 +15,7 @@ immutable                   = "0.1.4"
 
 kmp-file                    = "0.1.1"
 kotlincrypto-catalog        = "0.6.1" # Utilized from settings.gradle.kts
-kotlinx-atomicfu            = "0.24.0"
+kotlinx-atomicfu            = "0.27.0"
 
 [libraries]
 androidx-startup-runtime    = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
