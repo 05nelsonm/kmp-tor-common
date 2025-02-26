@@ -39,17 +39,17 @@ Common components for [kmp-tor][url-kmp-tor] and [kmp-tor-resource][url-kmp-tor-
       upon application install.
 
 <!-- TAG_VERSION -->
-[badge-latest-release]: https://img.shields.io/badge/latest--release-2.1.2-blue.svg?style=flat
+[badge-latest-release]: https://img.shields.io/badge/latest--release-2.2.0-blue.svg?style=flat
 [badge-license]: https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat
 
 <!-- TAG_DEPENDENCIES -->
 [badge-androidx-startup]: https://img.shields.io/badge/androidx.startup-1.1.1-6EDB8D.svg?logo=android
-[badge-atomicfu]: https://img.shields.io/badge/kotlinx.atomicfu-0.24.0-blue.svg?logo=kotlin
-[badge-encoding]: https://img.shields.io/badge/encoding-2.3.1-blue.svg?style=flat
-[badge-immutable]: https://img.shields.io/badge/immutable-0.1.4-blue.svg?style=flat
-[badge-kotlincrypto-hash]: https://img.shields.io/badge/KotlinCrypto.hash-0.6.1-blue.svg?style=flat
-[badge-kotlin]: https://img.shields.io/badge/kotlin-1.9.24-blue.svg?logo=kotlin
-[badge-kmp-file]: https://img.shields.io/badge/kmp--file-0.1.1-blue.svg?style=flat
+[badge-atomicfu]: https://img.shields.io/badge/kotlinx.atomicfu-0.27.0-blue.svg?logo=kotlin
+[badge-encoding]: https://img.shields.io/badge/encoding-2.4.0-blue.svg?style=flat
+[badge-immutable]: https://img.shields.io/badge/immutable-0.2.0-blue.svg?style=flat
+[badge-kotlincrypto-hash]: https://img.shields.io/badge/KotlinCrypto.hash-0.7.0-blue.svg?style=flat
+[badge-kotlin]: https://img.shields.io/badge/kotlin-2.1.10-blue.svg?logo=kotlin
+[badge-kmp-file]: https://img.shields.io/badge/kmp--file-0.2.0-blue.svg?style=flat
 
 <!-- TAG_PLATFORMS -->
 [badge-platform-android]: http://img.shields.io/badge/-android-6EDB8D.svg?style=flat

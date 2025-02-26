@@ -1,7 +1,17 @@
 # CHANGELOG
 
+## Version 2.2.0 (2025-02-26)
+ - Updates `kotlin` to `2.1.10` [[#83]][83]
+ - Updates `android-gradle-plugin` to `8.7.3` [[#83]][83]
+ - Updates `encoding` to `2.4.0` [[#83]][83]
+ - Updates `immutable` to `0.2.0` [[#83]][83]
+ - Updates `kmp-file` to `0.2.0` [[#83]][83]
+ - Updates `kotlinx.atomicfu` to `0.27.0` [[#83]][83]
+ - Updates `kotlincrypto.hash` to `0.7.0` [[#83]][83]
+ - Performance improvements to internal lock/synchronization usage [[#79]][79] [[#82]][82]
+
 ## Version 2.1.2 (2025-02-13)
-- Updates `kotlincrypto.hash` to `0.6.1` [[#77]][77]
+ - Updates `kotlincrypto.hash` to `0.6.1` [[#77]][77]
 
 ## Version 2.1.1 (2025-01-15)
  - Adds Dokka documentation at `https://kmp-tor-common.matthewnelson.io` [[#73]][73]
@@ -25,16 +35,16 @@
  - Updates jvm `.kotlin_module` with truly unique file name. [[#42]][42]
 
 ## Version 2.0.0 (2024-06-15)
- - Updates `atomicfu` to `0.24.0` [[#39]][39]
+ - Updates `kotlin` to `1.9.24` [[#39]][39]
  - Updates `immutable` to `0.1.3` [[#39]][39]
  - Updates `kmp-file` to `0.1.0` [[#39]][39]
- - Updates `kotlin` to `1.9.24` [[#39]][39]
+ - Updates `kotlinx.atomicfu` to `0.24.0` [[#39]][39]
 
 ## Version 2.0.0-alpha10 (2024-03-19)
+ - Updates `kotlin` to `1.9.23` [[#38]][38]
  - Updates `encoding` to `2.2.1` [[#38]][38]
  - Updates `immutable` to `0.1.2` [[#38]][38]
  - Updates `kmp-file` to `0.1.0-beta03` [[#38]][38]
- - Updates `kotlin` to `1.9.23` [[#38]][38]
  - Updates `kotlincrypto.hash` to `0.5.1` [[#38]][38]
  - Adds support for `JPMS` via Multi-Release Jar [[#38]][38]
 
@@ -44,8 +54,8 @@
 
 ## Version 2.0.0-alpha08 (2024-02-25)
  - Updates `kotlin` to `1.9.22` [[#30]][30]
- - Updates `atomicfu` to `0.23.2` [[#30]][30]
  - Updates `kmp-file` to `0.1.0-beta01` [[#30]][30]
+ - Updates `kotlinx.atomicfu` to `0.23.2` [[#30]][30]
  - Removes `ProcessRunner` and associated `Process` extension functions 
    for jvm from the "public" API [[#31]][31]
  - Reduces `minSdk` for Android to `15` [[#33]][33]
@@ -98,7 +108,6 @@
 [49]: https://github.com/05nelsonm/kmp-tor-common/pull/49
 [53]: https://github.com/05nelsonm/kmp-tor-common/pull/53
 [54]: https://github.com/05nelsonm/kmp-tor-common/pull/54
-
 [55]: https://github.com/05nelsonm/kmp-tor-common/pull/55
 [57]: https://github.com/05nelsonm/kmp-tor-common/pull/57
 [59]: https://github.com/05nelsonm/kmp-tor-common/pull/59
@@ -112,3 +121,6 @@
 [75]: https://github.com/05nelsonm/kmp-tor-common/pull/75
 [76]: https://github.com/05nelsonm/kmp-tor-common/pull/76
 [77]: https://github.com/05nelsonm/kmp-tor-common/pull/77
+[79]: https://github.com/05nelsonm/kmp-tor-common/pull/79
+[82]: https://github.com/05nelsonm/kmp-tor-common/pull/82
+[83]: https://github.com/05nelsonm/kmp-tor-common/pull/83
