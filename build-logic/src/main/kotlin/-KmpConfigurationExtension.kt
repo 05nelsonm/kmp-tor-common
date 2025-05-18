@@ -69,7 +69,10 @@ fun KmpConfigurationExtension.configureShared(
             }
         }
 
-        if (publish) kotlin { explicitApi() }
+        kotlin {
+            if (publish) explicitApi()
+            jvmToolchain(8)
+        }
 
         action.execute(this)
     }
