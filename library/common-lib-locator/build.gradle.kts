@@ -43,7 +43,17 @@ kmpConfiguration {
             }
         }
 
-        common { pluginIds("publication") }
+        androidNativeAll()
+
+        common {
+            pluginIds("publication")
+
+            sourceSetMain {
+                dependencies {
+                    api(libs.kmp.file)
+                }
+            }
+        }
 
         kotlin { explicitApi() }
     }

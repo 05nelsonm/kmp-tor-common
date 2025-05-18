@@ -13,31 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+
 package io.matthewnelson.kmp.tor.common.lib.locator
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
+import android.os.Build
+import android.system.Os
 import androidx.startup.AppInitializer
+import io.matthewnelson.kmp.tor.common.lib.locator.internal.ENV_KEY_NATIVE_LIBRARY_DIR
 import java.io.File
 
 /**
- * Utility for obtaining an absolute path to native libraries
- * within an application's [ApplicationInfo.nativeLibraryDir].
+ * Utility for obtaining an absolute path to native libraries within an
+ * application's [ApplicationInfo.nativeLibraryDir].
+ *
+ * Is initialized on devices prior to [android.app.Application.onCreate]
+ * via its [androidx.startup.Initializer]. Upon such initialization, also
+ * sets a native environment variable via [Os.setenv] which is utilized
+ * by the Android Native [KmpTorLibLocator] implementation.
  *
  * @see [Companion.isInitialized]
  * @see [Companion.find]
  * @see [Companion.require]
  * */
-public class KmpTorLibLocator private constructor() {
+public actual class KmpTorLibLocator private actual constructor() {
 
     private var nativeLibraryDir: File? = null
 
-    public companion object {
+    public actual companion object {
 
         private val INSTANCE = KmpTorLibLocator()
 
+        /**
+         * If the instance of [KmpTorLibLocator] has been initialized yet.
+         * */
         @JvmStatic
-        public fun isInitialized(): Boolean = INSTANCE.nativeLibraryDir != null
+        public actual fun isInitialized(): Boolean = INSTANCE.nativeLibraryDir != null
 
         /**
          * Find a native lib.
@@ -50,16 +63,15 @@ public class KmpTorLibLocator private constructor() {
          * @return [File] or null if not found
          * */
         @JvmStatic
-        public fun find(libName: String): File? {
-            INSTANCE.nativeLibraryDir?.walkTopDown()
-                ?.iterator()
-                ?.forEach { file ->
-                    if (file.isFile && file.name == libName) {
-                        return file
-                    }
-                }
+        public actual fun find(libName: String): File? {
+            val lib = INSTANCE.nativeLibraryDir
+                ?.resolve(libName)
+                ?: return null
 
-            return null
+            if (!lib.exists()) return null
+            if (!lib.isFile) return null
+
+            return lib
         }
 
         /**
@@ -75,7 +87,7 @@ public class KmpTorLibLocator private constructor() {
          * */
         @JvmStatic
         @Throws(IllegalStateException::class)
-        public fun require(libName: String): File = find(libName)
+        public actual fun require(libName: String): File = find(libName)
             ?: throw IllegalStateException("Failed to find lib[$libName]")
 
         @JvmStatic
@@ -99,7 +111,11 @@ public class KmpTorLibLocator private constructor() {
         override fun create(context: Context): KmpTorLibLocator {
             val appInitializer = AppInitializer.getInstance(context)
             check(appInitializer.isEagerlyInitialized(javaClass)) { errorMsg() }
-            INSTANCE.nativeLibraryDir = File(context.applicationInfo.nativeLibraryDir)
+            val dir = File(context.applicationInfo.nativeLibraryDir).absoluteFile
+            INSTANCE.nativeLibraryDir = dir
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                Os.setenv(ENV_KEY_NATIVE_LIBRARY_DIR, dir.path, true)
+            }
             return INSTANCE
         }
 
