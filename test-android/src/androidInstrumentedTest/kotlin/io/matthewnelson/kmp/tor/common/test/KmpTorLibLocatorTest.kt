@@ -15,14 +15,76 @@
  **/
 package io.matthewnelson.kmp.tor.common.test
 
-import io.matthewnelson.kmp.tor.common.lib.locator.KmpTorLibLocator
+import android.os.Build
+import io.matthewnelson.kmp.file.FileNotFoundException
 import kotlin.test.Test
-import kotlin.test.assertTrue
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.minutes
 
-class KmpTorLibLocatorTest {
+class KmpTorLibLocatorTest: KmpTorLibLocatorAndroidRuntimeTest() {
 
     @Test
-    fun givenAndroidRuntime_whenIsInitialized_thenIsTrue() {
-        assertTrue(KmpTorLibLocator.isInitialized())
+    fun givenAndroidNative_whenExecuteTestBinary_thenIsSuccessful() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            println("Skipping...")
+            return
+        }
+
+        val executable = findLibTestExec() ?: throw FileNotFoundException("Failed to find libTestExec.so")
+
+        var p: Process? = null
+        try {
+            p = ProcessBuilder(listOf(executable.path))
+                .redirectErrorStream(true)
+                .start()
+
+            p.outputStream.close()
+
+            var isComplete = false
+            Thread {
+                try {
+                    p.inputStream.use { s ->
+                        val buf = ByteArray(DEFAULT_BUFFER_SIZE * 2)
+                        while (true) {
+                            val read = s.read(buf)
+                            if (read == -1) break
+                            System.out.write(buf, 0, read)
+                        }
+                    }
+                } finally {
+                    isComplete = true
+                }
+            }.apply {
+                isDaemon = true
+                priority = Thread.MAX_PRIORITY
+            }.start()
+
+            var timeout = 1.minutes
+            while (true) {
+                if (isComplete) break
+                if (timeout <= Duration.ZERO) break
+
+                Thread.sleep(100)
+                timeout -= 100.milliseconds
+            }
+        } finally {
+            p?.destroy()
+        }
+
+        assertNotNull(p)
+
+        var exit: Int? = null
+        while (exit == null) {
+            try {
+                exit = p.exitValue()
+            } catch (_: IllegalThreadStateException) {
+                Thread.sleep(50)
+            }
+        }
+
+        assertEquals(0, exit)
     }
 }
