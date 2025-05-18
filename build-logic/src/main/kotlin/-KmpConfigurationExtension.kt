@@ -80,8 +80,8 @@ fun KmpConfigurationExtension.configureShared(
 
 fun KmpConfigurationContainerDsl.androidLibrary(
     namespace: String,
-    buildTools: String? = "34.0.0",
-    compileSdk: Int = 34,
+    buildTools: String? = "35.0.1",
+    compileSdk: Int = 35,
     minSdk: Int = 15,
     javaVersion: JavaVersion = JavaVersion.VERSION_1_8,
     action: (Action<TargetAndroidContainer.Library>)? = null,
