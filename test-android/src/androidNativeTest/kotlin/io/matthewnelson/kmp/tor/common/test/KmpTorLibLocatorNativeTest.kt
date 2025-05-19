@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Matthew Nelson
+ * Copyright (c) 2025 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-import org.gradle.plugins.signing.SigningExtension
+package io.matthewnelson.kmp.tor.common.test
 
-plugins {
-    id("com.vanniktech.maven.publish")
-}
+import kotlin.test.Test
 
-if (!version.toString().endsWith("-SNAPSHOT")) {
-    extensions.configure<SigningExtension>("signing") {
-//        useGpgCmd()
-    }
-}
+/**
+ * Test executable is compiled, packaged into jniLibs, then run via androidInstrumentedTest
+ * */
+class KmpTorLibLocatorNativeTest: KmpTorLibLocatorAndroidRuntimeTest() {
 
-tasks.withType<AbstractArchiveTask>().configureEach {
-    isPreserveFileTimestamps = false
-    isReproducibleFileOrder = true
+    @Test
+    fun stub() {}
 }

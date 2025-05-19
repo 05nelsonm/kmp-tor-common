@@ -281,7 +281,7 @@ public abstract class ResourceLoader private constructor() {
                 if (binder == null) return@lock block()
                 val clazz = binder::class
                 if (_binder == null) {
-                    if (clazz.simpleName == null) {
+                    if (clazz.isAnonymousObject()) {
                         e = IllegalArgumentException(
                             "binder instance must have a fully qualified name. " +
                             "It cannot be an anonymous instance."

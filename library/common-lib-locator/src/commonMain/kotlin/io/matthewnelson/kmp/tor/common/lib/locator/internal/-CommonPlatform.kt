@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Matthew Nelson
+ * Copyright (c) 2025 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-import org.gradle.plugins.signing.SigningExtension
+package io.matthewnelson.kmp.tor.common.lib.locator.internal
 
-plugins {
-    id("com.vanniktech.maven.publish")
-}
-
-if (!version.toString().endsWith("-SNAPSHOT")) {
-    extensions.configure<SigningExtension>("signing") {
-//        useGpgCmd()
-    }
-}
-
-tasks.withType<AbstractArchiveTask>().configureEach {
-    isPreserveFileTimestamps = false
-    isReproducibleFileOrder = true
-}
+internal const val ENV_KEY_NATIVE_LIBRARY_DIR: String = "io.matthewnelson.kmp.tor.common.NATIVE_LIBRARY_DIR"

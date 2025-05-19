@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Matthew Nelson
+ * Copyright (c) 2025 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-import org.gradle.plugins.signing.SigningExtension
+@file:Suppress("KotlinRedundantDiagnosticSuppress", "NOTHING_TO_INLINE")
 
-plugins {
-    id("com.vanniktech.maven.publish")
-}
+package io.matthewnelson.kmp.tor.common.api.internal
 
-if (!version.toString().endsWith("-SNAPSHOT")) {
-    extensions.configure<SigningExtension>("signing") {
-//        useGpgCmd()
-    }
-}
+import io.matthewnelson.kmp.tor.common.api.ResourceLoader
+import kotlin.reflect.KClass
 
-tasks.withType<AbstractArchiveTask>().configureEach {
-    isPreserveFileTimestamps = false
-    isReproducibleFileOrder = true
-}
+internal expect inline fun <T: ResourceLoader.RuntimeBinder> KClass<out T>.isAnonymousObject(): Boolean
