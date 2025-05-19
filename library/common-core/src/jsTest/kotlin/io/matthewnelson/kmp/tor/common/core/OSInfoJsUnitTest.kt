@@ -21,13 +21,10 @@ import kotlin.test.Test
 import kotlin.test.assertTrue
 
 @OptIn(InternalKmpTorApi::class)
-class OSInfoUnitTest {
+class OSInfoJsUnitTest: OSInfoBaseTest() {
 
     @Test
     fun givenOSNameWindows_whenOSHost_thenIsWindows() {
-        println("OS_HOST: ${OSInfo.INSTANCE.osHost}")
-        println("OS_ARCH: ${OSInfo.INSTANCE.osArch}")
-
         assertTrue(OSInfo.get(hostName = "win32").osHost is OSHost.Windows)
     }
 

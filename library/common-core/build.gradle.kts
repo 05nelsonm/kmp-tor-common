@@ -59,6 +59,11 @@ kmpConfiguration {
                     nonNativeMain.dependsOn(getByName("commonMain"))
                     jvmMain?.apply { dependsOn(nonNativeMain) }
                     jsMain?.apply { dependsOn(nonNativeMain) }
+
+                    val nonNativeTest = maybeCreate("nonNativeTest")
+                    nonNativeTest.dependsOn(getByName("commonTest"))
+                    findByName("jvmTest")?.dependsOn(nonNativeTest)
+                    findByName("jsTest")?.dependsOn(nonNativeTest)
                 }
 
                 findByName("nativeMain")?.apply {
@@ -101,12 +106,14 @@ private class TestConfigInject {
 
         core.mkdirs()
 
-        core.resolve("TestConfig.kt").writeText(
-"""package io.matthewnelson.kmp.tor.common.core
+        core.resolve("TestConfig.kt").writeText("""
+            package io.matthewnelson.kmp.tor.common.core
 
-internal const val PROJECT_DIR_PATH: String = "${projectDir.canonicalPath.replace("\\", "\\\\")}"
-"""
-        )
+            // e.g. linux-libc,x86_64
+            internal const val ASSERT_HOST_OSINFO: String = "${properties["ASSERT_HOST_OSINFO"] ?: ""}"
+            internal const val PROJECT_DIR_PATH: String = "${projectDir.canonicalPath.replace("\\", "\\\\")}"
+
+        """.trimIndent())
 
         kotlinSrcDir
     }
