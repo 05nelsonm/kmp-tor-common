@@ -30,6 +30,19 @@ kmpConfiguration {
         }
 
         kotlin {
+            with(sourceSets) {
+                val sources = listOf("jvm", "native").mapNotNull { target ->
+                    findByName("${target}Main")
+                }
+                if (sources.isEmpty()) return@kotlin
+
+                val nonJsMain = maybeCreate("nonJsMain").apply {
+                    dependsOn(getByName("commonMain"))
+                }
+                sources.forEach { it.dependsOn(nonJsMain) }
+            }
+        }
+        kotlin {
             sourceSets.findByName("nativeMain")?.dependencies {
                 implementation(libs.kotlinx.atomicfu)
             }
