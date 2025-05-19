@@ -57,12 +57,12 @@ public sealed class OSHost private constructor(
         @JvmField
         public val name: String
     ): OSHost("") {
-        override fun equals(other: Any?): Boolean = other is Unknown && other.name == name
-        override fun hashCode(): Int = 16 * 31 + name.hashCode()
-        override fun toString(): String = name
+        public override fun equals(other: Any?): Boolean = other is Unknown && other.name == name
+        public override fun hashCode(): Int = 16 * 31 + name.hashCode()
+        public override fun toString(): String = name
     }
 
-    override fun equals(other: Any?): Boolean = other is OSHost && other.path == path
-    override fun hashCode(): Int = 17 * 31 + path.hashCode()
-    override fun toString(): String = path
+    public override fun equals(other: Any?): Boolean = other is OSHost && other.path == path
+    public override fun hashCode(): Int = 17 * 31 + path.hashCode()
+    public override fun toString(): String = path
 }

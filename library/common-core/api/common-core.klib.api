@@ -163,6 +163,8 @@ sealed class io.matthewnelson.kmp.tor.common.core/OSArch { // io.matthewnelson.k
 
     final object Ppc64 : io.matthewnelson.kmp.tor.common.core/OSArch // io.matthewnelson.kmp.tor.common.core/OSArch.Ppc64|null[0]
 
+    final object Riscv64 : io.matthewnelson.kmp.tor.common.core/OSArch // io.matthewnelson.kmp.tor.common.core/OSArch.Riscv64|null[0]
+
     final object X86 : io.matthewnelson.kmp.tor.common.core/OSArch // io.matthewnelson.kmp.tor.common.core/OSArch.X86|null[0]
 
     final object X86_64 : io.matthewnelson.kmp.tor.common.core/OSArch // io.matthewnelson.kmp.tor.common.core/OSArch.X86_64|null[0]
