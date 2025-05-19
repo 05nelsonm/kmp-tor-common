@@ -39,6 +39,8 @@ public sealed class OSArch private constructor(
     @InternalKmpTorApi
     public object Ppc64: OSArch("ppc64")
     @InternalKmpTorApi
+    public object Riscv64: OSArch("riscv64")
+    @InternalKmpTorApi
     public object X86: OSArch("x86")
     @InternalKmpTorApi
     public object X86_64: OSArch("x86_64")
@@ -48,12 +50,12 @@ public sealed class OSArch private constructor(
         @JvmField
         public val arch: String
     ): OSArch("") {
-        override fun equals(other: Any?): Boolean = other is Unsupported && other.arch == arch
-        override fun hashCode(): Int = 16 * 31 + arch.hashCode()
-        override fun toString(): String = arch
+        public override fun equals(other: Any?): Boolean = other is Unsupported && other.arch == arch
+        public override fun hashCode(): Int = 16 * 31 + arch.hashCode()
+        public override fun toString(): String = arch
     }
 
-    override fun equals(other: Any?): Boolean = other is OSArch && other.path == path
-    override fun hashCode(): Int = 17 * 31 + path.hashCode()
-    override fun toString(): String = path
+    public override fun equals(other: Any?): Boolean = other is OSArch && other.path == path
+    public override fun hashCode(): Int = 17 * 31 + path.hashCode()
+    public override fun toString(): String = path
 }

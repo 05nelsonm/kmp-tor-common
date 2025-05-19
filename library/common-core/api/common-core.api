@@ -18,6 +18,10 @@ public final class io/matthewnelson/kmp/tor/common/core/OSArch$Ppc64 : io/matthe
 	public static final field INSTANCE Lio/matthewnelson/kmp/tor/common/core/OSArch$Ppc64;
 }
 
+public final class io/matthewnelson/kmp/tor/common/core/OSArch$Riscv64 : io/matthewnelson/kmp/tor/common/core/OSArch {
+	public static final field INSTANCE Lio/matthewnelson/kmp/tor/common/core/OSArch$Riscv64;
+}
+
 public final class io/matthewnelson/kmp/tor/common/core/OSArch$Unsupported : io/matthewnelson/kmp/tor/common/core/OSArch {
 	public final field arch Ljava/lang/String;
 	public fun <init> (Ljava/lang/String;)V

@@ -48,5 +48,7 @@ internal val ARCH_MAP: Map<String, OSArch> by lazy {
 
         Pair("aarch64", OSArch.Aarch64),
         Pair("arm64", OSArch.Aarch64),
+
+        Pair("riscv64", OSArch.Riscv64),
     )
 }
