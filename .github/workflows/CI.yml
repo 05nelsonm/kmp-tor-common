@@ -76,6 +76,89 @@ jobs:
           path: '**/build/reports/tests/**'
           retention-days: 1
 
+  check-os-info:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: aarch64
+            distro: ubuntu_latest
+            java-version: 21
+            expected-host: linux-libc
+            expected-arch: aarch64
+          - arch: aarch64
+            distro: alpine_latest
+            java-version: 21
+            expected-host: linux-musl
+            expected-arch: aarch64
+          - arch: armv7
+            distro: bullseye
+            java-version: 11
+            expected-host: linux-libc
+            expected-arch: armv7
+          - arch: ppc64le
+            distro: ubuntu_latest
+            java-version: 21
+            expected-host: linux-libc
+            expected-arch: ppc64
+          - arch: ppc64le
+            distro: alpine_latest
+            java-version: 21
+            expected-host: linux-musl
+            expected-arch: ppc64
+          - arch: riscv64
+            distro: ubuntu_latest
+            java-version: 21
+            expected-host: linux-libc
+            expected-arch: riscv64
+          - arch: riscv64
+            distro: alpine_latest
+            java-version: 21
+            expected-host: linux-musl
+            expected-arch: riscv64
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/wrapper-validation@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 11
+
+      - name: Assemble test-info.jar
+        run: >
+          ./gradlew :test-info:assembleFatJar
+          -PKMP_TARGETS="JVM"
+
+      - name: Check OSInfo For Host
+        uses: uraimo/run-on-arch-action@v3
+        with:
+          arch: ${{ matrix.arch }}
+          distro: ${{ matrix.distro }}
+          githubToken: ${{ github.token }}
+          dockerRunArgs: |
+            --volume "${PWD}/test-info/build/libs:/work"
+            --user "$(id -u):$(id -g)"
+          install: |
+            case "${{ matrix.distro }}" in
+              ubuntu*|jessie|stretch|buster|bullseye)
+                apt-get update -q -y
+                apt-get install -q -y openjdk-${{ matrix.java-version }}-jdk
+                ;;
+              alpine*)
+                apk update
+                apk add openjdk${{ matrix.java-version }}
+                ;;
+            esac
+          run: |
+            cd /work
+            java -jar test-info.jar "${{ matrix.expected-host }}" "${{ matrix.expected-arch }}"
+
   android-check:
     strategy:
       fail-fast: false
