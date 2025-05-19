@@ -20,6 +20,7 @@ package io.matthewnelson.kmp.tor.common.core
 
 import io.matthewnelson.kmp.file.ANDROID
 import io.matthewnelson.kmp.file.File
+import io.matthewnelson.kmp.file.IOException
 import io.matthewnelson.kmp.file.toFile
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.internal.ARCH_MAP
@@ -42,7 +43,8 @@ public actual class OSInfo private constructor(
     private val process: ProcessRunner,
     private val pathMapFiles: File,
     private val pathOSRelease: File,
-    private val osName: () -> String?,
+    hostName: String?,
+    archName: String?,
 ) {
 
     public actual companion object {
@@ -55,75 +57,58 @@ public actual class OSInfo private constructor(
             process: ProcessRunner = ProcessRunner.Default,
             pathMapFiles: File = PATH_MAP_FILES.toFile(),
             pathOSRelease: File = PATH_OS_RELEASE.toFile(),
-            osName: () -> String? = { System.getProperty("os.name") }
+            hostName: String? = System.getProperty("os.name"),
+            archName: String? = System.getProperty("os.arch"),
         ): OSInfo = OSInfo(
             process = process,
             pathMapFiles = pathMapFiles,
             pathOSRelease = pathOSRelease,
-            osName = osName,
+            hostName = hostName,
+            archName = archName,
         )
     }
 
     @get:JvmName("osHost")
     public actual val osHost: OSHost by lazy {
-        osHost(osName()?.ifBlank { null } ?: "unknown")
+        val hostName = hostName?.ifBlank { null } ?: "unknown"
+        val hostNameLC = hostName.lowercase(Locale.US)
+
+        when {
+            hostNameLC.contains("windows") -> OSHost.Windows
+            hostNameLC.contains("mac") -> OSHost.MacOS
+            hostNameLC.contains("darwin") -> OSHost.MacOS
+            hostNameLC.contains("freebsd") -> OSHost.FreeBSD
+            hostNameLC.contains("linux") -> when {
+                isAndroidRuntime() -> OSHost.Linux.Android
+                isAndroidTermux() -> OSHost.Linux.Android
+                isLinuxMusl() -> OSHost.Linux.Musl
+                else -> OSHost.Linux.Libc
+            }
+            else -> OSHost.Unknown(hostName.replace("\\W", "").lowercase(Locale.US))
+        }
     }
 
     @get:JvmName("osArch")
     public actual val osArch: OSArch by lazy {
-        osArch(System.getProperty("os.arch")?.ifBlank { null } ?: "unknown")
-    }
+        val archName = archName?.ifBlank { null } ?: "unknown"
+        val archNameLC = archName.lowercase(Locale.US)
 
-    @JvmSynthetic
-    internal fun osHost(name: String): OSHost {
-        val lName = name.lowercase(Locale.US)
+        ARCH_MAP[archNameLC]?.let { return@lazy it }
 
-        return when {
-            lName.contains("windows") -> OSHost.Windows
-            lName.contains("mac") -> OSHost.MacOS
-            lName.contains("darwin") -> OSHost.MacOS
-            lName.contains("freebsd") -> OSHost.FreeBSD
-            lName.contains("linux") -> {
-                when {
-                    isAndroidRuntime() -> OSHost.Linux.Android
-                    isAndroidTermux() -> OSHost.Linux.Android
-                    isLinuxMusl() -> OSHost.Linux.Musl
-                    else -> OSHost.Linux.Libc
-                }
-            }
-            else -> OSHost.Unknown(
-                name.replace("\\W", "")
-                    .lowercase(Locale.US)
-            )
+        if (archNameLC.startsWith("arm")) {
+            resolveArmArchTypeOrNull()?.let { return@lazy it }
         }
-    }
 
-    @JvmSynthetic
-    internal fun osArch(name: String): OSArch {
-        val lArch = name.lowercase(Locale.US)
-
-        val mapped = ARCH_MAP[lArch]
-
-        return when {
-            mapped != null -> mapped
-            lArch.startsWith("arm") -> resolveArmArchType()
-            else -> null
-        } ?: OSArch.Unsupported(
-            name.replace("\\W", "")
-                .lowercase(Locale.US)
-        )
+        OSArch.Unsupported(archName.replace("\\W", "").lowercase(Locale.US))
     }
 
     public fun isAndroidRuntime(): Boolean = ANDROID.SDK_INT != null
 
-    private fun isAndroidTermux(): Boolean {
-        return try {
-            process.runAndWait(listOf("uname", "-o"))
-                .lowercase()
-                .contains("android")
-        } catch (_: Throwable) {
-            false
-        }
+    private fun isAndroidTermux(): Boolean = try {
+        process.runAndWait(listOf("uname", "-o"))
+            .contains("android", ignoreCase = true)
+    } catch (_: Throwable) {
+        false
     }
 
     private fun isLinuxMusl(): Boolean {
@@ -158,22 +143,19 @@ public actual class OSInfo private constructor(
             // it's an older kernel which may not have map_files
             // directory.
             try {
-                pathOSRelease
-                    .inputStream()
-                    .bufferedReader()
-                    .use { reader ->
-                        while (true) {
-                            val line = reader.readLine()
+                pathOSRelease.inputStream().bufferedReader().use { reader ->
+                    while (true) {
+                        val line = reader.readLine() ?: break
 
-                            // ID and ID_LIKE arguments
-                            if (
-                                line.startsWith("ID")
-                                && line.contains("alpine", ignoreCase = true)
-                            ) {
-                                return true
-                            }
+                        // ID and ID_LIKE arguments
+                        if (
+                            line.startsWith("ID")
+                            && line.contains("alpine", ignoreCase = true)
+                        ) {
+                            return true
                         }
                     }
+                }
             } catch (_: Throwable) {
                 // EOF or does not exist
                 return false
@@ -183,7 +165,7 @@ public actual class OSInfo private constructor(
         return false
     }
 
-    private fun resolveArmArchType(): OSArch? {
+    private fun resolveArmArchTypeOrNull(): OSArch? {
         when (osHost) {
             is OSHost.Windows,
             is OSHost.Unknown -> return null

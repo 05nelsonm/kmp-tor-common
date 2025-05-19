@@ -85,7 +85,7 @@ public final class io/matthewnelson/kmp/tor/common/core/OSHost$Windows : io/matt
 public final class io/matthewnelson/kmp/tor/common/core/OSInfo {
 	public static final field Companion Lio/matthewnelson/kmp/tor/common/core/OSInfo$Companion;
 	public static final field INSTANCE Lio/matthewnelson/kmp/tor/common/core/OSInfo;
-	public synthetic fun <init> (Lio/matthewnelson/kmp/tor/common/core/internal/ProcessRunner;Ljava/io/File;Ljava/io/File;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Lio/matthewnelson/kmp/tor/common/core/internal/ProcessRunner;Ljava/io/File;Ljava/io/File;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun isAndroidRuntime ()Z
 	public final fun osArch ()Lio/matthewnelson/kmp/tor/common/core/OSArch;
 	public final fun osHost ()Lio/matthewnelson/kmp/tor/common/core/OSHost;

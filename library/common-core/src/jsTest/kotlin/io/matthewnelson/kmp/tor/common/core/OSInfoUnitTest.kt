@@ -28,22 +28,22 @@ class OSInfoUnitTest {
         println("OS_HOST: ${OSInfo.INSTANCE.osHost}")
         println("OS_ARCH: ${OSInfo.INSTANCE.osArch}")
 
-        assertTrue(OSInfo.INSTANCE.osHost("win32") is OSHost.Windows)
+        assertTrue(OSInfo.get(hostName = "win32").osHost is OSHost.Windows)
     }
 
     @Test
     fun givenOSNameDarwin_whenOSHost_thenIsMacOS() {
-        assertTrue(OSInfo.INSTANCE.osHost("darwin") is OSHost.MacOS)
+        assertTrue(OSInfo.get(hostName = "darwin").osHost is OSHost.MacOS)
     }
 
     @Test
     fun givenOSNameFreeBSD_whenOSHost_thenIsFreeBSD() {
-        assertTrue(OSInfo.INSTANCE.osHost("freebsd") is OSHost.FreeBSD)
+        assertTrue(OSInfo.get(hostName = "freebsd").osHost is OSHost.FreeBSD)
     }
 
     @Test
     fun givenOSNameAndroid_whenOSHost_thenIsAndroid() {
-        assertTrue(OSInfo.INSTANCE.osHost("android") is OSHost.Linux.Android)
+        assertTrue(OSInfo.get(hostName = "android").osHost is OSHost.Linux.Android)
     }
 
     @Test
@@ -51,7 +51,7 @@ class OSInfoUnitTest {
         OSInfo.get(
             pathMapFiles = TEST_MAP_FILES_NOT_MUSL,
             pathOSRelease = TEST_OS_RELEASE_NOT_MUSL,
-            osName = { "linux" },
+            hostName = "linux",
         ).let { osInfo ->
             assertTrue(osInfo.osHost is OSHost.Linux.Libc)
         }
@@ -73,7 +73,7 @@ class OSInfoUnitTest {
                 .resolve("msl")
                 .resolve("map_files"),
             pathOSRelease = TEST_OS_RELEASE_NOT_MUSL,
-            osName = { "linux" },
+            hostName = "linux",
         ).let { osInfo ->
             assertTrue(osInfo.osHost is OSHost.Linux.Musl)
         }
@@ -90,12 +90,9 @@ class OSInfoUnitTest {
             pathOSRelease = TEST_SUPPORT_DIR
                 .resolve("msl")
                 .resolve("os-release"),
-            osName = { "linux" },
+            hostName = "linux",
         ).let { osInfo ->
             assertTrue(osInfo.osHost is OSHost.Linux.Musl)
         }
     }
-
-    // TODO: architecture tests
-
 }
