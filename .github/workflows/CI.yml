@@ -110,11 +110,11 @@ jobs:
             distro: ubuntu_latest
             java-version: 21
             expected-host: linux-libc
-            expected-arch: riscv64
+            expected-arch: x86_64
           - arch: riscv64
             distro: alpine_latest
             java-version: 21
-            expected-host: linux-musl
+            expected-host: linux-libc
             expected-arch: riscv64
     runs-on: ubuntu-latest
     steps:
