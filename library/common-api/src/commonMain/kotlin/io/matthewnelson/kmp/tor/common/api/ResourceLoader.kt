@@ -270,7 +270,7 @@ public abstract class ResourceLoader private constructor() {
 
         @OptIn(ExperimentalContracts::class)
         @Throws(IllegalArgumentException::class, IllegalStateException::class)
-        internal inline fun <T: Any?> ResourceLoader.withBinderLock(binder: RuntimeBinder?, block: () -> T): T {
+        internal fun <T: Any?> ResourceLoader.withBinderLock(binder: RuntimeBinder?, block: () -> T): T {
             contract {
                 callsInPlace(block, InvocationKind.AT_MOST_ONCE)
             }
