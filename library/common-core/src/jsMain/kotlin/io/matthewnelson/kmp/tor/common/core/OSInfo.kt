@@ -31,8 +31,9 @@ import io.matthewnelson.kmp.tor.common.core.internal.os_platform
 public actual class OSInfo private constructor(
     private val pathMapFiles: File,
     private val pathOSRelease: File,
-    private val machineName: () -> String?,
-    private val osName: () -> String?,
+    private val machineName: String?,
+    hostName: String?,
+    archName: String?,
 ) {
 
     public actual companion object {
@@ -42,53 +43,42 @@ public actual class OSInfo private constructor(
         internal fun get(
             pathMapFiles: File = PATH_MAP_FILES.toFile(),
             pathOSRelease: File = PATH_OS_RELEASE.toFile(),
-            machineName: () -> String? = ::os_machine,
-            osName: () -> String? = ::os_platform,
+            machineName: String? = os_machine(),
+            hostName: String? = os_platform(),
+            archName: String? = os_arch(),
         ): OSInfo = OSInfo(
             pathMapFiles = pathMapFiles,
             pathOSRelease = pathOSRelease,
             machineName = machineName,
-            osName = osName,
+            hostName = hostName,
+            archName = archName,
         )
     }
 
     public actual val osHost: OSHost by lazy {
-        osHost(osName()?.ifBlank { null } ?: "unknown")
-    }
+        val hostNameLC = (hostName?.ifBlank { null } ?: "unknown").lowercase()
 
-    public actual val osArch: OSArch by lazy {
-        osArch(os_arch()?.ifBlank { null } ?: "unknown")
-    }
-
-    // https://nodejs.org/api/os.html#osplatform
-    internal fun osHost(name: String): OSHost {
-        return when (val lName = name.lowercase()) {
+        when (hostNameLC) {
             "win32" -> OSHost.Windows
             "darwin" -> OSHost.MacOS
             "freebsd" -> OSHost.FreeBSD
             "android" -> OSHost.Linux.Android
-            "linux" -> {
-                when {
-                    isLinuxMusl() -> OSHost.Linux.Musl
-                    else -> OSHost.Linux.Libc
-                }
+            "linux" -> when {
+                isLinuxMusl() -> OSHost.Linux.Musl
+                else -> OSHost.Linux.Libc
             }
-            else -> OSHost.Unknown(lName)
+            else -> OSHost.Unknown(hostNameLC)
         }
     }
 
-    // https://nodejs.org/api/os.html#osarch
-    internal fun osArch(name: String): OSArch {
-        val lArch = name.lowercase()
+    public actual val osArch: OSArch by lazy {
+        val archNameLC = (archName?.ifBlank { null } ?: "unknown").lowercase()
 
-        val mapped = ARCH_MAP[lArch]
+        ARCH_MAP[archNameLC]?.let { return@lazy it }
 
-        return when {
-            mapped != null -> mapped
-            // If wasn't resolved by using os.arch,
-            // try obtaining it via os.machine
-            else -> resolveMachineArch()
-        } ?: OSArch.Unsupported(lArch)
+        resolveMachineArch()?.let { return@lazy it }
+
+        OSArch.Unsupported(archNameLC)
     }
 
     private fun isLinuxMusl(): Boolean {
@@ -136,7 +126,7 @@ public actual class OSInfo private constructor(
 
     private fun resolveMachineArch(): OSArch? {
         val machineHardwareName = try {
-            machineName()?.lowercase() ?: return null
+            machineName?.lowercase() ?: return null
         } catch (_: Throwable) {
             return null
         }

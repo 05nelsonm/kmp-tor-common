@@ -25,23 +25,26 @@ class OSInfoUnitTest {
 
     @Test
     fun givenOSNameWindows_whenOSHost_thenIsWindows() {
+        println("OS_HOST: ${OSInfo.INSTANCE.osHost}")
+        println("OS_ARCH: ${OSInfo.INSTANCE.osArch}")
+
         // Name only based checks
-        assertTrue(OSInfo.INSTANCE.osHost("Windows XP") is OSHost.Windows)
-        assertTrue(OSInfo.INSTANCE.osHost("Windows 2000") is OSHost.Windows)
-        assertTrue(OSInfo.INSTANCE.osHost("Windows Vista") is OSHost.Windows)
-        assertTrue(OSInfo.INSTANCE.osHost("Windows 98") is OSHost.Windows)
-        assertTrue(OSInfo.INSTANCE.osHost("Windows 95") is OSHost.Windows)
+        assertTrue(OSInfo.get(hostName = "Windows XP").osHost is OSHost.Windows)
+        assertTrue(OSInfo.get(hostName = "Windows 2000").osHost is OSHost.Windows)
+        assertTrue(OSInfo.get(hostName = "Windows Vista").osHost is OSHost.Windows)
+        assertTrue(OSInfo.get(hostName = "Windows 98").osHost is OSHost.Windows)
+        assertTrue(OSInfo.get(hostName = "Windows 95").osHost is OSHost.Windows)
     }
 
     @Test
     fun givenOSNameMac_whenOSHost_thenIsMacOS() {
-        assertTrue(OSInfo.INSTANCE.osHost("Mac OS") is OSHost.MacOS)
-        assertTrue(OSInfo.INSTANCE.osHost("Mac OS X") is OSHost.MacOS)
+        assertTrue(OSInfo.get(hostName = "Mac OS").osHost is OSHost.MacOS)
+        assertTrue(OSInfo.get(hostName = "Mac OS X").osHost is OSHost.MacOS)
     }
 
     @Test
     fun givenOSNameFreeBSD_whenOSHost_thenIsFreeBSD() {
-        assertTrue(OSInfo.INSTANCE.osHost("FreeBSD") is OSHost.FreeBSD)
+        assertTrue(OSInfo.get(hostName = "FreeBSD").osHost is OSHost.FreeBSD)
     }
 
     @Test
@@ -57,7 +60,7 @@ class OSInfoUnitTest {
                     throw AssertionError("")
                 }
             },
-            osName = { "Linux" }
+            hostName = "Linux",
         ).let { osInfo ->
             assertTrue(osInfo.osHost is OSHost.Linux.Android)
             // Ensure isAndroidTermux executed uname -o
@@ -67,12 +70,14 @@ class OSInfoUnitTest {
 
     @Test
     fun givenOSNameLinux_whenOSName_thenIsLinuxLibc() {
-        OSInfo.get(
-            pathMapFiles = TEST_MAP_FILES_NOT_MUSL,
-            pathOSRelease = TEST_OS_RELEASE_NOT_MUSL,
-        ).let { osInfo ->
-            assertTrue(osInfo.osHost("Linux") is OSHost.Linux.Libc)
-            assertTrue(osInfo.osHost("GNU/Linux") is OSHost.Linux.Libc)
+        listOf("Linux", "GNU/Linux").forEach { hostName ->
+            val osInfo = OSInfo.get(
+                pathMapFiles = TEST_MAP_FILES_NOT_MUSL,
+                pathOSRelease = TEST_OS_RELEASE_NOT_MUSL,
+                hostName = hostName,
+            )
+
+            assertTrue(osInfo.osHost is OSHost.Linux.Libc)
         }
     }
 
@@ -92,7 +97,7 @@ class OSInfoUnitTest {
                 .resolve("msl")
                 .resolve("map_files"),
             pathOSRelease = TEST_OS_RELEASE_NOT_MUSL,
-            osName = { "Linux" }
+            hostName = "Linux",
         ).let { osInfo ->
             assertTrue(osInfo.osHost is OSHost.Linux.Musl)
         }
@@ -109,12 +114,9 @@ class OSInfoUnitTest {
             pathOSRelease = TEST_SUPPORT_DIR
                 .resolve("msl")
                 .resolve("os-release"), // alpine linux
-            osName = { "Linux" }
+            hostName = "Linux",
         ).let { osInfo ->
             assertTrue(osInfo.osHost is OSHost.Linux.Musl)
         }
     }
-
-    // TODO: architecture tests
-
 }
