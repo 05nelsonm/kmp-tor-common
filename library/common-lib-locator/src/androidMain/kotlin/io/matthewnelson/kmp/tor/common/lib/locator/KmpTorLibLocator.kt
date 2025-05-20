@@ -23,6 +23,7 @@ import android.os.Build
 import android.system.Os
 import androidx.startup.AppInitializer
 import io.matthewnelson.kmp.tor.common.lib.locator.internal.ENV_KEY_NATIVE_LIBRARY_DIR
+import io.matthewnelson.kmp.tor.common.lib.locator.internal.commonErrorMsg
 import java.io.File
 
 /**
@@ -90,19 +91,12 @@ public actual class KmpTorLibLocator private actual constructor() {
         public actual fun require(libName: String): File = find(libName)
             ?: throw IllegalStateException("Failed to find lib[$libName]")
 
+        /**
+         * For `kmp-tor-resource` usage when Android Runtime is detected and
+         * [isInitialized] is `false`.
+         * */
         @JvmStatic
-        public fun errorMsg(): String {
-            val classPath = KmpTorLibLocator::class.qualifiedName + '$' + "Initializer"
-
-            return """
-                KmpTorLibLocator.Initializer cannot be initialized lazily.
-                Please ensure that you have:
-                <meta-data
-                    android:name='$classPath'
-                    android:value='androidx.startup' />
-                under InitializationProvider in your AndroidManifest.xml
-            """.trimIndent()
-        }
+        public actual fun errorMsg(): String = commonErrorMsg()
     }
 
     @Suppress("UNUSED")

@@ -22,6 +22,7 @@ import io.matthewnelson.kmp.file.path
 import io.matthewnelson.kmp.file.resolve
 import io.matthewnelson.kmp.file.toFile
 import io.matthewnelson.kmp.tor.common.lib.locator.internal.ENV_KEY_NATIVE_LIBRARY_DIR
+import io.matthewnelson.kmp.tor.common.lib.locator.internal.commonErrorMsg
 import kotlinx.cinterop.*
 import platform.posix.S_IFMT
 import platform.posix.S_IFREG
@@ -91,6 +92,12 @@ public actual class KmpTorLibLocator private actual constructor() {
          * */
         public actual fun require(libName: String): File = find(libName)
             ?: throw IllegalStateException("Failed to find lib[$libName]")
+
+        /**
+         * For `kmp-tor-resource` usage when Android Runtime is detected and
+         * [isInitialized] is `false`.
+         * */
+        public actual fun errorMsg(): String = commonErrorMsg()
     }
 }
 
