@@ -40,7 +40,6 @@ kmpConfiguration {
 
         kotlin {
             explicitApi()
-            jvmToolchain(8)
 
             val configuration = targets
                 .getByName("jvm")
