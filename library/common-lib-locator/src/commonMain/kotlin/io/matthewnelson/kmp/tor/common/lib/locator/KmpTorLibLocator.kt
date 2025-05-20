@@ -60,5 +60,11 @@ public expect class KmpTorLibLocator private constructor() {
          * @throws [IllegalStateException] if [libName] was not found
          * */
         public fun require(libName: String): File
+
+        /**
+         * For `kmp-tor-resource` usage when Android Runtime is detected and
+         * [isInitialized] is `false`.
+         * */
+        public fun errorMsg(): String
     }
 }
