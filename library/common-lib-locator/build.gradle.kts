@@ -30,8 +30,7 @@ kmpConfiguration {
 
             android {
                 lint {
-                    // Linter does not like the subclass. Tests are performed
-                    // via core-test to ensure everything is copacetic.
+                    // Linter does not like the subclass. Tests are performed to ensure everything is copacetic.
                     disable.add("EnsureInitializerMetadata")
                 }
             }
@@ -43,14 +42,12 @@ kmpConfiguration {
             }
         }
 
-        androidNativeAll()
-
         common {
             pluginIds("publication")
 
-            sourceSetMain {
+            sourceSetTest {
                 dependencies {
-                    api(libs.kmp.file)
+                    implementation(kotlin("test"))
                 }
             }
         }
