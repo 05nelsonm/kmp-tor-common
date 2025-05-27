@@ -19,11 +19,7 @@ package io.matthewnelson.kmp.tor.common.lib.locator
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
-import android.os.Build
-import android.system.Os
 import androidx.startup.AppInitializer
-import io.matthewnelson.kmp.tor.common.lib.locator.internal.ENV_KEY_NATIVE_LIBRARY_DIR
-import io.matthewnelson.kmp.tor.common.lib.locator.internal.commonErrorMsg
 import java.io.File
 
 /**
@@ -31,27 +27,27 @@ import java.io.File
  * application's [ApplicationInfo.nativeLibraryDir].
  *
  * Is initialized on devices prior to [android.app.Application.onCreate]
- * via its [androidx.startup.Initializer]. Upon such initialization, also
- * sets a native environment variable via [Os.setenv] which is utilized
- * by the Android Native [KmpTorLibLocator] implementation.
+ * via its [androidx.startup.Initializer].
  *
  * @see [Companion.isInitialized]
  * @see [Companion.find]
  * @see [Companion.require]
  * */
-public actual class KmpTorLibLocator private actual constructor() {
+@Deprecated("No longer relevant. Use BaseDexClassLoader.findLibrary instead")
+public class KmpTorLibLocator private constructor() {
 
     private var nativeLibraryDir: File? = null
 
-    public actual companion object {
+    public companion object {
 
+        @Suppress("DEPRECATION")
         private val INSTANCE = KmpTorLibLocator()
 
         /**
          * If the instance of [KmpTorLibLocator] has been initialized yet.
          * */
         @JvmStatic
-        public actual fun isInitialized(): Boolean = INSTANCE.nativeLibraryDir != null
+        public fun isInitialized(): Boolean = INSTANCE.nativeLibraryDir != null
 
         /**
          * Find a native lib.
@@ -64,7 +60,7 @@ public actual class KmpTorLibLocator private actual constructor() {
          * @return [File] or null if not found
          * */
         @JvmStatic
-        public actual fun find(libName: String): File? {
+        public fun find(libName: String): File? {
             val lib = INSTANCE.nativeLibraryDir
                 ?.resolve(libName)
                 ?: return null
@@ -88,7 +84,7 @@ public actual class KmpTorLibLocator private actual constructor() {
          * */
         @JvmStatic
         @Throws(IllegalStateException::class)
-        public actual fun require(libName: String): File = find(libName)
+        public fun require(libName: String): File = find(libName)
             ?: throw IllegalStateException("Failed to find lib[$libName]")
 
         /**
@@ -96,20 +92,28 @@ public actual class KmpTorLibLocator private actual constructor() {
          * [isInitialized] is `false`.
          * */
         @JvmStatic
-        public actual fun errorMsg(): String = commonErrorMsg()
+        public fun errorMsg(): String {
+            @Suppress("DEPRECATION")
+            val classPath = KmpTorLibLocator::class.qualifiedName + '$' + "Initializer"
+
+            return """
+                KmpTorLibLocator.Initializer cannot be initialized lazily.
+                Please ensure that you have:
+                <meta-data
+                    android:name='$classPath'
+                    android:value='androidx.startup' />
+                under InitializationProvider in your AndroidManifest.xml
+            """.trimIndent()
+        }
     }
 
-    @Suppress("UNUSED")
+    @Suppress("UNUSED", "DEPRECATION")
     internal class Initializer internal constructor(): androidx.startup.Initializer<KmpTorLibLocator> {
 
         override fun create(context: Context): KmpTorLibLocator {
             val appInitializer = AppInitializer.getInstance(context)
             check(appInitializer.isEagerlyInitialized(javaClass)) { errorMsg() }
-            val dir = File(context.applicationInfo.nativeLibraryDir).absoluteFile
-            INSTANCE.nativeLibraryDir = dir
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                Os.setenv(ENV_KEY_NATIVE_LIBRARY_DIR, dir.path, true)
-            }
+            INSTANCE.nativeLibraryDir = File(context.applicationInfo.nativeLibraryDir).absoluteFile
             return INSTANCE
         }
 

@@ -54,13 +54,5 @@ kmpConfiguration {
                 }
             }
         }
-
-        kotlin {
-            sourceSets.findByName("androidNativeMain")?.apply {
-                dependencies {
-                    implementation("$group:common-lib-locator:$version")
-                }
-            }
-        }
     }
 }
