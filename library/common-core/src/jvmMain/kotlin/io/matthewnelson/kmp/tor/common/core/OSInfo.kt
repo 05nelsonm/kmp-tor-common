@@ -20,7 +20,6 @@ package io.matthewnelson.kmp.tor.common.core
 
 import io.matthewnelson.kmp.file.ANDROID
 import io.matthewnelson.kmp.file.File
-import io.matthewnelson.kmp.file.IOException
 import io.matthewnelson.kmp.file.toFile
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.internal.ARCH_MAP
@@ -79,7 +78,8 @@ public actual class OSInfo private constructor(
             hostNameLC.contains("darwin") -> OSHost.MacOS
             hostNameLC.contains("freebsd") -> OSHost.FreeBSD
             hostNameLC.contains("linux") -> when {
-                isAndroidRuntime() -> OSHost.Linux.Android
+                ANDROID.SDK_INT != null -> OSHost.Linux.Android
+                hasLibAndroid() -> OSHost.Linux.Android
                 isAndroidTermux() -> OSHost.Linux.Android
                 isLinuxMusl() -> OSHost.Linux.Musl
                 else -> OSHost.Linux.Libc
@@ -102,12 +102,17 @@ public actual class OSInfo private constructor(
         OSArch.Unsupported(archName.replace("\\W", "").lowercase(Locale.US))
     }
 
-    public fun isAndroidRuntime(): Boolean = ANDROID.SDK_INT != null
-
     private fun isAndroidTermux(): Boolean = try {
         process.runAndWait(listOf("uname", "-o"))
             .contains("android", ignoreCase = true)
     } catch (_: Throwable) {
+        false
+    }
+
+    private fun hasLibAndroid(): Boolean = try {
+        "/system/lib/libandroid.so".toFile().exists()
+        || "/system/lib64/libandroid.so".toFile().exists()
+    } catch (_: SecurityException) {
         false
     }
 
@@ -247,4 +252,13 @@ public actual class OSInfo private constructor(
         // Unsupported
         return null
     }
+
+    @Deprecated(
+        message = "Ambiguity in function name.",
+        replaceWith = ReplaceWith(
+            "ANDROID.SDK_INT != null",
+            "io.matthewnelson.kmp.file.ANDROID",
+        ),
+    )
+    public fun isAndroidRuntime(): Boolean = ANDROID.SDK_INT != null
 }
