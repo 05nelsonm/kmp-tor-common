@@ -64,6 +64,7 @@ public actual class OSInfo private constructor(
             "freebsd" -> OSHost.FreeBSD
             "android" -> OSHost.Linux.Android
             "linux" -> when {
+                hasLibAndroid() -> OSHost.Linux.Android
                 isLinuxMusl() -> OSHost.Linux.Musl
                 else -> OSHost.Linux.Libc
             }
@@ -79,6 +80,13 @@ public actual class OSInfo private constructor(
         resolveMachineArch()?.let { return@lazy it }
 
         OSArch.Unsupported(archNameLC)
+    }
+
+    private fun hasLibAndroid(): Boolean = try {
+        "/system/lib/libandroid.so".toFile().exists()
+        || "/system/lib64/libandroid.so".toFile().exists()
+    } catch (_: Throwable) {
+        false
     }
 
     private fun isLinuxMusl(): Boolean {

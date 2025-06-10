@@ -79,6 +79,7 @@ public actual class OSInfo private constructor(
             hostNameLC.contains("freebsd") -> OSHost.FreeBSD
             hostNameLC.contains("linux") -> when {
                 ANDROID.SDK_INT != null -> OSHost.Linux.Android
+                hasLibAndroid() -> OSHost.Linux.Android
                 isAndroidTermux() -> OSHost.Linux.Android
                 isLinuxMusl() -> OSHost.Linux.Musl
                 else -> OSHost.Linux.Libc
@@ -105,6 +106,13 @@ public actual class OSInfo private constructor(
         process.runAndWait(listOf("uname", "-o"))
             .contains("android", ignoreCase = true)
     } catch (_: Throwable) {
+        false
+    }
+
+    private fun hasLibAndroid(): Boolean = try {
+        "/system/lib/libandroid.so".toFile().exists()
+        || "/system/lib64/libandroid.so".toFile().exists()
+    } catch (_: SecurityException) {
         false
     }
 
