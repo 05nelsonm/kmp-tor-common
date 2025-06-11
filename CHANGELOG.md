@@ -1,8 +1,19 @@
 # CHANGELOG
 
+## Version 2.3.0 (2025-06-11)
+ - Updates `kotlin` to `2.1.21` [[#85]][85]
+ - Updates `kmp-file` to `0.3.0` [[#85]][85]
+ - Adds support for the following targets [[#85]][85]:
+     - `androidNativeArm32`
+     - `androidNativeArm64`
+     - `androidNativeX64`
+     - `androidNativeX86`
+ - Adds `OSArch.Riscv64` for Jvm/Js [[#87]][87]
+ - Deprecates module `:library:common-lib-locator` [[#97]][97]
+ - Improves `OSInfo.osHost` detection of android by checking for presence of `libandroid.so` [[#99]][99]
+
 ## Version 2.2.0 (2025-02-26)
  - Updates `kotlin` to `2.1.10` [[#83]][83]
- - Updates `android-gradle-plugin` to `8.7.3` [[#83]][83]
  - Updates `encoding` to `2.4.0` [[#83]][83]
  - Updates `immutable` to `0.2.0` [[#83]][83]
  - Updates `kmp-file` to `0.2.0` [[#83]][83]
@@ -124,3 +135,8 @@
 [79]: https://github.com/05nelsonm/kmp-tor-common/pull/79
 [82]: https://github.com/05nelsonm/kmp-tor-common/pull/82
 [83]: https://github.com/05nelsonm/kmp-tor-common/pull/83
+[85]: https://github.com/05nelsonm/kmp-tor-common/pull/85
+[87]: https://github.com/05nelsonm/kmp-tor-common/pull/87
+[97]: https://github.com/05nelsonm/kmp-tor-common/pull/97
+[99]: https://github.com/05nelsonm/kmp-tor-common/pull/99
+
