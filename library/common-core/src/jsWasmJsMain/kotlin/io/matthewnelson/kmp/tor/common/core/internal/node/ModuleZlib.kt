@@ -17,6 +17,10 @@
 
 package io.matthewnelson.kmp.tor.common.core.internal.node
 
+import io.matthewnelson.kmp.file.Buffer
+
 internal expect interface ModuleZlib {
 //    fun gunzipSync(data: dynamic/JsAny): dynamic/JsAny
 }
+
+internal expect inline fun ModuleZlib.platformGunzipSync(buffer: Buffer): Buffer

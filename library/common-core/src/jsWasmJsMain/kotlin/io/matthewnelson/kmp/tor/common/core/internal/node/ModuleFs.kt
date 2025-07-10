@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING", "NOTHING_TO_INLINE")
 
 package io.matthewnelson.kmp.tor.common.core.internal.node
 
@@ -25,4 +25,4 @@ internal expect interface ModuleFs {
 }
 
 // @Throws(Throwable::class)
-internal expect fun ModuleFs.readDir(path: String, options: JsObject): List<String?>?
+internal expect inline fun ModuleFs.platformReadDirSync(path: String, options: JsObject): List<String?>?

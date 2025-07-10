@@ -21,14 +21,6 @@ private val testConfig = TestConfigInject()
 
 kmpConfiguration {
     configureShared(java9ModuleName = "io.matthewnelson.kmp.tor.common.core", publish = true) {
-        js {
-            sourceSetTest {
-                dependencies {
-                    implementation(npm("kmp-tor-core-test-resources", "2.0.0"))
-                }
-            }
-        }
-
         common {
             sourceSetMain {
                 dependencies {
@@ -46,6 +38,12 @@ kmpConfiguration {
                     implementation(libs.encoding.base16)
                     implementation(kotlincrypto.hash.sha2)
                 }
+            }
+        }
+
+        kotlin {
+            sourceSets.findByName("jsWasmJsTest")?.dependencies {
+                implementation(npm("kmp-tor-core-test-resources", "2.0.0"))
             }
         }
 

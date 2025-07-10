@@ -13,10 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING", "NOTHING_TO_INLINE")
 
 package io.matthewnelson.kmp.tor.common.core.internal.node
 
+import io.matthewnelson.kmp.file.Buffer
+
 internal actual external interface ModuleZlib {
     fun gunzipSync(data: dynamic): dynamic
+}
+
+// @Throws(Throwable::class)
+internal actual inline fun ModuleZlib.platformGunzipSync(buffer: Buffer): Buffer {
+    val unwrapped = buffer.unwrap()
+    val b = gunzipSync(unwrapped)
+    return Buffer.wrap(b)
 }

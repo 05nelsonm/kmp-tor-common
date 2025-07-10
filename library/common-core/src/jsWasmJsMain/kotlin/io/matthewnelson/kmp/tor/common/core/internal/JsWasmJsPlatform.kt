@@ -15,7 +15,6 @@
  **/
 package io.matthewnelson.kmp.tor.common.core.internal
 
-import io.matthewnelson.kmp.file.Buffer
 import io.matthewnelson.kmp.file.File
 import io.matthewnelson.kmp.file.IOException
 import io.matthewnelson.kmp.file.OpenExcl
@@ -29,8 +28,8 @@ import io.matthewnelson.kmp.file.toIOException
 import io.matthewnelson.kmp.file.write
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.Resource
-import io.matthewnelson.kmp.tor.common.core.internal.node.ModuleZlib
 import io.matthewnelson.kmp.tor.common.core.internal.node.node_zlib
+import io.matthewnelson.kmp.tor.common.core.internal.node.platformGunzipSync
 
 @Throws(Throwable::class)
 @OptIn(InternalKmpTorApi::class)
@@ -42,7 +41,7 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
     if (onlyIfDoesNotExist && destination.exists2()) return destination
 
     val moduleResource = try {
-        resolveResource(platform.moduleName + platform.resourcePath).toFile()
+        platformResolveResource(platform.moduleName + platform.resourcePath).toFile()
     } catch (t: Throwable) {
         throw t.toIOException()
     }
@@ -56,7 +55,7 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
 
         buffer = try {
             // Must be Node.js if read succeeded.
-            buffer.gunzip(zlib)
+            zlib.platformGunzipSync(buffer)
         } catch (t: Throwable) {
             throw t.toIOException(destination)
         }
@@ -78,7 +77,4 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
 }
 
 // @Throws(Throwable::class)
-internal expect inline fun Buffer.gunzip(zlib: ModuleZlib): Buffer
-
-// @Throws(Throwable::class)
-internal expect fun resolveResource(path: String): String
+internal expect fun platformResolveResource(path: String): String

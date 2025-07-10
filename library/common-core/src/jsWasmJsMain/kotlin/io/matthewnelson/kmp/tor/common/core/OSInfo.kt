@@ -31,7 +31,7 @@ import io.matthewnelson.kmp.tor.common.core.internal.PATH_OS_RELEASE
 import io.matthewnelson.kmp.tor.common.core.internal.node.nodeOptionsReadDir
 import io.matthewnelson.kmp.tor.common.core.internal.node.node_fs
 import io.matthewnelson.kmp.tor.common.core.internal.node.node_os
-import io.matthewnelson.kmp.tor.common.core.internal.node.readDir
+import io.matthewnelson.kmp.tor.common.core.internal.node.platformReadDirSync
 
 @InternalKmpTorApi
 public actual class OSInfo private constructor(
@@ -101,7 +101,7 @@ public actual class OSInfo private constructor(
         try {
             if (pathMapFiles.exists2()) {
                 val options = nodeOptionsReadDir(encoding = "utf8", withFileTypes = false, recursive = false)
-                node_fs.readDir(pathMapFiles.path, options)?.forEach { entry ->
+                node_fs.platformReadDirSync(pathMapFiles.path, options)?.forEach { entry ->
                     if (entry == null) return@forEach
 
                     fileCount++
