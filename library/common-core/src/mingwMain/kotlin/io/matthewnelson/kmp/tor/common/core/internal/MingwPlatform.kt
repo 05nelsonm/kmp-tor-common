@@ -15,4 +15,12 @@
  **/
 package io.matthewnelson.kmp.tor.common.core.internal
 
-internal actual val IsWindows: Boolean = true
+import io.matthewnelson.kmp.file.File
+import io.matthewnelson.kmp.file.path
+import kotlinx.cinterop.ExperimentalForeignApi
+import platform.zlib.gzFile
+import platform.zlib.gzopen
+
+@ExperimentalForeignApi
+@Suppress("NOTHING_TO_INLINE")
+internal actual inline fun File.gzopenRO(): gzFile? = gzopen(path, "rb")

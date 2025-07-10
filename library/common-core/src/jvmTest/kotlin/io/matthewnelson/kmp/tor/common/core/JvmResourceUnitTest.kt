@@ -16,6 +16,7 @@
 package io.matthewnelson.kmp.tor.common.core
 
 import io.matthewnelson.kmp.file.SysTempDir
+import io.matthewnelson.kmp.file.delete2
 import io.matthewnelson.kmp.file.readUtf8
 import io.matthewnelson.kmp.file.resolve
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
@@ -51,9 +52,9 @@ class JvmResourceUnitTest {
             assertEquals("hello_world", file.name)
             assertEquals("Hello World!", file.readUtf8().trim())
         } finally {
-            file.delete()
-            dir2.delete()
-            dir.delete()
+            file.delete2(ignoreReadOnly = true)
+            dir2.delete2(ignoreReadOnly = true)
+            dir.delete2(ignoreReadOnly = true)
         }
     }
 
@@ -81,9 +82,9 @@ class JvmResourceUnitTest {
             assertEquals("hello_world", file.name)
             assertEquals("Hello World!", file.readUtf8().trim())
         } finally {
-            file.delete()
-            dir2.delete()
-            dir.delete()
+            file.delete2(ignoreReadOnly = true)
+            dir2.delete2(ignoreReadOnly = true)
+            dir.delete2(ignoreReadOnly = true)
         }
     }
 

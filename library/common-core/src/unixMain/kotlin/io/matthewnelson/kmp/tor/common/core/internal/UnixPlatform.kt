@@ -15,4 +15,34 @@
  **/
 package io.matthewnelson.kmp.tor.common.core.internal
 
-internal actual val IsWindows: Boolean = false
+import io.matthewnelson.kmp.file.File
+import io.matthewnelson.kmp.file.path
+import kotlinx.cinterop.ExperimentalForeignApi
+import platform.posix.EINTR
+import platform.posix.O_CLOEXEC
+import platform.posix.O_RDONLY
+import platform.posix.close
+import platform.posix.errno
+import platform.posix.open
+import platform.posix.set_posix_errno
+import platform.zlib.gzFile
+import platform.zlib.gzdopen
+
+@ExperimentalForeignApi
+@Suppress("NOTHING_TO_INLINE")
+internal actual inline fun File.gzopenRO(): gzFile? {
+    val fd = open(path, /* flags = */O_RDONLY or O_CLOEXEC, /* mode = */0)
+    if (fd == -1) return null
+
+    val ptr = gzdopen(fd, "r")
+    if (ptr == null) {
+        val errnoBefore = errno
+        while (true) {
+            if (close(fd) != -1) break
+            if (errno == EINTR) continue
+            break // Silently ignore close failure. Not much can be done here
+        }
+        set_posix_errno(errnoBefore)
+    }
+    return ptr
+}

@@ -15,7 +15,17 @@
  **/
 package io.matthewnelson.kmp.tor.common.core.internal
 
-import io.matthewnelson.kmp.file.*
+import io.matthewnelson.kmp.file.Buffer
+import io.matthewnelson.kmp.file.File
+import io.matthewnelson.kmp.file.IOException
+import io.matthewnelson.kmp.file.OpenExcl
+import io.matthewnelson.kmp.file.delete2
+import io.matthewnelson.kmp.file.exists2
+import io.matthewnelson.kmp.file.read
+import io.matthewnelson.kmp.file.resolve
+import io.matthewnelson.kmp.file.toFile
+import io.matthewnelson.kmp.file.toIOException
+import io.matthewnelson.kmp.file.write
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.Resource
 
@@ -23,13 +33,11 @@ import io.matthewnelson.kmp.tor.common.core.Resource
 internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist: Boolean): File {
     val destination = destinationDir.resolve(platform.fsFileName)
 
-    if (onlyIfDoesNotExist && destination.exists()) return destination
+    if (onlyIfDoesNotExist && destination.exists2()) return destination
 
     val moduleResource = resolveResource(platform.moduleName + platform.resourcePath).toFile()
 
-    if (destination.exists() && !destination.delete()) {
-        throw IOException("Failed to delete $destination")
-    }
+    destination.delete2(ignoreReadOnly = true, mustExist = false)
 
     var buffer = moduleResource.read()
 
@@ -38,12 +46,16 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
         buffer = Buffer.wrap(gzBuffer)
     }
 
+    val excl = OpenExcl.MustCreate.of(mode = if (isExecutable) "500" else "400")
     try {
-        destination.write(buffer)
-        destination.chmod(if (isExecutable) "500" else "400")
-    } catch (t: IOException) {
-        destination.delete()
-        throw t
+        destination.write(excl, buffer)
+    } catch (e: IOException) {
+        try {
+            destination.delete2(ignoreReadOnly = true)
+        } catch (ee: IOException) {
+            e.addSuppressed(ee)
+        }
+        throw e
     }
 
     return destination

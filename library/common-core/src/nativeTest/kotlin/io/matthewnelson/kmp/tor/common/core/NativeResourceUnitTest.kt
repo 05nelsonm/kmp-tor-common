@@ -63,15 +63,15 @@ class NativeResourceUnitTest {
 
         try {
             // Check that the gz file was cleaned up
-            assertFalse("${file.path}.gz".toFile().exists())
+            assertFalse("${file.path}.gz".toFile().exists2())
 
             val actual = file.readBytes()
             // There was decompression happening
-            assertTrue(actual.size > resource_LoremIpsum_gz.size)
-            assertEquals(resource_lorem_ipsum.sha256, actual.sha256())
+            assertTrue(actual.size > resource_LoremIpsum_gz.size, "actual.size <= resource.size")
+            assertEquals(resource_lorem_ipsum.sha256, actual.sha256(), "sha256 hashes do not match")
         } finally {
-            file.delete()
-            dir.delete()
+            file.delete2(ignoreReadOnly = true)
+            dir.delete2(ignoreReadOnly = true)
         }
     }
 
@@ -96,9 +96,9 @@ class NativeResourceUnitTest {
         try {
             assertEquals(resource_lorem_ipsum.sha256, file.readBytes().sha256())
         } finally {
-            file.delete()
-            dir2.delete()
-            dir.delete()
+            file.delete2(ignoreReadOnly = true)
+            dir2.delete2(ignoreReadOnly = true)
+            dir.delete2(ignoreReadOnly = true)
         }
     }
 }
