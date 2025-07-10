@@ -84,7 +84,9 @@ public class Resource private constructor(
                 map.forEach { entry ->
                     try {
                         entry.value.delete2(ignoreReadOnly = true)
-                    } catch (_: IOException) {}
+                    } catch (e: IOException) {
+                        t.addSuppressed(e)
+                    }
                 }
 
                 throw t.wrapIOException { "Failed to extract resources to destinationDir[$dir]" }

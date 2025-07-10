@@ -15,65 +15,56 @@
  **/
 package io.matthewnelson.kmp.tor.common.core.internal
 
+import io.matthewnelson.kmp.file.Buffer
 import io.matthewnelson.kmp.file.File
 import io.matthewnelson.kmp.file.IOException
 import io.matthewnelson.kmp.file.OpenExcl
+import io.matthewnelson.kmp.file.SysFsInfo
 import io.matthewnelson.kmp.file.delete2
 import io.matthewnelson.kmp.file.exists2
-import io.matthewnelson.kmp.file.openWrite
+import io.matthewnelson.kmp.file.read
+import io.matthewnelson.kmp.file.resolve
+import io.matthewnelson.kmp.file.toFile
+import io.matthewnelson.kmp.file.toIOException
+import io.matthewnelson.kmp.file.write
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.Resource
-import java.util.zip.GZIPInputStream
-import kotlin.Throws
+import io.matthewnelson.kmp.tor.common.core.internal.node.ModuleZlib
+import io.matthewnelson.kmp.tor.common.core.internal.node.node_zlib
 
 @Throws(Throwable::class)
 @OptIn(InternalKmpTorApi::class)
 internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist: Boolean): File {
+    check(SysFsInfo.name == "FsJsNode") { "Node.js is required" }
+
     val destination = destinationDir.resolve(platform.fsFileName)
 
     if (onlyIfDoesNotExist && destination.exists2()) return destination
 
-    var resourceStream = platform.resourceClass.getResourceAsStream(platform.resourcePath)
-        ?: throw IOException("Failed to get resource input stream for ${platform.resourcePath}")
-
-    try {
-        destination.delete2(ignoreReadOnly = true, mustExist = false)
-    } catch (e: IOException) {
-        try {
-            resourceStream.close()
-        } catch (ee: IOException) {
-            e.addSuppressed(ee)
-        }
-        throw e
+    val moduleResource = try {
+        resolveResource(platform.moduleName + platform.resourcePath).toFile()
+    } catch (t: Throwable) {
+        throw t.toIOException()
     }
 
+    destination.delete2(ignoreReadOnly = true)
+
+    var buffer = moduleResource.read()
+
     if (platform.isGzipped) {
-        try {
-            resourceStream = GZIPInputStream(resourceStream)
-        } catch (e: IOException) {
-            try {
-                resourceStream.close()
-            } catch (ee: IOException) {
-                e.addSuppressed(ee)
-            }
-            throw e
+        val zlib = node_zlib
+
+        buffer = try {
+            // Must be Node.js if read succeeded.
+            buffer.gunzip(zlib)
+        } catch (t: Throwable) {
+            throw t.toIOException(destination)
         }
     }
 
     val excl = OpenExcl.MustCreate.of(mode = if (isExecutable) "500" else "400")
-
     try {
-        resourceStream.use { iStream ->
-            destination.openWrite(excl = excl).use { s ->
-                val buf = ByteArray(4096)
-
-                while (true) {
-                    val read = iStream.read(buf)
-                    if (read == -1) break
-                    s.write(buf, 0, read)
-                }
-            }
-        }
+        destination.write(excl, buffer)
     } catch (e: IOException) {
         try {
             destination.delete2(ignoreReadOnly = true)
@@ -85,3 +76,9 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
 
     return destination
 }
+
+// @Throws(Throwable::class)
+internal expect inline fun Buffer.gunzip(zlib: ModuleZlib): Buffer
+
+// @Throws(Throwable::class)
+internal expect fun resolveResource(path: String): String

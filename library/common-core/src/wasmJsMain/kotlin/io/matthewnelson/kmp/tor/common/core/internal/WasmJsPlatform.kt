@@ -18,12 +18,15 @@
 package io.matthewnelson.kmp.tor.common.core.internal
 
 import io.matthewnelson.kmp.file.Buffer
+import io.matthewnelson.kmp.file.DelicateFileApi
+import io.matthewnelson.kmp.file.jsExternTryCatch
 import io.matthewnelson.kmp.tor.common.core.internal.node.ModuleZlib
 
 // @Throws(Throwable::class)
 internal actual inline fun Buffer.gunzip(zlib: ModuleZlib): Buffer {
     val unwrapped = unwrap()
-    val b = zlib.gunzipSync(unwrapped)
+    @OptIn(DelicateFileApi::class)
+    val b = jsExternTryCatch { zlib.gunzipSync(unwrapped) }
     return Buffer.wrap(b)
 }
 

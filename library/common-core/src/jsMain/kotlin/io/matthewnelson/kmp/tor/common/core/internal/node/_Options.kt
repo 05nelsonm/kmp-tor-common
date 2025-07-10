@@ -13,19 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("NOTHING_TO_INLINE")
+package io.matthewnelson.kmp.tor.common.core.internal.node
 
-package io.matthewnelson.kmp.tor.common.core.internal
+import io.matthewnelson.kmp.tor.common.core.internal.js.JsObject
 
-import io.matthewnelson.kmp.file.Buffer
-import io.matthewnelson.kmp.tor.common.core.internal.node.ModuleZlib
-
-// @Throws(Throwable::class)
-internal actual inline fun Buffer.gunzip(zlib: ModuleZlib): Buffer {
-    val unwrapped = unwrap()
-    val b = zlib.gunzipSync(unwrapped)
-    return Buffer.wrap(b)
+internal actual fun nodeOptionsReadDir(
+    encoding: String,
+    withFileTypes: Boolean,
+    recursive: Boolean,
+): JsObject {
+    val o = js("({})")
+    o["encoding"] = encoding
+    o["withFileTypes"] = withFileTypes
+    o["recursive"] = recursive
+    return o
 }
-
-// @Throws(Throwable::class)
-internal actual fun resolveResource(path: String): String = js("require.resolve(path)")

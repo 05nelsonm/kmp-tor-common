@@ -18,6 +18,7 @@
 ![badge-platform-macos] 
 ![badge-platform-tvos] 
 ![badge-platform-watchos] 
+![badge-platform-wasm] 
 ![badge-platform-windows] 
 ![badge-support-android-native] 
 ![badge-support-apple-silicon] 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Matthew Nelson
+ * Copyright (c) 2025 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:JsModule("os")
-@file:JsNonModule
-@file:Suppress("FunctionName")
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
-package io.matthewnelson.kmp.tor.common.core.internal
+package io.matthewnelson.kmp.tor.common.core.internal.node
 
-/** [docs](https://nodejs.org/api/os.html#osarch) **/
-@JsName("arch")
-internal external fun os_arch(): String?
+import io.matthewnelson.kmp.tor.common.core.internal.js.JsObject
 
-/** [docs](https://nodejs.org/api/os.html#osmachine) **/
-@JsName("machine")
-internal external fun os_machine(): String?
+/** [docs](https://nodejs.org/api/fs.html) */
+internal actual external interface ModuleFs {
+    fun readdirSync(path: String, options: JsObject): Array<String?>?
+}
 
-/** [docs](https://nodejs.org/api/os.html#osplatform) **/
-@JsName("platform")
-internal external fun os_platform(): String?
+// @Throws(Throwable::class)
+internal actual fun ModuleFs.readDir(path: String, options: JsObject): List<String?>? {
+    return readdirSync(path, options)?.toList()
+}

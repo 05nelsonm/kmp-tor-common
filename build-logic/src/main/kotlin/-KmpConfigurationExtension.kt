@@ -18,6 +18,7 @@ import io.matthewnelson.kmp.configuration.extension.container.target.KmpConfigur
 import io.matthewnelson.kmp.configuration.extension.container.target.TargetAndroidContainer
 import org.gradle.api.Action
 import org.gradle.api.JavaVersion
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 fun KmpConfigurationExtension.configureShared(
     java9ModuleName: String? = null,
@@ -51,6 +52,17 @@ fun KmpConfigurationExtension.configureShared(
                 }
             }
         }
+        @OptIn(ExperimentalWasmDsl::class)
+        wasmJs {
+            target {
+                nodejs {
+                    @Suppress("RedundantSamConstructor")
+                    testTask(Action {
+                        useMocha { timeout = "30s" }
+                    })
+                }
+            }
+        }
 
         androidNativeAll()
         iosAll()
@@ -71,6 +83,24 @@ fun KmpConfigurationExtension.configureShared(
         }
 
         if (publish) kotlin { explicitApi() }
+
+        kotlin {
+            with(sourceSets) {
+                val sets = arrayOf("js", "wasmJs").mapNotNull { name ->
+                    val main = findByName(name + "Main") ?: return@mapNotNull null
+                    val test = getByName(name + "Test")
+                    main to test
+                }
+                if (sets.isEmpty()) return@kotlin
+
+                val main = maybeCreate("jsWasmJsMain")
+                val test = maybeCreate("jsWasmJsTest")
+                main.dependsOn(getByName("nonJvmMain"))
+                test.dependsOn(getByName("nonJvmTest"))
+
+                sets.forEach { (m, t) -> m.dependsOn(main); t.dependsOn(test) }
+            }
+        }
 
         action.execute(this)
     }

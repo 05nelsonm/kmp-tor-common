@@ -13,19 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("NOTHING_TO_INLINE")
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
-package io.matthewnelson.kmp.tor.common.core.internal
+package io.matthewnelson.kmp.tor.common.core.internal.node
 
-import io.matthewnelson.kmp.file.Buffer
-import io.matthewnelson.kmp.tor.common.core.internal.node.ModuleZlib
+import io.matthewnelson.kmp.tor.common.core.internal.js.JsObject
 
-// @Throws(Throwable::class)
-internal actual inline fun Buffer.gunzip(zlib: ModuleZlib): Buffer {
-    val unwrapped = unwrap()
-    val b = zlib.gunzipSync(unwrapped)
-    return Buffer.wrap(b)
+/** [docs](https://nodejs.org/api/fs.html) */
+internal expect interface ModuleFs {
+//    fun readdirSync(path: String, options: JsObject): Array<String?>?
 }
 
 // @Throws(Throwable::class)
-internal actual fun resolveResource(path: String): String = js("require.resolve(path)")
+internal expect fun ModuleFs.readDir(path: String, options: JsObject): List<String?>?

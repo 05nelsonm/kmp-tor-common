@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Matthew Nelson
+ * Copyright (c) 2025 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:JsModule("fs")
-@file:JsNonModule
-@file:Suppress("FunctionName", "ClassName")
+package io.matthewnelson.kmp.tor.common.core.internal.node
 
-package io.matthewnelson.kmp.tor.common.core.internal
-
-/** [docs](https://nodejs.org/api/fs.html#fsreaddirsyncpath-options) */
-@JsName("readdirSync")
-internal external fun fs_readdirSync(path: String, options: dynamic): Array<String>
+/** [docs](https://nodejs.org/api/os.html) */
+internal external interface ModuleOs {
+    fun arch(): String?
+    fun machine(): String?
+    fun platform(): String?
+}
