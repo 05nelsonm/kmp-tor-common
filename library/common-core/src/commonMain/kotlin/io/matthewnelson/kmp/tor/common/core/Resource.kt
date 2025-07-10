@@ -72,10 +72,11 @@ public class Resource private constructor(
                 }
             }
 
-            val dir = destinationDir.canonicalFile2().mkdirs2(mode = null, mustCreate = false)
             val map = LinkedHashMap<String, File>(resources.size, 1.0f)
 
             try {
+                val dir = destinationDir.canonicalFile2().mkdirs2(mode = null, mustCreate = false)
+
                 resources.forEach { resource ->
                     val file = resource.extractTo(dir, onlyIfDoesNotExist)
                     map[resource.alias] = file
@@ -89,7 +90,7 @@ public class Resource private constructor(
                     }
                 }
 
-                throw t.wrapIOException { "Failed to extract resources to destinationDir[$dir]" }
+                throw t.wrapIOException { "Failed to extract resources to destinationDir[$destinationDir]" }
             }
 
             return map.toImmutableMap()
