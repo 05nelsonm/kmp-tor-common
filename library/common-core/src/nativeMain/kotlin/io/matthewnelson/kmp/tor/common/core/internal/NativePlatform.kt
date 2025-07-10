@@ -21,17 +21,16 @@ import io.matthewnelson.kmp.tor.common.core.Resource
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
+import platform.posix.EINTR
 import platform.posix.errno
 import platform.zlib.gzFile
 import platform.zlib.gzclose_r
-import platform.zlib.gzopen
 import platform.zlib.gzread
 import platform.zlib.Z_OK
+import kotlin.concurrent.Volatile
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
-
-internal expect val IsWindows: Boolean
 
 @OptIn(DelicateFileApi::class, ExperimentalForeignApi::class, InternalKmpTorApi::class)
 internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist: Boolean): File {
@@ -47,47 +46,34 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
 
     if (onlyIfDoesNotExist) {
         val file = (destFinal ?: dest)
-        if (file.exists()) return file
+        if (file.exists2()) return file
     }
 
-    if (dest.exists() && !dest.delete()) {
-        throw IOException("Failed to delete $dest")
-    }
+    dest.delete2(ignoreReadOnly = true)
+    destFinal?.delete2(ignoreReadOnly = true)
 
-    if (destFinal != null && destFinal.exists() && !destFinal.delete()) {
-        throw IOException("Failed to delete $destFinal")
-    }
-
+    val excl = OpenExcl.MustCreate.of(mode = if (isExecutable) "500" else "400")
     try {
-        dest.fOpen(flags = "wb") { file ->
-            platform.nativeResource.read { buffer, len ->
-                val result = file.fWrite(buffer, 0, len)
-                if (result < 0) {
-                    throw errnoToIOException(errno)
-                }
+        dest.openWrite(excl = if (destFinal == null) excl else null).use { s ->
+            platform.nativeResource.read { buf, len ->
+                s.write(buf, 0, len)
             }
         }
     } catch (e: Exception) {
-        dest.delete()
+        try {
+            dest.delete2(ignoreReadOnly = true)
+        } catch (ee: IOException) {
+            e.addSuppressed(ee)
+        }
         throw e
     }
 
-    val mode = if (isExecutable) "500" else "400"
-
-    if (destFinal == null) {
-        // not gzipped. dest is the final destination
-        try {
-            dest.chmod(mode)
-        } catch (e: IOException) {
-            dest.delete()
-            throw e
-        }
-        return dest
-    }
+    // Was not gzipped. dest is the final destination.
+    if (destFinal == null) return dest
 
     try {
         dest.gzOpenRead { gzFile ->
-            destFinal.fOpen(flags = "wb") { file ->
+            destFinal.openWrite(excl = excl).use { s ->
                 val buf = ByteArray(4096)
 
                 while (true) {
@@ -97,19 +83,22 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
 
                     if (read < 0) throw errnoToIOException(errno)
                     if (read == 0) break
-                    val write = file.fWrite(buf, 0, read)
-                    if (write < 0) throw errnoToIOException(errno)
+                    s.write(buf, 0, read)
                 }
             }
         }
-
-        destFinal.chmod(mode)
     } catch (e: IOException) {
-        destFinal.delete()
+        try {
+            destFinal.delete2(ignoreReadOnly = true)
+        } catch (ee: IOException) {
+            e.addSuppressed(ee)
+        }
         throw e
     } finally {
         // Always clean up and delete the gzipped file
-        dest.delete()
+        try {
+            dest.delete2(ignoreReadOnly = true)
+        } catch (_: IOException) {}
     }
 
     return destFinal
@@ -117,37 +106,38 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
 
 @Throws(IOException::class)
 @OptIn(ExperimentalContracts::class, ExperimentalForeignApi::class)
-private inline fun <T: Any?> File.gzOpenRead(
-    block: (file: gzFile) -> T,
-): T {
+private inline fun <T: Any?> File.gzOpenRead(block: (file: gzFile) -> T): T {
     contract {
         callsInPlace(block, InvocationKind.AT_MOST_ONCE)
     }
 
-    var flags = "rb"
-    if (!IsWindows) flags += 'e' // O_CLOEXEC
-
-    val ptr: gzFile = gzopen(path, flags) ?: throw errnoToIOException(errno)
-    var threw: Throwable? = null
-
-    val result = try {
-        block(ptr)
-    } catch (t: Throwable) {
-        threw = t
-        null
+    var ptr: gzFile? = null
+    while (true) {
+        ptr = gzopenRO()
+        if (ptr != null) break
+        if (errno == EINTR) continue
+        throw errnoToIOException(errno, this)
     }
 
-    if (gzclose_r(ptr) != Z_OK) {
-        val e = errnoToIOException(errno)
-        if (threw != null) {
-            threw?.addSuppressed(e)
-        } else {
-            threw = e
+    val closeable = object : Closeable {
+
+        @Volatile
+        private var _ptr = ptr
+
+        override fun close() {
+            val ptr = _ptr ?: return
+            _ptr = null
+            while (true) {
+                if (gzclose_r(ptr) == Z_OK) break
+                if (errno == EINTR) continue
+                throw errnoToIOException(errno)
+            }
         }
     }
 
-    threw?.let { throw it }
-
-    @Suppress("UNCHECKED_CAST")
-    return result as T
+    return closeable.use { block(ptr) }
 }
+
+@ExperimentalForeignApi
+@Suppress("NOTHING_TO_INLINE")
+internal expect inline fun File.gzopenRO(): gzFile?

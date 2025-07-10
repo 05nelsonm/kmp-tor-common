@@ -19,7 +19,9 @@ import io.matthewnelson.immutable.collections.toImmutableMap
 import io.matthewnelson.immutable.collections.toImmutableSet
 import io.matthewnelson.kmp.file.File
 import io.matthewnelson.kmp.file.IOException
-import io.matthewnelson.kmp.file.canonicalFile
+import io.matthewnelson.kmp.file.canonicalFile2
+import io.matthewnelson.kmp.file.delete2
+import io.matthewnelson.kmp.file.mkdirs2
 import io.matthewnelson.kmp.file.wrapIOException
 import io.matthewnelson.kmp.tor.common.core.internal.appendIndent
 import io.matthewnelson.kmp.tor.common.core.internal.extractTo
@@ -70,12 +72,7 @@ public class Resource private constructor(
                 }
             }
 
-            val dir = destinationDir.canonicalFile()
-
-            if (!dir.exists() && !dir.mkdirs()) {
-                throw IOException("Failed to create destinationDir[$dir]")
-            }
-
+            val dir = destinationDir.canonicalFile2().mkdirs2(mode = null, mustCreate = false)
             val map = LinkedHashMap<String, File>(resources.size, 1.0f)
 
             try {
@@ -86,7 +83,7 @@ public class Resource private constructor(
             } catch (t: Throwable) {
                 map.forEach { entry ->
                     try {
-                        entry.value.delete()
+                        entry.value.delete2(ignoreReadOnly = true)
                     } catch (_: IOException) {}
                 }
 

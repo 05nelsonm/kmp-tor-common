@@ -17,7 +17,13 @@
 
 package io.matthewnelson.kmp.tor.common.core
 
-import io.matthewnelson.kmp.file.*
+import io.matthewnelson.kmp.file.File
+import io.matthewnelson.kmp.file.canonicalPath2
+import io.matthewnelson.kmp.file.exists2
+import io.matthewnelson.kmp.file.path
+import io.matthewnelson.kmp.file.readUtf8
+import io.matthewnelson.kmp.file.resolve
+import io.matthewnelson.kmp.file.toFile
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.internal.ARCH_MAP
 import io.matthewnelson.kmp.tor.common.core.internal.PATH_MAP_FILES
@@ -83,8 +89,8 @@ public actual class OSInfo private constructor(
     }
 
     private fun hasLibAndroid(): Boolean = try {
-        "/system/lib/libandroid.so".toFile().exists()
-        || "/system/lib64/libandroid.so".toFile().exists()
+        "/system/lib/libandroid.so".toFile().exists2()
+        || "/system/lib64/libandroid.so".toFile().exists2()
     } catch (_: Throwable) {
         false
     }
@@ -92,8 +98,8 @@ public actual class OSInfo private constructor(
     private fun isLinuxMusl(): Boolean {
         var fileCount = 0
 
-        if (pathMapFiles.exists()) {
-            try {
+        try {
+            if (pathMapFiles.exists2()) {
                 val opts = js("{}")
                 opts["encoding"] = "utf8"
                 opts["withFileTypes"] = false
@@ -102,15 +108,15 @@ public actual class OSInfo private constructor(
                 fs_readdirSync(pathMapFiles.path, opts).forEach { entry ->
                     fileCount++
 
-                    val canonical = pathMapFiles.resolve(entry).canonicalPath()
+                    val canonical = pathMapFiles.resolve(entry).canonicalPath2()
 
                     if (canonical.contains("musl")) {
                         return true
                     }
                 }
-            } catch (_: Throwable) {
-                fileCount = 0
             }
+        } catch (_: Throwable) {
+            fileCount = 0
         }
 
         if (fileCount < 1) {

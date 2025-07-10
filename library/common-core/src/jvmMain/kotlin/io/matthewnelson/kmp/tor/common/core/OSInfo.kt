@@ -20,6 +20,8 @@ package io.matthewnelson.kmp.tor.common.core
 
 import io.matthewnelson.kmp.file.ANDROID
 import io.matthewnelson.kmp.file.File
+import io.matthewnelson.kmp.file.canonicalPath2
+import io.matthewnelson.kmp.file.exists2
 import io.matthewnelson.kmp.file.toFile
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.internal.ARCH_MAP
@@ -110,8 +112,8 @@ public actual class OSInfo private constructor(
     }
 
     private fun hasLibAndroid(): Boolean = try {
-        "/system/lib/libandroid.so".toFile().exists()
-        || "/system/lib64/libandroid.so".toFile().exists()
+        "/system/lib/libandroid.so".toFile().exists2()
+        || "/system/lib64/libandroid.so".toFile().exists2()
     } catch (_: SecurityException) {
         false
     }
@@ -119,8 +121,8 @@ public actual class OSInfo private constructor(
     private fun isLinuxMusl(): Boolean {
         var fileCount = -1
 
-        if (pathMapFiles.exists()) {
-            try {
+        try {
+            if (pathMapFiles.exists2()) {
                 pathMapFiles
                     .walkTopDown()
                     .maxDepth(1)
@@ -132,15 +134,15 @@ public actual class OSInfo private constructor(
 
                         // map_files directory contains symbolic links that must
                         // be resolved which canonicalPath will do for us.
-                        val canonicalPath = file.canonicalPath
+                        val canonicalPath = file.canonicalPath2()
 
                         if (canonicalPath.contains("musl")) {
                             return true
                         }
                     }
-            } catch (_: Throwable) {
-                fileCount = 0
             }
+        } catch (_: Throwable) {
+            fileCount = 0
         }
 
         if (fileCount < 1) {

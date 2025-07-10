@@ -13,14 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("RedundantCompanionReference")
+@file:Suppress("RedundantCompanionReference", "RedundantVisibilityModifier")
 
 package io.matthewnelson.kmp.tor.common.api
 
-import io.matthewnelson.kmp.file.*
-import io.matthewnelson.kmp.tor.common.api.internal.*
+import io.matthewnelson.kmp.file.File
+import io.matthewnelson.kmp.file.IOException
+import io.matthewnelson.kmp.file.absoluteFile2
+import io.matthewnelson.kmp.file.normalize
 import io.matthewnelson.kmp.tor.common.api.internal.Singleton
+import io.matthewnelson.kmp.tor.common.api.internal.getOrCreate
+import io.matthewnelson.kmp.tor.common.api.internal.isAnonymousObject
 import io.matthewnelson.kmp.tor.common.api.internal.newLock
+import io.matthewnelson.kmp.tor.common.api.internal.withLock
 import kotlin.concurrent.Volatile
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
@@ -54,7 +59,7 @@ public abstract class ResourceLoader private constructor() {
          * The absolute path to the directory for which resources will be extracted.
          * */
         @JvmField
-        public val resourceDir: File = resourceDir.absoluteFile.normalize()
+        public val resourceDir: File = resourceDir.absoluteFile2().normalize()
 
         /**
          * Extract tor's geoip & geoip6 files from application resources to [resourceDir].
@@ -109,6 +114,11 @@ public abstract class ResourceLoader private constructor() {
                  *
                  * **NOTE:** `extract` and `extractTor` are always invoked
                  * while holding a lock and are synchronized.
+                 *
+                 * @throws [IOException] If [absoluteFile2] has to reference the filesystem to construct
+                 *   an absolute path and fails due to a filesystem security exception.
+                 * @throws [UnsupportedOperationException] On Kotlin/JS-Browser if [absoluteFile2]
+                 *   references the filesystem to construct an absolute path.
                  * */
                 @JvmStatic
                 protected fun getOrCreate(
@@ -193,6 +203,11 @@ public abstract class ResourceLoader private constructor() {
                  * while holding a lock and are synchronized. The resulting
                  * [TorApi] reference from `create` is cached so a single
                  * instance is only every created, and subsequently reused.
+                 *
+                 * @throws [IOException] If [absoluteFile2] has to reference the filesystem to construct
+                 *   an absolute path and fails due to a filesystem security exception.
+                 * @throws [UnsupportedOperationException] On Kotlin/JS-Browser if [absoluteFile2]
+                 *   references the filesystem to construct an absolute path.
                  * */
                 @JvmStatic
                 protected fun getOrCreate(

@@ -16,16 +16,25 @@
 package io.matthewnelson.kmp.tor.common.api
 
 import io.matthewnelson.kmp.file.File
-import io.matthewnelson.kmp.file.absoluteFile
+import io.matthewnelson.kmp.file.IOException
+import io.matthewnelson.kmp.file.absoluteFile2
 import io.matthewnelson.kmp.file.normalize
 import kotlin.jvm.JvmField
 
+/**
+ * Holder for tor's geoip and geoip6 resource files.
+ *
+ * @throws [IOException] If [absoluteFile2] has to reference the filesystem to construct
+ *   an absolute path and fails due to a filesystem security exception.
+ * @throws [UnsupportedOperationException] On Kotlin/JS-Browser if [absoluteFile2]
+ *   references the filesystem to construct an absolute path.
+ * */
 public class GeoipFiles(geoip: File, geoip6: File) {
 
     @JvmField
-    public val geoip: File = geoip.absoluteFile.normalize()
+    public val geoip: File = geoip.absoluteFile2().normalize()
     @JvmField
-    public val geoip6: File = geoip6.absoluteFile.normalize()
+    public val geoip6: File = geoip6.absoluteFile2().normalize()
 
     /** @suppress */
     public override fun equals(other: Any?): Boolean {
