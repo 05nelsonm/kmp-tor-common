@@ -31,5 +31,6 @@ internal inline fun StringBuilder.appendIndent(
 internal inline fun String.toFinalFileName(): String = substringAfterLast('/')
     .substringBeforeLast(".gz")
 
+@Throws(Throwable::class)
 @OptIn(InternalKmpTorApi::class)
 internal expect fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist: Boolean): File

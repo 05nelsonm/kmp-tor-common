@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("NOTHING_TO_INLINE")
+package io.matthewnelson.kmp.tor.common.core.internal.node
 
-package io.matthewnelson.kmp.tor.common.core.internal
-
-// @Throws(Throwable::class)
-internal actual fun platformResolveResource(path: String): String = js("require.resolve(path)")
+internal actual fun nodeModuleFs(): ModuleFs = js("eval('require')('fs')")
+internal actual fun nodeModuleOs(): ModuleOs = js("eval('require')('os')")
+internal actual fun nodeModuleZlib(): ModuleZlib = js("eval('require')('zlib')")

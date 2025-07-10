@@ -13,9 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("NOTHING_TO_INLINE")
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING", "NOTHING_TO_INLINE")
 
-package io.matthewnelson.kmp.tor.common.core.internal
+package io.matthewnelson.kmp.tor.common.core.internal.node
+
+import io.matthewnelson.kmp.file.Buffer
+import io.matthewnelson.kmp.file.DelicateFileApi
+import io.matthewnelson.kmp.file.jsExternTryCatch
+
+internal actual external interface ModuleZlib {
+    fun gunzipSync(data: JsAny): JsAny
+}
 
 // @Throws(Throwable::class)
-internal actual fun platformResolveResource(path: String): String = js("require.resolve(path)")
+internal actual inline fun ModuleZlib.platformGunzipSync(buffer: Buffer): Buffer {
+    val unwrapped = buffer.unwrap()
+    @OptIn(DelicateFileApi::class)
+    val b = jsExternTryCatch { gunzipSync(unwrapped) }
+    return Buffer.wrap(b)
+}

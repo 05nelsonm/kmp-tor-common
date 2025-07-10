@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Matthew Nelson
+ * Copyright (c) 2025 Matthew Nelson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,12 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:JsModule("fs")
-@file:JsNonModule
-@file:Suppress("FunctionName", "ClassName")
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING", "NOTHING_TO_INLINE")
 
-package io.matthewnelson.kmp.tor.common.core.internal
+package io.matthewnelson.kmp.tor.common.core.internal.node
 
-/** [docs](https://nodejs.org/api/fs.html#fsreaddirsyncpath-options) */
-@JsName("readdirSync")
-internal external fun fs_readdirSync(path: String, options: dynamic): Array<String>
+import io.matthewnelson.kmp.file.Buffer
+
+internal actual external interface ModuleZlib {
+    fun gunzipSync(data: dynamic): dynamic
+}
+
+// @Throws(Throwable::class)
+internal actual inline fun ModuleZlib.platformGunzipSync(buffer: Buffer): Buffer {
+    val unwrapped = buffer.unwrap()
+    val b = gunzipSync(unwrapped)
+    return Buffer.wrap(b)
+}

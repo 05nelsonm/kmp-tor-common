@@ -1,5 +1,5 @@
 // Klib ABI Dump
-// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
+// Targets: [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, js, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, wasmJs, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
 // Alias: native => [androidNativeArm32, androidNativeArm64, androidNativeX64, androidNativeX86, iosArm64, iosSimulatorArm64, iosX64, linuxArm64, linuxX64, macosArm64, macosX64, mingwX64, tvosArm64, tvosSimulatorArm64, tvosX64, watchosArm32, watchosArm64, watchosDeviceArm64, watchosSimulatorArm64, watchosX64]
 // Rendering settings:
 // - Signature version: 2
@@ -23,12 +23,12 @@ final class io.matthewnelson.kmp.tor.common.core/PlatformResource { // io.matthe
             final fun <get-nativeResource>(): io.matthewnelson.kmp.tor.common.core/NativeResource? // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.nativeResource.<get-nativeResource>|<get-nativeResource>(){}[0]
             final fun <set-nativeResource>(io.matthewnelson.kmp.tor.common.core/NativeResource?) // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.nativeResource.<set-nativeResource>|<set-nativeResource>(io.matthewnelson.kmp.tor.common.core.NativeResource?){}[0]
 
-        // Targets: [js]
+        // Targets: [js, wasmJs]
         final var moduleName // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.moduleName|{}moduleName[0]
             final fun <get-moduleName>(): kotlin/String? // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.moduleName.<get-moduleName>|<get-moduleName>(){}[0]
             final fun <set-moduleName>(kotlin/String?) // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.moduleName.<set-moduleName>|<set-moduleName>(kotlin.String?){}[0]
 
-        // Targets: [js]
+        // Targets: [js, wasmJs]
         final var resourcePath // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.resourcePath|{}resourcePath[0]
             final fun <get-resourcePath>(): kotlin/String? // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.resourcePath.<get-resourcePath>|<get-resourcePath>(){}[0]
             final fun <set-resourcePath>(kotlin/String?) // io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder.resourcePath.<set-resourcePath>|<set-resourcePath>(kotlin.String?){}[0]
@@ -124,7 +124,7 @@ final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.core/synchron
 // Targets: [native]
 final inline fun io.matthewnelson.kmp.tor.common.core/synchronizedObject(): kotlinx.atomicfu.locks/SynchronizedObject // io.matthewnelson.kmp.tor.common.core/synchronizedObject|synchronizedObject(){}[0]
 
-// Targets: [js]
+// Targets: [js, wasmJs]
 final class io.matthewnelson.kmp.tor.common.core/OSInfo { // io.matthewnelson.kmp.tor.common.core/OSInfo|null[0]
     final val osArch // io.matthewnelson.kmp.tor.common.core/OSInfo.osArch|{}osArch[0]
         final fun <get-osArch>(): io.matthewnelson.kmp.tor.common.core/OSArch // io.matthewnelson.kmp.tor.common.core/OSInfo.osArch.<get-osArch>|<get-osArch>(){}[0]
@@ -137,7 +137,7 @@ final class io.matthewnelson.kmp.tor.common.core/OSInfo { // io.matthewnelson.km
     }
 }
 
-// Targets: [js]
+// Targets: [js, wasmJs]
 sealed class io.matthewnelson.kmp.tor.common.core/OSArch { // io.matthewnelson.kmp.tor.common.core/OSArch|null[0]
     final val path // io.matthewnelson.kmp.tor.common.core/OSArch.path|{}path[0]
         final fun <get-path>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/OSArch.path.<get-path>|<get-path>(){}[0]
@@ -170,7 +170,7 @@ sealed class io.matthewnelson.kmp.tor.common.core/OSArch { // io.matthewnelson.k
     final object X86_64 : io.matthewnelson.kmp.tor.common.core/OSArch // io.matthewnelson.kmp.tor.common.core/OSArch.X86_64|null[0]
 }
 
-// Targets: [js]
+// Targets: [js, wasmJs]
 sealed class io.matthewnelson.kmp.tor.common.core/OSHost { // io.matthewnelson.kmp.tor.common.core/OSHost|null[0]
     final val path // io.matthewnelson.kmp.tor.common.core/OSHost.path|{}path[0]
         final fun <get-path>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/OSHost.path.<get-path>|<get-path>(){}[0]
@@ -205,15 +205,15 @@ sealed class io.matthewnelson.kmp.tor.common.core/OSHost { // io.matthewnelson.k
     final object Windows : io.matthewnelson.kmp.tor.common.core/OSHost // io.matthewnelson.kmp.tor.common.core/OSHost.Windows|null[0]
 }
 
-// Targets: [js]
+// Targets: [js, wasmJs]
 final val io.matthewnelson.kmp.tor.common.core/SYNCHRONIZED_OBJECT // io.matthewnelson.kmp.tor.common.core/SYNCHRONIZED_OBJECT|{}SYNCHRONIZED_OBJECT[0]
     final fun <get-SYNCHRONIZED_OBJECT>(): kotlin/Any // io.matthewnelson.kmp.tor.common.core/SYNCHRONIZED_OBJECT.<get-SYNCHRONIZED_OBJECT>|<get-SYNCHRONIZED_OBJECT>(){}[0]
 
-// Targets: [js]
+// Targets: [js, wasmJs]
 final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.core/synchronized(kotlin/Any, kotlin/Function0<#A>): #A // io.matthewnelson.kmp.tor.common.core/synchronized|synchronized(kotlin.Any;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]
 
-// Targets: [js]
+// Targets: [js, wasmJs]
 final inline fun <#A: kotlin/Any?> io.matthewnelson.kmp.tor.common.core/synchronizedImpl(kotlin/Any, kotlin/Function0<#A>): #A // io.matthewnelson.kmp.tor.common.core/synchronizedImpl|synchronizedImpl(kotlin.Any;kotlin.Function0<0:0>){0§<kotlin.Any?>}[0]
 
-// Targets: [js]
+// Targets: [js, wasmJs]
 final inline fun io.matthewnelson.kmp.tor.common.core/synchronizedObject(): kotlin/Any // io.matthewnelson.kmp.tor.common.core/synchronizedObject|synchronizedObject(){}[0]

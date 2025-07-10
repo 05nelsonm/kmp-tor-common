@@ -13,9 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("NOTHING_TO_INLINE")
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING", "NOTHING_TO_INLINE")
 
-package io.matthewnelson.kmp.tor.common.core.internal
+package io.matthewnelson.kmp.tor.common.core.internal.node
+
+import io.matthewnelson.kmp.tor.common.core.internal.js.JsObject
+
+/** [docs](https://nodejs.org/api/fs.html) */
+internal actual external interface ModuleFs {
+    fun readdirSync(path: String, options: JsObject): Array<String?>?
+}
 
 // @Throws(Throwable::class)
-internal actual fun platformResolveResource(path: String): String = js("require.resolve(path)")
+internal actual inline fun ModuleFs.platformReadDirSync(path: String, options: JsObject): List<String?>? {
+    return readdirSync(path, options)?.toList()
+}

@@ -28,10 +28,10 @@ import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.internal.ARCH_MAP
 import io.matthewnelson.kmp.tor.common.core.internal.PATH_MAP_FILES
 import io.matthewnelson.kmp.tor.common.core.internal.PATH_OS_RELEASE
-import io.matthewnelson.kmp.tor.common.core.internal.fs_readdirSync
-import io.matthewnelson.kmp.tor.common.core.internal.os_arch
-import io.matthewnelson.kmp.tor.common.core.internal.os_machine
-import io.matthewnelson.kmp.tor.common.core.internal.os_platform
+import io.matthewnelson.kmp.tor.common.core.internal.node.nodeOptionsReadDir
+import io.matthewnelson.kmp.tor.common.core.internal.node.node_fs
+import io.matthewnelson.kmp.tor.common.core.internal.node.node_os
+import io.matthewnelson.kmp.tor.common.core.internal.node.platformReadDirSync
 
 @InternalKmpTorApi
 public actual class OSInfo private constructor(
@@ -49,9 +49,9 @@ public actual class OSInfo private constructor(
         internal fun get(
             pathMapFiles: File = PATH_MAP_FILES.toFile(),
             pathOSRelease: File = PATH_OS_RELEASE.toFile(),
-            machineName: String? = os_machine(),
-            hostName: String? = os_platform(),
-            archName: String? = os_arch(),
+            machineName: String? = try { node_os.machine() } catch (_: UnsupportedOperationException) { null },
+            hostName: String? = try { node_os.platform() } catch (_: UnsupportedOperationException) { null },
+            archName: String? = try { node_os.arch() } catch (_: UnsupportedOperationException) { null },
         ): OSInfo = OSInfo(
             pathMapFiles = pathMapFiles,
             pathOSRelease = pathOSRelease,
@@ -100,19 +100,13 @@ public actual class OSInfo private constructor(
 
         try {
             if (pathMapFiles.exists2()) {
-                val opts = js("{}")
-                opts["encoding"] = "utf8"
-                opts["withFileTypes"] = false
-                opts["recursive"] = false
+                val options = nodeOptionsReadDir(encoding = "utf8", withFileTypes = false, recursive = false)
+                node_fs.platformReadDirSync(pathMapFiles.path, options)?.forEach { entry ->
+                    if (entry == null) return@forEach
 
-                fs_readdirSync(pathMapFiles.path, opts).forEach { entry ->
                     fileCount++
-
                     val canonical = pathMapFiles.resolve(entry).canonicalPath2()
-
-                    if (canonical.contains("musl")) {
-                        return true
-                    }
+                    if (canonical.contains("musl")) return true
                 }
             }
         } catch (_: Throwable) {

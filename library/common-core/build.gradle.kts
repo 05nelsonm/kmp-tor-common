@@ -21,14 +21,6 @@ private val testConfig = TestConfigInject()
 
 kmpConfiguration {
     configureShared(java9ModuleName = "io.matthewnelson.kmp.tor.common.core", publish = true) {
-        js {
-            sourceSetTest {
-                dependencies {
-                    implementation(npm("kmp-tor-core-test-resources", "2.0.0"))
-                }
-            }
-        }
-
         common {
             sourceSetMain {
                 dependencies {
@@ -50,22 +42,31 @@ kmpConfiguration {
         }
 
         kotlin {
+            sourceSets.findByName("jsWasmJsTest")?.dependencies {
+                implementation(npm("kmp-tor-core-test-resources", "2.0.0"))
+            }
+        }
+
+        kotlin {
             with(sourceSets) {
-                val jsMain = findByName("jsMain")
-                val jvmMain = findByName("jvmMain")
-
-                if (jsMain != null || jvmMain != null) {
-                    val nonNativeMain = maybeCreate("nonNativeMain")
-                    nonNativeMain.dependsOn(getByName("commonMain"))
-                    jvmMain?.apply { dependsOn(nonNativeMain) }
-                    jsMain?.apply { dependsOn(nonNativeMain) }
-
-                    val nonNativeTest = maybeCreate("nonNativeTest")
-                    nonNativeTest.dependsOn(getByName("commonTest"))
-                    findByName("jvmTest")?.dependsOn(nonNativeTest)
-                    findByName("jsTest")?.dependsOn(nonNativeTest)
+                val sets = arrayOf("jsWasmJs", "jvm").mapNotNull { name ->
+                    val main = findByName(name + "Main") ?: return@mapNotNull null
+                    val test = getByName(name + "Test")
+                    main to test
                 }
+                if (sets.isEmpty()) return@kotlin
 
+                val main = maybeCreate("nonNativeMain")
+                val test = maybeCreate("nonNativeTest")
+                main.dependsOn(getByName("commonMain"))
+                test.dependsOn(getByName("commonTest"))
+
+                sets.forEach { (m, t) -> m.dependsOn(main); t.dependsOn(test) }
+            }
+        }
+
+        kotlin {
+            with(sourceSets) {
                 findByName("nativeMain")?.apply {
                     dependencies {
                         implementation(libs.encoding.base16)
@@ -74,10 +75,6 @@ kmpConfiguration {
                         implementation(kotlincrypto.hash.sha2)
                     }
                 }
-
-                // TODO: If jvm enabled, native tests depend on jvmTest
-                //  running which will write the test_support/lorem_ipsum.txt
-                //  resource to nativeTest
             }
         }
     }

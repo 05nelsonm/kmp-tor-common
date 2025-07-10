@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("NOTHING_TO_INLINE")
+package io.matthewnelson.kmp.tor.common.core.internal.js
 
-package io.matthewnelson.kmp.tor.common.core.internal
+import kotlin.js.JsName
 
-// @Throws(Throwable::class)
-internal actual fun platformResolveResource(path: String): String = js("require.resolve(path)")
+@JsName("Object")
+internal external class JsObject

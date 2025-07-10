@@ -15,7 +15,16 @@
  **/
 package io.matthewnelson.kmp.tor.common.core.internal
 
-import io.matthewnelson.kmp.file.*
+import io.matthewnelson.kmp.file.Closeable
+import io.matthewnelson.kmp.file.File
+import io.matthewnelson.kmp.file.IOException
+import io.matthewnelson.kmp.file.OpenExcl
+import io.matthewnelson.kmp.file.delete2
+import io.matthewnelson.kmp.file.errnoToIOException
+import io.matthewnelson.kmp.file.exists2
+import io.matthewnelson.kmp.file.openWrite
+import io.matthewnelson.kmp.file.resolve
+import io.matthewnelson.kmp.file.use
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.Resource
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -32,7 +41,8 @@ import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
 
-@OptIn(DelicateFileApi::class, ExperimentalForeignApi::class, InternalKmpTorApi::class)
+@Throws(Throwable::class)
+@OptIn(ExperimentalForeignApi::class, InternalKmpTorApi::class)
 internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist: Boolean): File {
     val name = platform.nativeResource.name
     val destFinal = if (platform.isGzipped) {
@@ -71,6 +81,7 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
     // Was not gzipped. dest is the final destination.
     if (destFinal == null) return dest
 
+    var threw: IOException? = null
     try {
         dest.gzOpenRead { gzFile ->
             destFinal.openWrite(excl = excl).use { s ->
@@ -93,13 +104,17 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
         } catch (ee: IOException) {
             e.addSuppressed(ee)
         }
-        throw e
+        threw = e
     } finally {
         // Always clean up and delete the gzipped file
         try {
             dest.delete2(ignoreReadOnly = true)
-        } catch (_: IOException) {}
+        } catch (e: IOException) {
+            threw?.addSuppressed(e)
+        }
     }
+
+    threw?.let { throw it }
 
     return destFinal
 }
@@ -111,6 +126,7 @@ private inline fun <T: Any?> File.gzOpenRead(block: (file: gzFile) -> T): T {
         callsInPlace(block, InvocationKind.AT_MOST_ONCE)
     }
 
+    @Suppress("VariableInitializerIsRedundant")
     var ptr: gzFile? = null
     while (true) {
         ptr = gzopenRO()
