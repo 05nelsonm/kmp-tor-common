@@ -42,6 +42,7 @@ kmpConfiguration {
                 sources.forEach { it.dependsOn(nonJsMain) }
             }
         }
+
         kotlin {
             sourceSets.findByName("nativeMain")?.dependencies {
                 implementation(libs.kotlinx.atomicfu)

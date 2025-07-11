@@ -42,21 +42,32 @@ fun KmpConfigurationExtension.configureShared(
             java9ModuleInfoName = java9ModuleName
         }
 
+        @Suppress("RedundantSamConstructor")
         js {
             target {
+                browser {
+                    testTask(Action {
+                        isEnabled = false
+                    })
+                }
                 nodejs {
-                    @Suppress("RedundantSamConstructor")
                     testTask(Action {
                         useMocha { timeout = "30s" }
                     })
                 }
             }
         }
+
         @OptIn(ExperimentalWasmDsl::class)
+        @Suppress("RedundantSamConstructor")
         wasmJs {
             target {
+                browser {
+                    testTask(Action {
+                        isEnabled = false
+                    })
+                }
                 nodejs {
-                    @Suppress("RedundantSamConstructor")
                     testTask(Action {
                         useMocha { timeout = "30s" }
                     })

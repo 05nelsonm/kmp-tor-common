@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+
 plugins {
     id("configuration")
 }
@@ -23,6 +25,31 @@ kmpConfiguration {
             kotlinJvmTarget = JavaVersion.VERSION_1_8
             compileSourceCompatibility = JavaVersion.VERSION_1_8
             compileTargetCompatibility = JavaVersion.VERSION_1_8
+        }
+
+        @Suppress("RedundantSamConstructor")
+        js {
+            target {
+                browser()
+                nodejs {
+                    testTask(Action {
+                        useMocha { timeout = "30s" }
+                    })
+                }
+            }
+        }
+
+        @OptIn(ExperimentalWasmDsl::class)
+        @Suppress("RedundantSamConstructor")
+        wasmJs {
+            target {
+                browser()
+                nodejs {
+                    testTask(Action {
+                        useMocha { timeout = "30s" }
+                    })
+                }
+            }
         }
 
         common {
@@ -57,6 +84,16 @@ kmpConfiguration {
                 from(configuration.map { if (it.isDirectory) it else zipTree(it) })
                 with(project.tasks.getByName("jvmJar") as CopySpec)
                 dependsOn(":library:common-core:jvmJar")
+            }
+        }
+
+        kotlin {
+            with(sourceSets) {
+                val sets = arrayOf("js", "wasmJs").mapNotNull { name -> findByName(name + "Test") }
+                if (sets.isEmpty()) return@kotlin
+                val test = maybeCreate("jsWasmJsTest")
+                test.dependsOn(getByName("nonJvmTest"))
+                sets.forEach { it.dependsOn(test) }
             }
         }
     }
