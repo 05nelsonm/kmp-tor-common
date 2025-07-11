@@ -19,21 +19,27 @@ import io.matthewnelson.encoding.base16.Base16
 import io.matthewnelson.encoding.base64.Base64
 import io.matthewnelson.encoding.core.Decoder.Companion.decodeToByteArray
 import io.matthewnelson.encoding.core.Encoder.Companion.encodeToString
+import io.matthewnelson.kmp.file.File
+import io.matthewnelson.kmp.file.openWrite
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import org.kotlincrypto.hash.sha2.SHA256
 
 /**
  * Runtime abstraction for resources that have been transformed for
- * Kotlin Multi-Platform native
+ * Kotlin Multiplatform Native.
+ *
+ * **NOTE:** If [name] ends with `.gz`, [Resource.Config.extractTo] will
+ * automatically uncompress the data.
  *
  * See [resource-cli](https://github.com/05nelsonm/kmp-tor-resource/tree/master/tools/resource-cli)
  *
  * @param [version] A number that mitigates breaking things for
- *   resources that have already been transformed.
- * @param [name] The original file name of the transformed resource (e.g. test.txt)
- * @param [size] The byte size
- * @param [sha256] The pre-computed sha256 value of the transformed resource
- * @param [chunks] The number of [Chunk]s that the transformed resource has
+ *   resources that have already been transformed. Currently, only `1` is accepted.
+ * @param [name] The original file name of the transformed resource (e.g. test.txt).
+ * @param [size] The byte size of the transformed resource.
+ * @param [sha256] The pre-computed sha256 value of the transformed resource.
+ * @param [chunks] The number of [Chunk]s that the transformed resource has.
+ *
  * @see [get]
  * @see [read]
  * */
@@ -82,14 +88,15 @@ public abstract class NativeResource protected constructor(
         init {
             check(data.length <= 5549) {
                 "data must be of length less than or equal to 5549 " +
-                "(Maximum of 4096 bytes Base64 encoded with a line break interval of 64)"
+                "(Maximum of 4096 bytes Base64 encoded text with a line " +
+                "break interval of 64)."
             }
         }
 
         /**
-         * Decodes the base64 encoded chunk of [data]
+         * Decodes the base64 encoded chunk of [data].
          *
-         * @throws [RuntimeException] if there was a decoding error
+         * @throws [RuntimeException] If there was a decoding error.
          * */
         @Throws(RuntimeException::class)
         public fun decode(): ByteArray = data.decodeToByteArray(Base64.Default)
@@ -102,12 +109,12 @@ public abstract class NativeResource protected constructor(
     }
 
     /**
-     * Returns a [Chunk] at the provided [index]
+     * Returns a [Chunk] at the provided [index].
      *
      * @see [Chunk]
-     * @throws [IllegalStateException] if the data provided to [Chunk] is
-     *   improperly formatted
-     * @throws [IndexOutOfBoundsException] if [index] is negative or exceeds [chunks]
+     *
+     * @throws [IllegalStateException] If the data provided to [Chunk] is improperly formatted.
+     * @throws [IndexOutOfBoundsException] If [index] is negative or exceeds [chunks].
      * */
     @Throws(IllegalStateException::class, IndexOutOfBoundsException::class)
     public abstract operator fun get(index: Long): Chunk
@@ -116,19 +123,20 @@ public abstract class NativeResource protected constructor(
      * Reads the entire [NativeResource] with validation of the [size]
      * and [sha256] values upon completion.
      *
-     * e.g.
+     * e.g. (Unpacking a resource to a file via [File.openWrite])
      *
-     *     myFile.outputStream().use { oStream ->
+     *     myFile.openWrite(excl = null).use { fileStream ->
      *         resource_test_txt.read { buffer, len ->
-     *             oStream.write(buffer, 0, len)
+     *             fileStream.write(buffer, 0, len)
      *         }
      *     }
      *
      * @param [block] a firehose of bytes to redirect how you wish.
+     *
      * @throws [RuntimeException] if:
      *   - [version] is unknown
      *   - [Chunk.data] was improperly formatted
-     *   - A decoding failure occured
+     *   - A decoding failure occurred
      *   - [size] did not match the number of decoded bytes
      *   - [sha256] did not match the decoded output
      * */
