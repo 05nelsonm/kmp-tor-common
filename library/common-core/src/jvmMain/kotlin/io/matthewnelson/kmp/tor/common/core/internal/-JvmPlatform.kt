@@ -60,7 +60,7 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
         }
     }
 
-    val excl = OpenExcl.MustCreate.of(mode = if (isExecutable) "500" else "400")
+    val excl = OpenExcl.MustCreate.of(mode = mode)
 
     try {
         resourceStream.use { iStream ->

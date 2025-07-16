@@ -33,7 +33,7 @@ class JvmResourceUnitTest {
         val alias = "hello_gzip"
         val config = Resource.Config.create {
             resource(alias) {
-                isExecutable = false
+                mode("400")
                 platform {
                     resourceClass = JvmResourceUnitTest::class.java
                     resourcePath = "/io/matthewnelson/kmp/tor/common/core/hello_world.gz"
@@ -63,7 +63,7 @@ class JvmResourceUnitTest {
         val alias = "hello"
         val config = Resource.Config.create {
             resource(alias) {
-                isExecutable = false
+                mode("400")
                 platform {
                     resourceClass = JvmResourceUnitTest::class.java
                     resourcePath = "/io/matthewnelson/kmp/tor/common/core/hello_world"

@@ -50,7 +50,7 @@ class NativeResourceUnitTest {
 
         val config = Resource.Config.create {
             resource(alias) {
-                isExecutable = false
+                mode("400")
                 platform { nativeResource = resource_LoremIpsum_gz }
             }
         }
@@ -81,7 +81,7 @@ class NativeResourceUnitTest {
 
         val config = Resource.Config.create {
             resource(alias) {
-                isExecutable = false
+                mode("400")
                 platform { nativeResource = resource_lorem_ipsum }
             }
         }

@@ -20,6 +20,7 @@ import io.matthewnelson.immutable.collections.toImmutableSet
 import io.matthewnelson.kmp.file.File
 import io.matthewnelson.kmp.file.IOException
 import io.matthewnelson.kmp.file.canonicalFile2
+import io.matthewnelson.kmp.file.chmod2
 import io.matthewnelson.kmp.file.delete2
 import io.matthewnelson.kmp.file.mkdirs2
 import io.matthewnelson.kmp.file.wrapIOException
@@ -36,10 +37,17 @@ public class Resource private constructor(
     @JvmField
     public val alias: String,
     @JvmField
-    public val isExecutable: Boolean,
+    public val mode: String,
     @JvmField
     public val platform: PlatformResource,
 ) {
+
+    @JvmField
+    @Deprecated("Use mode")
+    public val isExecutable: Boolean = when (mode.first()) {
+        '7', '5', '3', '1' -> true
+        else -> false
+    }
 
     @InternalKmpTorApi
     public class Config private constructor(
@@ -205,10 +213,37 @@ public class Resource private constructor(
         public val alias: String
     ) {
 
+        private var _mode: String? = null
+
         @JvmField
+        @Deprecated("Use mode")
         public var isExecutable: Boolean = false
 
         private var platform: PlatformResource? = null
+
+        /**
+         * Set the file permissions for the newly extracted resource.
+         *
+         * @see [File.chmod2]
+         *
+         * @throws [IllegalArgumentException] If [value] is inappropriate.
+         * */
+        @KmpTorDsl
+        public fun mode(
+            value: String?,
+        ): Builder {
+            if (value == null) {
+                _mode = value
+                return this
+            }
+
+            require(value.length == 3) { "Invalid mode.length[${value.length}]. Must be 3 digits[0-7] (e.g. 764)" }
+            value.forEach { c ->
+                require(c in '0'..'7') { "Invalid mode[$value]. Must be 3 digits[0-7] (e.g. 764)" }
+            }
+            _mode = value
+            return this
+        }
 
         @KmpTorDsl
         public fun platform(
@@ -221,8 +256,13 @@ public class Resource private constructor(
         @JvmSynthetic
         internal fun build(): Resource? {
             val p = platform ?: return null
+            var m = _mode
+            if (m == null) {
+                @Suppress("DEPRECATION")
+                m = if (isExecutable) "500" else "400"
+            }
 
-            return Resource(alias, isExecutable, p)
+            return Resource(alias, m, p)
         }
     }
 
@@ -232,8 +272,8 @@ public class Resource private constructor(
         appendLine("Resource: [")
         appendIndent("alias: ")
         appendLine(alias)
-        appendIndent("isExecutable: ")
-        appendLine(isExecutable)
+        appendIndent("mode: ")
+        appendLine(mode)
         appendIndent("platform: [")
         appendLine()
 

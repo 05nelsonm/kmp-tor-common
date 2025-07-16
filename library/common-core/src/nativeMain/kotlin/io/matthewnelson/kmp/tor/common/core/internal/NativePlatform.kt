@@ -62,7 +62,7 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
     dest.delete2(ignoreReadOnly = true)
     destFinal?.delete2(ignoreReadOnly = true)
 
-    val excl = OpenExcl.MustCreate.of(mode = if (isExecutable) "500" else "400")
+    val excl = OpenExcl.MustCreate.of(mode = mode)
     try {
         dest.openWrite(excl = if (destFinal == null) excl else null).use { s ->
             platform.nativeResource.read { buf, len ->

@@ -34,7 +34,7 @@ class JsResourceUnitTest {
         val alias = "hello_gzip"
         val config = Resource.Config.create {
             resource(alias) {
-                isExecutable = false
+                mode("400")
                 platform {
                     moduleName = "kmp-tor-core-test-resources"
                     resourcePath = "/io/matthewnelson/kmp/tor/core/resource/hello_world.gz"
@@ -64,7 +64,7 @@ class JsResourceUnitTest {
         val alias = "hello"
         val config = Resource.Config.create {
             resource(alias) {
-                isExecutable = false
+                mode("400")
                 platform {
                     moduleName = "kmp-tor-core-test-resources"
                     resourcePath = "/io/matthewnelson/kmp/tor/core/resource/hello_world"
