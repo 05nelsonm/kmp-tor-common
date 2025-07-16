@@ -111,8 +111,9 @@ public final class io/matthewnelson/kmp/tor/common/core/PlatformResource$Builder
 public final class io/matthewnelson/kmp/tor/common/core/Resource {
 	public final field alias Ljava/lang/String;
 	public final field isExecutable Z
+	public final field mode Ljava/lang/String;
 	public final field platform Lio/matthewnelson/kmp/tor/common/core/PlatformResource;
-	public synthetic fun <init> (Ljava/lang/String;ZLio/matthewnelson/kmp/tor/common/core/PlatformResource;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/matthewnelson/kmp/tor/common/core/PlatformResource;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
@@ -121,6 +122,7 @@ public final class io/matthewnelson/kmp/tor/common/core/Resource {
 public final class io/matthewnelson/kmp/tor/common/core/Resource$Builder {
 	public final field alias Ljava/lang/String;
 	public field isExecutable Z
+	public final fun mode (Ljava/lang/String;)Lio/matthewnelson/kmp/tor/common/core/Resource$Builder;
 	public final fun platform (Lkotlin/jvm/functions/Function1;)Lio/matthewnelson/kmp/tor/common/core/Resource$Builder;
 }
 

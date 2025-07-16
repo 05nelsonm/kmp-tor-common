@@ -40,6 +40,8 @@ final class io.matthewnelson.kmp.tor.common.core/Resource { // io.matthewnelson.
         final fun <get-alias>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/Resource.alias.<get-alias>|<get-alias>(){}[0]
     final val isExecutable // io.matthewnelson.kmp.tor.common.core/Resource.isExecutable|{}isExecutable[0]
         final fun <get-isExecutable>(): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/Resource.isExecutable.<get-isExecutable>|<get-isExecutable>(){}[0]
+    final val mode // io.matthewnelson.kmp.tor.common.core/Resource.mode|{}mode[0]
+        final fun <get-mode>(): kotlin/String // io.matthewnelson.kmp.tor.common.core/Resource.mode.<get-mode>|<get-mode>(){}[0]
     final val platform // io.matthewnelson.kmp.tor.common.core/Resource.platform|{}platform[0]
         final fun <get-platform>(): io.matthewnelson.kmp.tor.common.core/PlatformResource // io.matthewnelson.kmp.tor.common.core/Resource.platform.<get-platform>|<get-platform>(){}[0]
 
@@ -55,6 +57,7 @@ final class io.matthewnelson.kmp.tor.common.core/Resource { // io.matthewnelson.
             final fun <get-isExecutable>(): kotlin/Boolean // io.matthewnelson.kmp.tor.common.core/Resource.Builder.isExecutable.<get-isExecutable>|<get-isExecutable>(){}[0]
             final fun <set-isExecutable>(kotlin/Boolean) // io.matthewnelson.kmp.tor.common.core/Resource.Builder.isExecutable.<set-isExecutable>|<set-isExecutable>(kotlin.Boolean){}[0]
 
+        final fun mode(kotlin/String?): io.matthewnelson.kmp.tor.common.core/Resource.Builder // io.matthewnelson.kmp.tor.common.core/Resource.Builder.mode|mode(kotlin.String?){}[0]
         final fun platform(kotlin/Function1<io.matthewnelson.kmp.tor.common.core/PlatformResource.Builder, kotlin/Unit>): io.matthewnelson.kmp.tor.common.core/Resource.Builder // io.matthewnelson.kmp.tor.common.core/Resource.Builder.platform|platform(kotlin.Function1<io.matthewnelson.kmp.tor.common.core.PlatformResource.Builder,kotlin.Unit>){}[0]
     }
 
