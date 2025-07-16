@@ -40,15 +40,10 @@ kmpConfiguration {
         }
 
         @OptIn(ExperimentalWasmDsl::class)
-        @Suppress("RedundantSamConstructor")
         wasmJs {
             target {
                 browser()
-                nodejs {
-                    testTask(Action {
-                        useMocha { timeout = "30s" }
-                    })
-                }
+                nodejs()
             }
         }
 
