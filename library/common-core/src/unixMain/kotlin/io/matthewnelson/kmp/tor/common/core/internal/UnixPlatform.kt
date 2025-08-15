@@ -31,18 +31,15 @@ import platform.zlib.gzdopen
 @ExperimentalForeignApi
 @Suppress("NOTHING_TO_INLINE")
 internal actual inline fun File.gzopenRO(): gzFile? {
-    val fd = open(path, /* flags = */O_RDONLY or O_CLOEXEC, /* mode = */0)
+    val fd = open(path, O_RDONLY or O_CLOEXEC, 0)
     if (fd == -1) return null
 
     val ptr = gzdopen(fd, "r")
     if (ptr == null) {
         val errnoBefore = errno
-        while (true) {
-            if (close(fd) != -1) break
-            if (errno == EINTR) continue
-            break // Silently ignore close failure. Not much can be done here
+        if (close(fd) == -1) {
+            set_posix_errno(errnoBefore)
         }
-        set_posix_errno(errnoBefore)
     }
     return ptr
 }
