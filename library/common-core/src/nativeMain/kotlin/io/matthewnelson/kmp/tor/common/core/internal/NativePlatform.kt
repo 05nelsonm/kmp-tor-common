@@ -128,12 +128,10 @@ private inline fun <T: Any?> File.gzOpenRead(block: (file: gzFile) -> T): T {
 
     @Suppress("VariableInitializerIsRedundant")
     var ptr: gzFile? = null
-    while (true) {
+    do {
         ptr = gzopenRO()
-        if (ptr != null) break
-        if (errno == EINTR) continue
-        throw errnoToIOException(errno, this)
-    }
+    } while (ptr == null && errno == EINTR)
+    if (ptr == null) throw errnoToIOException(errno, this)
 
     val closeable = object : Closeable {
 
@@ -143,11 +141,8 @@ private inline fun <T: Any?> File.gzOpenRead(block: (file: gzFile) -> T): T {
         override fun close() {
             val ptr = _ptr ?: return
             _ptr = null
-            while (true) {
-                if (gzclose_r(ptr) == Z_OK) break
-                if (errno == EINTR) continue
-                throw errnoToIOException(errno)
-            }
+            if (gzclose_r(ptr) == Z_OK) return
+            throw errnoToIOException(errno)
         }
     }
 
