@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## Version 2.3.1 (2025-08-20)
+ - Updates `kotlinx.atomicfu` to `0.28.0` [[#100]][100]
+ - Updates `kmp-file` to `0.4.0` [[#100]][100]
+ - Adds support for `wasmJs` [[#102]][102]
+ - Deprecates `Resource.Builder.isExecutable` in favor of passing a mode [[#105]][105]
+ - Fixes potential double-close on Kotlin/Native [[#106]][106]
+
 ## Version 2.3.0 (2025-06-11)
  - Updates `kotlin` to `2.1.21` [[#85]][85]
  - Updates `kmp-file` to `0.3.0` [[#85]][85]
@@ -139,4 +146,7 @@
 [87]: https://github.com/05nelsonm/kmp-tor-common/pull/87
 [97]: https://github.com/05nelsonm/kmp-tor-common/pull/97
 [99]: https://github.com/05nelsonm/kmp-tor-common/pull/99
-
+[100]: https://github.com/05nelsonm/kmp-tor-common/pull/100
+[102]: https://github.com/05nelsonm/kmp-tor-common/pull/102
+[105]: https://github.com/05nelsonm/kmp-tor-common/pull/105
+[106]: https://github.com/05nelsonm/kmp-tor-common/pull/106
