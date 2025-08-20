@@ -41,7 +41,7 @@
             </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
         </button>
         <div class="navigation-controls--break ui-kit_mobile-only"></div>
-        <div class="library-version" id="library-version">2.3.0
+        <div class="library-version" id="library-version">2.3.1
         </div>
         <div class="navigation-controls">
         <div class="filter-section filter-section_loading" id="filter-section">
@@ -94,7 +94,7 @@
   <div class="breadcrumbs"><a href="../../../index.html">common-api</a><span class="delimiter">/</span><a href="../../index.html">io.matthewnelson.kmp.tor.common.api</a><span class="delimiter">/</span><a href="../index.html">ResourceLoader</a><span class="delimiter">/</span><span class="current">RuntimeBinder</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Runtime</span><wbr><span><span>Binder</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:common-api/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">RuntimeBinder</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/05nelsonm/kmp-tor-common/tree/master/library/common-api/src/commonMain/kotlin/io/matthewnelson/kmp/tor/common/api/ResourceLoader.kt#L262">source</a>)</span></span></div><p class="paragraph">Interface for runtime implementations to use for binding <a href="../index.html">ResourceLoader</a> instances, inhibit any external invocations.</p><p class="paragraph">For example, <a href="../-tor/-exec/process.html">Tor.Exec.process</a> and <a href="../-tor/-no-exec/with-api.html">Tor.NoExec.withApi</a> will be bound to a <a href="index.html">RuntimeBinder</a> upon first invocation. If a different <a href="index.html">RuntimeBinder</a> is utilized later (from someone who has access to the loader, but not the binder), an exception is raised. This is in order to export runtime functionality to a single implementation and constrain access.</p></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":library:common-api/commonMain"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">RuntimeBinder</a><span class="clearfix"><span class="floating-right">(<a href="https://github.com/05nelsonm/kmp-tor-common/tree/master/library/common-api/src/commonMain/kotlin/io/matthewnelson/kmp/tor/common/api/ResourceLoader.kt#L277">source</a>)</span></span></div><p class="paragraph">Interface for runtime implementations to use for binding <a href="../index.html">ResourceLoader</a> instances, inhibit any external invocations.</p><p class="paragraph">For example, <a href="../-tor/-exec/process.html">Tor.Exec.process</a> and <a href="../-tor/-no-exec/with-api.html">Tor.NoExec.withApi</a> will be bound to a <a href="index.html">RuntimeBinder</a> upon first invocation. If a different <a href="index.html">RuntimeBinder</a> is utilized later (from someone who has access to the loader, but not the binder), an exception is raised. This is in order to export runtime functionality to a single implementation and constrain access.</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"></div>
