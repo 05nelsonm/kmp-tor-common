@@ -62,7 +62,10 @@ public actual class OSInfo private constructor(
     }
 
     public actual val osHost: OSHost by lazy {
-        val hostNameLC = (hostName?.ifBlank { null } ?: "unknown").lowercase()
+        val hostNameLC = hostName
+            ?.ifBlank { null }
+            ?.lowercase()
+            ?: return@lazy OSHost.Unknown("unknown")
 
         when (hostNameLC) {
             "win32" -> OSHost.Windows
@@ -79,20 +82,28 @@ public actual class OSInfo private constructor(
     }
 
     public actual val osArch: OSArch by lazy {
-        val archNameLC = (archName?.ifBlank { null } ?: "unknown").lowercase()
+        val archNameLC = archName
+            ?.ifBlank { null }
+            ?.lowercase()
+            ?: return@lazy OSArch.Unsupported("unknown")
 
         ARCH_MAP[archNameLC]?.let { return@lazy it }
 
-        resolveMachineArch()?.let { return@lazy it }
+        resolveMachineArchOrNull()?.let { return@lazy it }
 
-        OSArch.Unsupported(archNameLC)
+        when (archNameLC) {
+            "aarch64", "arm64" -> OSArch.Aarch64
+            else -> OSArch.Unsupported(archNameLC)
+        }
     }
 
-    private fun hasLibAndroid(): Boolean = try {
-        "/system/lib/libandroid.so".toFile().exists2()
-        || "/system/lib64/libandroid.so".toFile().exists2()
-    } catch (_: Throwable) {
-        false
+    private fun hasLibAndroid(): Boolean {
+        listOf("lib", "lib64").forEach { dir ->
+            try {
+                if ("/system/$dir/libandroid.so".toFile().exists2()) return true
+            } catch (_: Throwable) {}
+        }
+        return false
     }
 
     private fun isLinuxMusl(): Boolean {
@@ -102,11 +113,11 @@ public actual class OSInfo private constructor(
             if (pathMapFiles.exists2()) {
                 val options = nodeOptionsReadDir(encoding = "utf8", withFileTypes = false, recursive = false)
                 node_fs.platformReadDirSync(pathMapFiles.path, options)?.forEach { entry ->
-                    if (entry == null) return@forEach
+                    if (entry.isNullOrBlank()) return@forEach
 
                     fileCount++
-                    val canonical = pathMapFiles.resolve(entry).canonicalPath2()
-                    if (canonical.contains("musl")) return true
+                    val canonicalPath = pathMapFiles.resolve(entry).canonicalPath2()
+                    if (canonicalPath.contains("musl")) return true
                 }
             }
         } catch (_: Throwable) {
@@ -132,39 +143,34 @@ public actual class OSInfo private constructor(
         return false
     }
 
-    private fun resolveMachineArch(): OSArch? {
-        val machineHardwareName = try {
-            machineName?.lowercase() ?: return null
+    private fun resolveMachineArchOrNull(): OSArch? {
+        val machineHWName = try {
+            machineName?.lowercase()
         } catch (_: Throwable) {
-            return null
-        }
+            null
+        }?.ifBlank { null } ?: return null
 
-        // Should resolve any possible x86/x86_64 values
-        ARCH_MAP[machineHardwareName]?.let { return it }
-
-        // Should never be the case because it's in archMap which
-        // is always checked before calling this function.
         if (
-            machineHardwareName.startsWith("aarch64")
-            || machineHardwareName.startsWith("arm64")
+            machineHWName.startsWith("aarch64")
+            || machineHWName.startsWith("arm64")
         ) {
-            return OSArch.Aarch64
+            return when (osHost) {
+                is OSHost.Linux.Android -> OSArch.Aarch64
+                is OSHost.Linux -> {
+                    // TODO: Check for 32-bit
+                    OSArch.Aarch64
+                }
+                else -> OSArch.Aarch64
+            }
         }
 
-        // If android and NOT aarch64, return the only other
-        // supported arm architecture.
-        if (
-            machineHardwareName.startsWith("arm")
-            && osHost is OSHost.Linux.Android
-        ) {
-            return OSArch.Armv7
-        }
+        ARCH_MAP[machineHWName]?.let { return it }
 
-        if (machineHardwareName.startsWith("armv7")) {
-            return OSArch.Armv7
-        }
+        // Only other supported architecture for Android is Armv7
+        if (osHost is OSHost.Linux.Android) return OSArch.Armv7
 
-        // Unsupported
+        if (machineHWName.startsWith("armv7")) return OSArch.Armv7
+
         return null
     }
 }

@@ -46,6 +46,7 @@ public actual class OSInfo private constructor(
     private val pathOSRelease: File,
     hostName: String?,
     archName: String?,
+    archDataModel: String?,
 ) {
 
     public actual companion object {
@@ -60,19 +61,23 @@ public actual class OSInfo private constructor(
             pathOSRelease: File = PATH_OS_RELEASE.toFile(),
             hostName: String? = System.getProperty("os.name"),
             archName: String? = System.getProperty("os.arch"),
+            archDataModel: String? = System.getProperty("sun.arch.data.model"),
         ): OSInfo = OSInfo(
             process = process,
             pathMapFiles = pathMapFiles,
             pathOSRelease = pathOSRelease,
             hostName = hostName,
             archName = archName,
+            archDataModel = archDataModel,
         )
     }
 
     @get:JvmName("osHost")
     public actual val osHost: OSHost by lazy {
-        val hostName = hostName?.ifBlank { null } ?: "unknown"
-        val hostNameLC = hostName.lowercase(Locale.US)
+        val hostNameLC = hostName
+            ?.ifBlank { null }
+            ?.lowercase(Locale.US)
+            ?: return@lazy OSHost.Unknown("unknown")
 
         when {
             hostNameLC.contains("windows") -> OSHost.Windows
@@ -92,16 +97,29 @@ public actual class OSInfo private constructor(
 
     @get:JvmName("osArch")
     public actual val osArch: OSArch by lazy {
-        val archName = archName?.ifBlank { null } ?: "unknown"
-        val archNameLC = archName.lowercase(Locale.US)
+        val archNameLC = archName
+            ?.ifBlank { null }
+            ?.lowercase(Locale.US)
+            ?: return@lazy OSArch.Unsupported("unknown")
 
         ARCH_MAP[archNameLC]?.let { return@lazy it }
 
-        if (archNameLC.startsWith("arm")) {
-            resolveArmArchTypeOrNull()?.let { return@lazy it }
+        if (osHost is OSHost.Windows) {
+            if (archNameLC.startsWith("arm")) {
+                when (archDataModel) {
+                    "32" -> OSArch.Armv7
+                    "64" -> OSArch.Aarch64
+                    else -> null
+                }?.let { return@lazy it }
+            }
         }
 
-        OSArch.Unsupported(archName.replace("\\W", "").lowercase(Locale.US))
+        resolvePosixMachineArchOrNull(archDataModel)?.let { return@lazy it }
+
+        when (archNameLC) {
+            "aarch64", "arm64" -> OSArch.Aarch64
+            else -> OSArch.Unsupported(archName.replace("\\W", "").lowercase(Locale.US))
+        }
     }
 
     private fun isAndroidTermux(): Boolean = try {
@@ -111,11 +129,13 @@ public actual class OSInfo private constructor(
         false
     }
 
-    private fun hasLibAndroid(): Boolean = try {
-        "/system/lib/libandroid.so".toFile().exists2()
-        || "/system/lib64/libandroid.so".toFile().exists2()
-    } catch (_: SecurityException) {
-        false
+    private fun hasLibAndroid(): Boolean {
+        listOf("lib", "lib64").forEach { dir ->
+            try {
+                if ("/system/$dir/libandroid.so".toFile().exists2()) return true
+            } catch (_: Throwable) {}
+        }
+        return false
     }
 
     private fun isLinuxMusl(): Boolean {
@@ -132,13 +152,9 @@ public actual class OSInfo private constructor(
                         // first file is always "map_files"
                         fileCount++
 
-                        // map_files directory contains symbolic links that must
-                        // be resolved which canonicalPath will do for us.
+                        // map_files directory contains symbolic links
                         val canonicalPath = file.canonicalPath2()
-
-                        if (canonicalPath.contains("musl")) {
-                            return true
-                        }
+                        if (canonicalPath.contains("musl")) return true
                     }
             }
         } catch (_: Throwable) {
@@ -172,62 +188,51 @@ public actual class OSInfo private constructor(
         return false
     }
 
-    private fun resolveArmArchTypeOrNull(): OSArch? {
-        when (osHost) {
-            is OSHost.Windows,
-            is OSHost.Unknown -> return null
-            else -> { /* run */ }
-        }
+    private fun resolvePosixMachineArchOrNull(archDataModel: String?): OSArch? {
+        if (osHost is OSHost.Windows) return null
 
-        // aarch64, armv5t, armv5te, armv5tej, armv5tejl, armv6, armv7, armv7l
-        val machineHardwareName = try {
+        val machineHWName = try {
             process.runAndWait(listOf("uname", "-m")).lowercase()
         } catch (_: Throwable) {
-            return null
-        }
+            null
+        }?.ifBlank { null } ?: return null
 
-        // Should never be the case because it's in archMap which
-        // is always checked before calling this function.
         if (
-            machineHardwareName.startsWith("aarch64")
-            || machineHardwareName.startsWith("arm64")
+            machineHWName.startsWith("aarch64")
+            || machineHWName.startsWith("arm64")
         ) {
-            return OSArch.Aarch64
-        }
-
-        if (osHost is OSHost.MacOS) {
-            return null
-        }
-
-        // If android and NOT aarch64, return the only other
-        // supported arm architecture.
-        if (osHost is OSHost.Linux.Android) {
-            return OSArch.Armv7
-        }
-
-        if (machineHardwareName.startsWith("armv7")) {
-            return OSArch.Armv7
-        }
-
-        // Java 1.8 introduces a system property to determine armel or armhf
-        // http://bugs.java.com/bugdatabase/view_bug.do?bug_id=8005545
-        System.getProperty("sun.arch.abi")?.let { abi ->
-            if (abi.startsWith("gnueabihf")) {
-                return OSArch.Armv7
+            return when (osHost) {
+                is OSHost.Linux.Android -> OSArch.Aarch64
+                is OSHost.Linux -> if (archDataModel == "32") OSArch.Armv7 else OSArch.Aarch64
+                else -> OSArch.Aarch64
             }
         }
 
-        // For java7, still need to run some shell commands to determine ABI of JVM
+        ARCH_MAP[machineHWName]?.let { return it }
+
+        // Only other supported architecture for Android is Armv7
+        if (osHost is OSHost.Linux.Android) return OSArch.Armv7
+
+        if (machineHWName.startsWith("armv7")) return OSArch.Armv7
+
+        // Java 1.8 introduces a system property to determine armel or armhf
+        // http://bugs.java.com/bugdatabase/view_bug.do?bug_id=8005545
+        System.getProperty("sun.arch.abi")?.ifBlank { null }?.let { abi ->
+            if (abi.startsWith("gnueabihf")) return OSArch.Armv7
+        }
+
+        // Can still run some shell commands to determine ABI of JVM
         val javaHome = System.getProperty("java.home")?.ifBlank { null } ?: return null
 
         val processes = ArrayList<Process>(1)
 
         // determine if first JVM found uses ARM hard-float ABI
         try {
+            // Check if readelf is on the system PATH
             Runtime.getRuntime().exec(arrayOf("which", "readelf")).let { process ->
+                processes.add(process)
                 // If it did not finish before timeout
                 if (!process.waitFor(250.milliseconds)) return null
-                processes.add(process)
                 if (process.exitValue() != 0) return null
             }
 
@@ -236,19 +241,23 @@ public actual class OSInfo private constructor(
                 "-c",
                 "find '"
                         + javaHome
-                        + "' -name 'libjvm.so' | head -1 | xargs readelf -A | "
+                        + "' -name 'libjvm.so' | head -1 | xargs readelf -a | "
                         + "grep 'Tag_ABI_VFP_args: VFP registers'"
             )
 
             Runtime.getRuntime().exec(cmdArray).let { process ->
+                processes.add(process)
                 // If it did not finish before timeout
                 if (!process.waitFor(250.milliseconds)) return null
-                processes.add(process)
                 if (process.exitValue() == 0) return OSArch.Armv7
             }
-        } catch (_: Throwable) {}
-        finally {
-            processes.forEach { p -> p.forciblyDestroy() }
+        } catch (_: Throwable) {
+        } finally {
+            processes.forEach { p ->
+                try {
+                    p.forciblyDestroy()
+                } catch (_: Throwable) {}
+            }
         }
 
         // Unsupported
