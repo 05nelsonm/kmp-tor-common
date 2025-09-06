@@ -13,9 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-package io.matthewnelson.kmp.tor.common.core.internal.node
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
-internal actual fun nodeModuleChildProcess(): ModuleChildProcess = js("eval('require')('child_process')")
-internal actual fun nodeModuleFs(): ModuleFs = js("eval('require')('fs')")
-internal actual fun nodeModuleOs(): ModuleOs = js("eval('require')('os')")
-internal actual fun nodeModuleZlib(): ModuleZlib = js("eval('require')('zlib')")
+package io.matthewnelson.kmp.tor.common.core.internal
+
+import io.matthewnelson.kmp.file.IOException
+import io.matthewnelson.kmp.file.InterruptedException
+import kotlin.time.Duration
+
+internal expect fun interface ProcessRunner {
+    @Throws(IOException::class, InterruptedException::class)
+    fun runAndWait(commands: List<String>, timeout: Duration): String
+}

@@ -13,9 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+
 package io.matthewnelson.kmp.tor.common.core.internal.node
 
-internal actual fun nodeModuleChildProcess(): ModuleChildProcess = js("eval('require')('child_process')")
-internal actual fun nodeModuleFs(): ModuleFs = js("eval('require')('fs')")
-internal actual fun nodeModuleOs(): ModuleOs = js("eval('require')('os')")
-internal actual fun nodeModuleZlib(): ModuleZlib = js("eval('require')('zlib')")
+import io.matthewnelson.kmp.tor.common.core.internal.ProcessRunner
+
+internal expect interface ModuleChildProcess {
+//    fun spawnSync(command: String, args: Array<String>, options: JsObject): JsObject
+}
+
+internal expect fun ModuleChildProcess.processRunner(): ProcessRunner

@@ -17,9 +17,16 @@ package io.matthewnelson.kmp.tor.common.core.internal.node
 
 import io.matthewnelson.kmp.file.SysFsInfo
 
+internal expect fun nodeModuleChildProcess(): ModuleChildProcess
 internal expect fun nodeModuleFs(): ModuleFs
 internal expect fun nodeModuleOs(): ModuleOs
 internal expect fun nodeModuleZlib(): ModuleZlib
+
+@get:Throws(UnsupportedOperationException::class)
+internal val node_child_process: ModuleChildProcess by lazy {
+    requireNodeJs { "child_process" }
+    nodeModuleChildProcess()
+}
 
 @get:Throws(UnsupportedOperationException::class)
 internal val node_fs: ModuleFs by lazy {

@@ -18,6 +18,7 @@
 package io.matthewnelson.kmp.tor.common.core
 
 import io.matthewnelson.kmp.file.File
+import io.matthewnelson.kmp.file.IOException
 import io.matthewnelson.kmp.file.canonicalPath2
 import io.matthewnelson.kmp.file.exists2
 import io.matthewnelson.kmp.file.path
@@ -28,13 +29,18 @@ import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.internal.ARCH_MAP
 import io.matthewnelson.kmp.tor.common.core.internal.PATH_MAP_FILES
 import io.matthewnelson.kmp.tor.common.core.internal.PATH_OS_RELEASE
+import io.matthewnelson.kmp.tor.common.core.internal.ProcessRunner
 import io.matthewnelson.kmp.tor.common.core.internal.node.nodeOptionsReadDir
+import io.matthewnelson.kmp.tor.common.core.internal.node.node_child_process
 import io.matthewnelson.kmp.tor.common.core.internal.node.node_fs
 import io.matthewnelson.kmp.tor.common.core.internal.node.node_os
 import io.matthewnelson.kmp.tor.common.core.internal.node.platformReadDirSync
+import io.matthewnelson.kmp.tor.common.core.internal.node.processRunner
+import kotlin.time.Duration.Companion.milliseconds
 
 @InternalKmpTorApi
 public actual class OSInfo private constructor(
+    private val process: ProcessRunner,
     private val pathMapFiles: File,
     private val pathOSRelease: File,
     private val machineName: String?,
@@ -47,12 +53,18 @@ public actual class OSInfo private constructor(
         public actual val INSTANCE: OSInfo = get()
 
         internal fun get(
+            process: ProcessRunner = try {
+                node_child_process.processRunner()
+            } catch (t: UnsupportedOperationException) {
+                ProcessRunner { _, _ -> throw IOException("Unsupported", t) }
+            },
             pathMapFiles: File = PATH_MAP_FILES.toFile(),
             pathOSRelease: File = PATH_OS_RELEASE.toFile(),
             machineName: String? = try { node_os.machine() } catch (_: UnsupportedOperationException) { null },
             hostName: String? = try { node_os.platform() } catch (_: UnsupportedOperationException) { null },
             archName: String? = try { node_os.arch() } catch (_: UnsupportedOperationException) { null },
         ): OSInfo = OSInfo(
+            process = process,
             pathMapFiles = pathMapFiles,
             pathOSRelease = pathOSRelease,
             machineName = machineName,
@@ -144,11 +156,7 @@ public actual class OSInfo private constructor(
     }
 
     private fun resolveMachineArchOrNull(): OSArch? {
-        val machineHWName = try {
-            machineName?.lowercase()
-        } catch (_: Throwable) {
-            null
-        }?.ifBlank { null } ?: return null
+        val machineHWName = machineName?.ifBlank { null }?.lowercase() ?: return null
 
         if (
             machineHWName.startsWith("aarch64")
@@ -156,8 +164,16 @@ public actual class OSInfo private constructor(
         ) {
             return when (osHost) {
                 is OSHost.Linux.Android -> OSArch.Aarch64
-                is OSHost.Linux -> {
-                    // TODO: Check for 32-bit
+                is OSHost.Linux -> try {
+                    // e.g.  /bin/bash: ELF 64-bit LSB pie executable, x86-64, .....
+                    val archDataModel = process.runAndWait(listOf("file", "/bin/bash"), 250.milliseconds)
+                        .substringAfter("ELF")
+                        .substringBefore("bit")
+                        .substringBefore('-')
+                        .trim()
+                        .toInt()
+                    if (archDataModel == 32) OSArch.Armv7 else OSArch.Aarch64
+                } catch (_: Throwable) {
                     OSArch.Aarch64
                 }
                 else -> OSArch.Aarch64
