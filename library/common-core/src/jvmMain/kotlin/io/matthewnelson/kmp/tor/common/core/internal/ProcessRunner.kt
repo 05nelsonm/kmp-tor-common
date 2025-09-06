@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+
 package io.matthewnelson.kmp.tor.common.core.internal
 
 import io.matthewnelson.kmp.file.ANDROID
@@ -22,10 +24,10 @@ import kotlin.math.min
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
-internal fun interface ProcessRunner {
+internal actual fun interface ProcessRunner {
 
     @Throws(IOException::class, InterruptedException::class)
-    fun runAndWait(commands: List<String>, timeout: Duration): String
+    actual fun runAndWait(commands: List<String>, timeout: Duration): String
 
     object Default: ProcessRunner {
 

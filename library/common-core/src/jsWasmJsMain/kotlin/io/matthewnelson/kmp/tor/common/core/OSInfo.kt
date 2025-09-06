@@ -18,6 +18,7 @@
 package io.matthewnelson.kmp.tor.common.core
 
 import io.matthewnelson.kmp.file.File
+import io.matthewnelson.kmp.file.IOException
 import io.matthewnelson.kmp.file.canonicalPath2
 import io.matthewnelson.kmp.file.exists2
 import io.matthewnelson.kmp.file.path
@@ -28,13 +29,18 @@ import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.internal.ARCH_MAP
 import io.matthewnelson.kmp.tor.common.core.internal.PATH_MAP_FILES
 import io.matthewnelson.kmp.tor.common.core.internal.PATH_OS_RELEASE
+import io.matthewnelson.kmp.tor.common.core.internal.ProcessRunner
 import io.matthewnelson.kmp.tor.common.core.internal.node.nodeOptionsReadDir
+import io.matthewnelson.kmp.tor.common.core.internal.node.node_child_process
 import io.matthewnelson.kmp.tor.common.core.internal.node.node_fs
 import io.matthewnelson.kmp.tor.common.core.internal.node.node_os
 import io.matthewnelson.kmp.tor.common.core.internal.node.platformReadDirSync
+import io.matthewnelson.kmp.tor.common.core.internal.node.processRunner
+import kotlin.time.Duration.Companion.milliseconds
 
 @InternalKmpTorApi
 public actual class OSInfo private constructor(
+    private val process: ProcessRunner,
     private val pathMapFiles: File,
     private val pathOSRelease: File,
     private val machineName: String?,
@@ -47,12 +53,18 @@ public actual class OSInfo private constructor(
         public actual val INSTANCE: OSInfo = get()
 
         internal fun get(
+            process: ProcessRunner = try {
+                node_child_process.processRunner()
+            } catch (t: UnsupportedOperationException) {
+                ProcessRunner { _, _ -> throw IOException("Unsupported", t) }
+            },
             pathMapFiles: File = PATH_MAP_FILES.toFile(),
             pathOSRelease: File = PATH_OS_RELEASE.toFile(),
             machineName: String? = try { node_os.machine() } catch (_: UnsupportedOperationException) { null },
             hostName: String? = try { node_os.platform() } catch (_: UnsupportedOperationException) { null },
             archName: String? = try { node_os.arch() } catch (_: UnsupportedOperationException) { null },
         ): OSInfo = OSInfo(
+            process = process,
             pathMapFiles = pathMapFiles,
             pathOSRelease = pathOSRelease,
             machineName = machineName,
@@ -62,7 +74,10 @@ public actual class OSInfo private constructor(
     }
 
     public actual val osHost: OSHost by lazy {
-        val hostNameLC = (hostName?.ifBlank { null } ?: "unknown").lowercase()
+        val hostNameLC = hostName
+            ?.ifBlank { null }
+            ?.lowercase()
+            ?: return@lazy OSHost.Unknown("unknown")
 
         when (hostNameLC) {
             "win32" -> OSHost.Windows
@@ -79,20 +94,28 @@ public actual class OSInfo private constructor(
     }
 
     public actual val osArch: OSArch by lazy {
-        val archNameLC = (archName?.ifBlank { null } ?: "unknown").lowercase()
+        val archNameLC = archName
+            ?.ifBlank { null }
+            ?.lowercase()
+            ?: return@lazy OSArch.Unsupported("unknown")
 
         ARCH_MAP[archNameLC]?.let { return@lazy it }
 
-        resolveMachineArch()?.let { return@lazy it }
+        resolveMachineArchOrNull()?.let { return@lazy it }
 
-        OSArch.Unsupported(archNameLC)
+        when (archNameLC) {
+            "aarch64", "arm64" -> OSArch.Aarch64
+            else -> OSArch.Unsupported(archNameLC)
+        }
     }
 
-    private fun hasLibAndroid(): Boolean = try {
-        "/system/lib/libandroid.so".toFile().exists2()
-        || "/system/lib64/libandroid.so".toFile().exists2()
-    } catch (_: Throwable) {
-        false
+    private fun hasLibAndroid(): Boolean {
+        listOf("lib", "lib64").forEach { dir ->
+            try {
+                if ("/system/$dir/libandroid.so".toFile().exists2()) return true
+            } catch (_: Throwable) {}
+        }
+        return false
     }
 
     private fun isLinuxMusl(): Boolean {
@@ -102,11 +125,11 @@ public actual class OSInfo private constructor(
             if (pathMapFiles.exists2()) {
                 val options = nodeOptionsReadDir(encoding = "utf8", withFileTypes = false, recursive = false)
                 node_fs.platformReadDirSync(pathMapFiles.path, options)?.forEach { entry ->
-                    if (entry == null) return@forEach
+                    if (entry.isNullOrBlank()) return@forEach
 
                     fileCount++
-                    val canonical = pathMapFiles.resolve(entry).canonicalPath2()
-                    if (canonical.contains("musl")) return true
+                    val canonicalPath = pathMapFiles.resolve(entry).canonicalPath2()
+                    if (canonicalPath.contains("musl")) return true
                 }
             }
         } catch (_: Throwable) {
@@ -132,39 +155,38 @@ public actual class OSInfo private constructor(
         return false
     }
 
-    private fun resolveMachineArch(): OSArch? {
-        val machineHardwareName = try {
-            machineName?.lowercase() ?: return null
-        } catch (_: Throwable) {
-            return null
-        }
+    private fun resolveMachineArchOrNull(): OSArch? {
+        val machineHWName = machineName?.ifBlank { null }?.lowercase() ?: return null
 
-        // Should resolve any possible x86/x86_64 values
-        ARCH_MAP[machineHardwareName]?.let { return it }
-
-        // Should never be the case because it's in archMap which
-        // is always checked before calling this function.
         if (
-            machineHardwareName.startsWith("aarch64")
-            || machineHardwareName.startsWith("arm64")
+            machineHWName.startsWith("aarch64")
+            || machineHWName.startsWith("arm64")
         ) {
-            return OSArch.Aarch64
+            return when (osHost) {
+                is OSHost.Linux.Android -> OSArch.Aarch64
+                is OSHost.Linux -> try {
+                    // e.g.  /bin/bash: ELF 64-bit LSB pie executable, x86-64, .....
+                    val archDataModel = process.runAndWait(listOf("file", "/bin/bash"), 250.milliseconds)
+                        .substringAfter("ELF")
+                        .substringBefore("bit")
+                        .substringBefore('-')
+                        .trim()
+                        .toInt()
+                    if (archDataModel == 32) OSArch.Armv7 else OSArch.Aarch64
+                } catch (_: Throwable) {
+                    OSArch.Aarch64
+                }
+                else -> OSArch.Aarch64
+            }
         }
 
-        // If android and NOT aarch64, return the only other
-        // supported arm architecture.
-        if (
-            machineHardwareName.startsWith("arm")
-            && osHost is OSHost.Linux.Android
-        ) {
-            return OSArch.Armv7
-        }
+        ARCH_MAP[machineHWName]?.let { return it }
 
-        if (machineHardwareName.startsWith("armv7")) {
-            return OSArch.Armv7
-        }
+        // Only other supported architecture for Android is Armv7
+        if (osHost is OSHost.Linux.Android) return OSArch.Armv7
 
-        // Unsupported
+        if (machineHWName.startsWith("armv7")) return OSArch.Armv7
+
         return null
     }
 }

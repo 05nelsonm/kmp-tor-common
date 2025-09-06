@@ -21,6 +21,8 @@ import io.matthewnelson.kmp.tor.common.core.OSHost
 import io.matthewnelson.kmp.tor.common.core.OSInfo
 
 internal fun main(array: Array<out String>) {
+    System.getProperties()?.forEach { (k, v) -> println("$k=$v") }
+    println("")
     check(array.size == 2) { "Invalid arguments. 2 expected." }
     assertInfo(array[0], array[1])
     println("PASS")
