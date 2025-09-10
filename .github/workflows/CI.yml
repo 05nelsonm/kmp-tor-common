@@ -114,6 +114,16 @@ jobs:
             java-version: 21
             expected-host: linux-musl
             expected-arch: riscv64
+          - arch: i386
+            distro: _
+            java-version: 8
+            expected-host: linux-musl
+            expected-arch: x86
+          - arch: amd64
+            distro: _
+            java-version: 8
+            expected-host: linux-musl
+            expected-arch: x86_64
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -134,14 +144,15 @@ jobs:
           -PKMP_TARGETS="JVM"
 
       - name: Check OSInfo For Host
+        if: matrix.distro != '_'
         uses: uraimo/run-on-arch-action@v3
         with:
           arch: ${{ matrix.arch }}
           distro: ${{ matrix.distro }}
           githubToken: ${{ github.token }}
           dockerRunArgs: |
-            --volume "${PWD}/test-info/build/libs:/work"
-            --user "$(id -u):$(id -g)"
+            -v "${PWD}/test-info/build/libs:/work"
+            -u "$(id -u):$(id -g)"
           install: |
             case "${{ matrix.distro }}" in
               ubuntu*|jessie|stretch|buster|bullseye)
@@ -155,7 +166,26 @@ jobs:
             esac
           run: |
             cd /work
-            java -jar test-info.jar "${{ matrix.expected-host }}" "${{ matrix.expected-arch }}"
+            java -jar test-info.jar ${{ matrix.expected-host }} ${{ matrix.expected-arch }}
+
+      - name: Build Alpine Container
+        if: matrix.distro == '_'
+        run: >
+          docker build
+          -f "${PWD}/.github/Dockerfile"
+          --build-arg ARCH=${{ matrix.arch }}
+          -t OSInfo/alpine.${{ matrix.arch }}
+          "${PWD}/.github"
+
+      - name: Run OSInfo On Alpine
+        if: matrix.distro == '_'
+        run: >
+          docker run --rm
+          --pull never
+          -v "${PWD}/test-info/build/libs:/work"
+          -u "$(id -u):$(id -g)"
+          OSInfo/alpine.${{ matrix.arch }}:latest
+          sh -c 'java -jar test-info.jar ${{ matrix.expected-host }} ${{ matrix.expected-arch }}'
 
   android-check:
     strategy:

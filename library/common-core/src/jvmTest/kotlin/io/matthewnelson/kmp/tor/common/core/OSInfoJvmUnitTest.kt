@@ -67,10 +67,21 @@ class OSInfoJvmUnitTest: OSInfoBaseTest() {
 
     @Test
     fun givenOSNameLinux_whenOSName_thenIsLinuxLibc() {
+        // Linux tests cannot be run on windows host machine
+        // because symbolic links are not a thing.
+        when (OSInfo.INSTANCE.osHost) {
+            is OSHost.Unknown,
+            is OSHost.Windows -> {
+                println("Skipping...")
+                return
+            }
+            else -> { /* run */ }
+        }
+
         listOf("Linux", "GNU/Linux").forEach { hostName ->
             val osInfo = OSInfo.get(
-                pathMapFiles = TEST_MAP_FILES_NOT_MUSL,
-                pathOSRelease = TEST_OS_RELEASE_NOT_MUSL,
+                pathMapFiles = TEST_MAP_FILES_NOT_MUSL.path,
+                pathOSRelease = TEST_OS_RELEASE_NOT_MUSL.path,
                 hostName = hostName,
             )
 
@@ -84,7 +95,10 @@ class OSInfoJvmUnitTest: OSInfoBaseTest() {
         // because symbolic links are not a thing.
         when (OSInfo.INSTANCE.osHost) {
             is OSHost.Unknown,
-            is OSHost.Windows -> return
+            is OSHost.Windows -> {
+                println("Skipping...")
+                return
+            }
             else -> { /* run */ }
         }
 
@@ -92,8 +106,8 @@ class OSInfoJvmUnitTest: OSInfoBaseTest() {
         OSInfo.get(
             pathMapFiles = TEST_SUPPORT_DIR
                 .resolve("msl")
-                .resolve("map_files"),
-            pathOSRelease = TEST_OS_RELEASE_NOT_MUSL,
+                .resolve("map_files").path,
+            pathOSRelease = TEST_OS_RELEASE_NOT_MUSL.path,
             hostName = "Linux",
         ).let { osInfo ->
             assertTrue(osInfo.osHost is OSHost.Linux.Musl)
@@ -107,10 +121,10 @@ class OSInfoJvmUnitTest: OSInfoBaseTest() {
         OSInfo.get(
             pathMapFiles = TEST_SUPPORT_DIR
                 .resolve("msl")
-                .resolve("does_not_exist"),
+                .resolve("does_not_exist").path,
             pathOSRelease = TEST_SUPPORT_DIR
                 .resolve("msl")
-                .resolve("os-release"), // alpine linux
+                .resolve("os-release").path,
             hostName = "Linux",
         ).let { osInfo ->
             assertTrue(osInfo.osHost is OSHost.Linux.Musl)

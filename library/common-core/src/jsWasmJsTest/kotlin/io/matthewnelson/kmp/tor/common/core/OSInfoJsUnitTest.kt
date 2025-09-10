@@ -15,6 +15,7 @@
  **/
 package io.matthewnelson.kmp.tor.common.core
 
+import io.matthewnelson.kmp.file.path
 import io.matthewnelson.kmp.file.resolve
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import kotlin.test.Test
@@ -45,9 +46,20 @@ class OSInfoJsUnitTest: OSInfoBaseTest() {
 
     @Test
     fun givenOSNameLinux_whenOSHost_thenIsLinuxLibc() {
+        // Linux tests cannot be run on windows host machine
+        // because symbolic links are not a thing.
+        when (OSInfo.INSTANCE.osHost) {
+            is OSHost.Unknown,
+            is OSHost.Windows -> {
+                println("Skipping...")
+                return
+            }
+            else -> { /* run */ }
+        }
+
         OSInfo.get(
-            pathMapFiles = TEST_MAP_FILES_NOT_MUSL,
-            pathOSRelease = TEST_OS_RELEASE_NOT_MUSL,
+            pathMapFiles = TEST_MAP_FILES_NOT_MUSL.path,
+            pathOSRelease = TEST_OS_RELEASE_NOT_MUSL.path,
             hostName = "linux",
         ).let { osInfo ->
             assertTrue(osInfo.osHost is OSHost.Linux.Libc)
@@ -60,7 +72,10 @@ class OSInfoJsUnitTest: OSInfoBaseTest() {
         // because symbolic links are not a thing.
         when (OSInfo.INSTANCE.osHost) {
             is OSHost.Unknown,
-            is OSHost.Windows -> return
+            is OSHost.Windows -> {
+                println("Skipping...")
+                return
+            }
             else -> { /* run */ }
         }
 
@@ -68,8 +83,8 @@ class OSInfoJsUnitTest: OSInfoBaseTest() {
         OSInfo.get(
             pathMapFiles = TEST_SUPPORT_DIR
                 .resolve("msl")
-                .resolve("map_files"),
-            pathOSRelease = TEST_OS_RELEASE_NOT_MUSL,
+                .resolve("map_files").path,
+            pathOSRelease = TEST_OS_RELEASE_NOT_MUSL.path,
             hostName = "linux",
         ).let { osInfo ->
             assertTrue(osInfo.osHost is OSHost.Linux.Musl)
@@ -83,10 +98,10 @@ class OSInfoJsUnitTest: OSInfoBaseTest() {
         OSInfo.get(
             pathMapFiles = TEST_SUPPORT_DIR
                 .resolve("msl")
-                .resolve("does_not_exist"),
+                .resolve("does_not_exist").path,
             pathOSRelease = TEST_SUPPORT_DIR
                 .resolve("msl")
-                .resolve("os-release"),
+                .resolve("os-release").path,
             hostName = "linux",
         ).let { osInfo ->
             assertTrue(osInfo.osHost is OSHost.Linux.Musl)
