@@ -17,33 +17,25 @@
 
 package io.matthewnelson.kmp.tor.common.core
 
-import io.matthewnelson.kmp.file.File
 import io.matthewnelson.kmp.file.IOException
-import io.matthewnelson.kmp.file.canonicalPath2
-import io.matthewnelson.kmp.file.exists2
-import io.matthewnelson.kmp.file.path
-import io.matthewnelson.kmp.file.readUtf8
-import io.matthewnelson.kmp.file.resolve
-import io.matthewnelson.kmp.file.toFile
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.internal.ARCH_MAP
 import io.matthewnelson.kmp.tor.common.core.internal.PATH_MAP_FILES
 import io.matthewnelson.kmp.tor.common.core.internal.PATH_OS_RELEASE
 import io.matthewnelson.kmp.tor.common.core.internal.ProcessRunner
-import io.matthewnelson.kmp.tor.common.core.internal.node.nodeOptionsReadDir
+import io.matthewnelson.kmp.tor.common.core.internal.hasLibAndroid
+import io.matthewnelson.kmp.tor.common.core.internal.isLinuxMusl
 import io.matthewnelson.kmp.tor.common.core.internal.node.node_child_process
-import io.matthewnelson.kmp.tor.common.core.internal.node.node_fs
 import io.matthewnelson.kmp.tor.common.core.internal.node.node_os
-import io.matthewnelson.kmp.tor.common.core.internal.node.platformReadDirSync
 import io.matthewnelson.kmp.tor.common.core.internal.node.processRunner
 import kotlin.time.Duration.Companion.milliseconds
 
 @InternalKmpTorApi
 public actual class OSInfo private constructor(
     private val process: ProcessRunner,
-    private val pathMapFiles: File,
-    private val pathOSRelease: File,
-    private val machineName: String?,
+    pathMapFiles: String,
+    pathOSRelease: String,
+    machineName: String?,
     hostName: String?,
     archName: String?,
 ) {
@@ -58,8 +50,8 @@ public actual class OSInfo private constructor(
             } catch (t: UnsupportedOperationException) {
                 ProcessRunner { _, _ -> throw IOException("Unsupported", t) }
             },
-            pathMapFiles: File = PATH_MAP_FILES.toFile(),
-            pathOSRelease: File = PATH_OS_RELEASE.toFile(),
+            pathMapFiles: String = PATH_MAP_FILES,
+            pathOSRelease: String = PATH_OS_RELEASE,
             machineName: String? = try { node_os.machine() } catch (_: UnsupportedOperationException) { null },
             hostName: String? = try { node_os.platform() } catch (_: UnsupportedOperationException) { null },
             archName: String? = try { node_os.arch() } catch (_: UnsupportedOperationException) { null },
@@ -86,7 +78,7 @@ public actual class OSInfo private constructor(
             "android" -> OSHost.Linux.Android
             "linux" -> when {
                 hasLibAndroid() -> OSHost.Linux.Android
-                isLinuxMusl() -> OSHost.Linux.Musl
+                isLinuxMusl(process, pathMapFiles, pathOSRelease) -> OSHost.Linux.Musl
                 else -> OSHost.Linux.Libc
             }
             else -> OSHost.Unknown(hostNameLC)
@@ -101,7 +93,7 @@ public actual class OSInfo private constructor(
 
         ARCH_MAP[archNameLC]?.let { return@lazy it }
 
-        resolveMachineArchOrNull()?.let { return@lazy it }
+        resolveMachineArchOrNull(machineName)?.let { return@lazy it }
 
         when (archNameLC) {
             "aarch64", "arm64" -> OSArch.Aarch64
@@ -109,53 +101,7 @@ public actual class OSInfo private constructor(
         }
     }
 
-    private fun hasLibAndroid(): Boolean {
-        listOf("lib", "lib64").forEach { dir ->
-            try {
-                if ("/system/$dir/libandroid.so".toFile().exists2()) return true
-            } catch (_: Throwable) {}
-        }
-        return false
-    }
-
-    private fun isLinuxMusl(): Boolean {
-        var fileCount = 0
-
-        try {
-            if (pathMapFiles.exists2()) {
-                val options = nodeOptionsReadDir(encoding = "utf8", withFileTypes = false, recursive = false)
-                node_fs.platformReadDirSync(pathMapFiles.path, options)?.forEach { entry ->
-                    if (entry.isNullOrBlank()) return@forEach
-
-                    fileCount++
-                    val canonicalPath = pathMapFiles.resolve(entry).canonicalPath2()
-                    if (canonicalPath.contains("musl")) return true
-                }
-            }
-        } catch (_: Throwable) {
-            fileCount = 0
-        }
-
-        if (fileCount < 1) {
-            // Fallback to checking for Alpine Linux in the event
-            // it's an older kernel which may not have map_files
-            // directory.
-            try {
-                pathOSRelease.readUtf8().lines().forEach { line ->
-                    if (
-                        line.startsWith("ID")
-                        && line.contains("alpine", ignoreCase = true)
-                    ) {
-                        return true
-                    }
-                }
-            } catch (_: Throwable) {}
-        }
-
-        return false
-    }
-
-    private fun resolveMachineArchOrNull(): OSArch? {
+    private fun resolveMachineArchOrNull(machineName: String?): OSArch? {
         val machineHWName = machineName?.ifBlank { null }?.lowercase() ?: return null
 
         if (

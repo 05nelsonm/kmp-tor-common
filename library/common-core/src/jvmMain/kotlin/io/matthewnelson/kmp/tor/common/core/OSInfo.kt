@@ -19,10 +19,6 @@
 package io.matthewnelson.kmp.tor.common.core
 
 import io.matthewnelson.kmp.file.ANDROID
-import io.matthewnelson.kmp.file.File
-import io.matthewnelson.kmp.file.canonicalPath2
-import io.matthewnelson.kmp.file.exists2
-import io.matthewnelson.kmp.file.toFile
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.internal.ARCH_MAP
 import io.matthewnelson.kmp.tor.common.core.internal.PATH_MAP_FILES
@@ -31,6 +27,8 @@ import io.matthewnelson.kmp.tor.common.core.internal.ProcessRunner
 import io.matthewnelson.kmp.tor.common.core.internal.ProcessRunner.Companion.forciblyDestroy
 import io.matthewnelson.kmp.tor.common.core.internal.ProcessRunner.Companion.runAndWait
 import io.matthewnelson.kmp.tor.common.core.internal.ProcessRunner.Companion.waitFor
+import io.matthewnelson.kmp.tor.common.core.internal.hasLibAndroid
+import io.matthewnelson.kmp.tor.common.core.internal.isLinuxMusl
 import java.util.Locale
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -42,8 +40,8 @@ import kotlin.time.Duration.Companion.milliseconds
 @InternalKmpTorApi
 public actual class OSInfo private constructor(
     private val process: ProcessRunner,
-    private val pathMapFiles: File,
-    private val pathOSRelease: File,
+    pathMapFiles: String,
+    pathOSRelease: String,
     hostName: String?,
     archName: String?,
     archDataModel: String?,
@@ -57,8 +55,8 @@ public actual class OSInfo private constructor(
         @JvmSynthetic
         internal fun get(
             process: ProcessRunner = ProcessRunner.Default,
-            pathMapFiles: File = PATH_MAP_FILES.toFile(),
-            pathOSRelease: File = PATH_OS_RELEASE.toFile(),
+            pathMapFiles: String = PATH_MAP_FILES,
+            pathOSRelease: String = PATH_OS_RELEASE,
             hostName: String? = System.getProperty("os.name"),
             archName: String? = System.getProperty("os.arch"),
             archDataModel: String? = System.getProperty("sun.arch.data.model"),
@@ -88,7 +86,7 @@ public actual class OSInfo private constructor(
                 ANDROID.SDK_INT != null -> OSHost.Linux.Android
                 hasLibAndroid() -> OSHost.Linux.Android
                 isAndroidTermux() -> OSHost.Linux.Android
-                isLinuxMusl() -> OSHost.Linux.Musl
+                isLinuxMusl(process, pathMapFiles, pathOSRelease) -> OSHost.Linux.Musl
                 else -> OSHost.Linux.Libc
             }
             else -> OSHost.Unknown(hostName.replace("\\W", "").lowercase(Locale.US))
@@ -127,65 +125,6 @@ public actual class OSInfo private constructor(
             .contains("android", ignoreCase = true)
     } catch (_: Throwable) {
         false
-    }
-
-    private fun hasLibAndroid(): Boolean {
-        listOf("lib", "lib64").forEach { dir ->
-            try {
-                if ("/system/$dir/libandroid.so".toFile().exists2()) return true
-            } catch (_: Throwable) {}
-        }
-        return false
-    }
-
-    private fun isLinuxMusl(): Boolean {
-        var fileCount = -1
-
-        try {
-            if (pathMapFiles.exists2()) {
-                pathMapFiles
-                    .walkTopDown()
-                    .maxDepth(1)
-                    .iterator()
-                    .forEach { file ->
-
-                        // first file is always "map_files"
-                        fileCount++
-
-                        // map_files directory contains symbolic links
-                        val canonicalPath = file.canonicalPath2()
-                        if (canonicalPath.contains("musl")) return true
-                    }
-            }
-        } catch (_: Throwable) {
-            fileCount = 0
-        }
-
-        if (fileCount < 1) {
-            // Fallback to checking for Alpine Linux in the event
-            // it's an older kernel which may not have map_files
-            // directory.
-            try {
-                pathOSRelease.inputStream().bufferedReader().use { reader ->
-                    while (true) {
-                        val line = reader.readLine() ?: break
-
-                        // ID and ID_LIKE arguments
-                        if (
-                            line.startsWith("ID")
-                            && line.contains("alpine", ignoreCase = true)
-                        ) {
-                            return true
-                        }
-                    }
-                }
-            } catch (_: Throwable) {
-                // EOF or does not exist
-                return false
-            }
-        }
-
-        return false
     }
 
     private fun resolvePosixMachineArchOrNull(archDataModel: String?): OSArch? {
