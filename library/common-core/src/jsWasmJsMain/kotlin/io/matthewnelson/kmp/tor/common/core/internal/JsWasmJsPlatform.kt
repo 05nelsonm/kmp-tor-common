@@ -76,5 +76,5 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
     return destination
 }
 
-// @Throws(Throwable::class)
+@Suppress("UNUSED")
 private fun platformResolveResource(path: String): String = js("require.resolve(path)")
