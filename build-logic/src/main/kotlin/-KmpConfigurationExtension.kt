@@ -17,7 +17,6 @@ import io.matthewnelson.kmp.configuration.extension.KmpConfigurationExtension
 import io.matthewnelson.kmp.configuration.extension.container.target.KmpConfigurationContainerDsl
 import io.matthewnelson.kmp.configuration.extension.container.target.TargetAndroidContainer
 import org.gradle.api.Action
-import org.gradle.api.JavaVersion
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 fun KmpConfigurationExtension.configureShared(
@@ -35,10 +34,6 @@ fun KmpConfigurationExtension.configureShared(
         }
 
         jvm {
-            kotlinJvmTarget = JavaVersion.VERSION_1_8
-            compileSourceCompatibility = JavaVersion.VERSION_1_8
-            compileTargetCompatibility = JavaVersion.VERSION_1_8
-
             java9ModuleInfoName = java9ModuleName
         }
 
@@ -118,7 +113,6 @@ fun KmpConfigurationContainerDsl.androidLibrary(
     buildTools: String? = "35.0.1",
     compileSdk: Int = 35,
     minSdk: Int = 15,
-    javaVersion: JavaVersion = JavaVersion.VERSION_1_8,
     action: (Action<TargetAndroidContainer.Library>)? = null,
 ) {
     androidLibrary {
@@ -133,10 +127,6 @@ fun KmpConfigurationContainerDsl.androidLibrary(
                 testInstrumentationRunnerArguments["disableAnalytics"] = true.toString()
             }
         }
-
-        kotlinJvmTarget = javaVersion
-        compileSourceCompatibility = javaVersion
-        compileTargetCompatibility = javaVersion
 
         action?.execute(this)
     }

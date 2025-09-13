@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:OptIn(ExperimentalWasmJsInterop::class)
+
 package io.matthewnelson.kmp.tor.common.core.internal
 
 import io.matthewnelson.kmp.file.File
@@ -29,6 +31,8 @@ import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.Resource
 import io.matthewnelson.kmp.tor.common.core.internal.node.node_zlib
 import io.matthewnelson.kmp.tor.common.core.internal.node.platformGunzipSync
+import kotlin.js.ExperimentalWasmJsInterop
+import kotlin.js.js
 
 @Throws(Throwable::class)
 @OptIn(InternalKmpTorApi::class)
@@ -72,5 +76,5 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
     return destination
 }
 
-// @Throws(Throwable::class)
-internal expect fun platformResolveResource(path: String): String
+@Suppress("UNUSED")
+private fun platformResolveResource(path: String): String = js("require.resolve(path)")
