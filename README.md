@@ -47,7 +47,7 @@ Common components for [kmp-tor][url-kmp-tor] and [kmp-tor-resource][url-kmp-tor-
 [badge-immutable]: https://img.shields.io/badge/immutable-0.2.0-blue.svg?style=flat
 [badge-kotlincrypto-hash]: https://img.shields.io/badge/KotlinCrypto.hash-0.7.0-blue.svg?style=flat
 [badge-kotlin]: https://img.shields.io/badge/kotlin-2.2.20-blue.svg?logo=kotlin
-[badge-kmp-file]: https://img.shields.io/badge/kmp--file-0.4.0-blue.svg?style=flat
+[badge-kmp-file]: https://img.shields.io/badge/kmp--file-0.4.1--SNAPSHOT-blue.svg?style=flat
 
 <!-- TAG_PLATFORMS -->
 [badge-platform-android]: http://img.shields.io/badge/-android-6EDB8D.svg?style=flat
