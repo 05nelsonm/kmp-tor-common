@@ -13,13 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:OptIn(ExperimentalWasmJsInterop::class)
-
 package io.matthewnelson.kmp.tor.common.core.internal.node
 
 import io.matthewnelson.kmp.file.SysFsInfo
-import kotlin.js.ExperimentalWasmJsInterop
-import kotlin.js.js
 
 @get:Throws(UnsupportedOperationException::class)
 internal val node_child_process: ModuleChildProcess by lazy {
@@ -39,11 +35,14 @@ internal val node_zlib: ModuleZlib by lazy {
     nodeModuleZlib()
 }
 
-private fun nodeModuleChildProcess(): ModuleChildProcess = js("eval('require')('child_process')")
-private fun nodeModuleOs(): ModuleOs = js("eval('require')('os')")
-private fun nodeModuleZlib(): ModuleZlib = js("eval('require')('zlib')")
+internal const val CODE_MODULE_CHILD_PROCESS: String = "eval('require')('child_process')"
+internal const val CODE_MODULE_OS: String = "eval('require')('os')"
+internal const val CODE_MODULE_ZLIB: String = "eval('require')('zlib')"
 
-@Suppress("NOTHING_TO_INLINE")
+internal expect fun nodeModuleChildProcess(): ModuleChildProcess
+internal expect fun nodeModuleOs(): ModuleOs
+internal expect fun nodeModuleZlib(): ModuleZlib
+
 @Throws(UnsupportedOperationException::class)
 private inline fun requireNodeJs(module: () -> String) {
     if (SysFsInfo.name == "FsJsNode") return

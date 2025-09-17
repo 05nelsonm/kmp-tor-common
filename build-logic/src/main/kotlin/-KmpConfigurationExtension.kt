@@ -18,6 +18,7 @@ import io.matthewnelson.kmp.configuration.extension.container.target.KmpConfigur
 import io.matthewnelson.kmp.configuration.extension.container.target.TargetAndroidContainer
 import org.gradle.api.Action
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 fun KmpConfigurationExtension.configureShared(
     java9ModuleName: String? = null,
@@ -37,30 +38,28 @@ fun KmpConfigurationExtension.configureShared(
             java9ModuleInfoName = java9ModuleName
         }
 
-        @Suppress("RedundantSamConstructor")
         js {
             target {
                 browser {
-                    testTask(Action {
+                    testTask {
                         isEnabled = false
-                    })
+                    }
                 }
                 nodejs {
-                    testTask(Action {
+                    testTask {
                         useMocha { timeout = "30s" }
-                    })
+                    }
                 }
             }
         }
 
         @OptIn(ExperimentalWasmDsl::class)
-        @Suppress("RedundantSamConstructor")
         wasmJs {
             target {
                 browser {
-                    testTask(Action {
+                    testTask {
                         isEnabled = false
-                    })
+                    }
                 }
                 nodejs()
             }
@@ -90,17 +89,32 @@ fun KmpConfigurationExtension.configureShared(
             with(sourceSets) {
                 val sets = arrayOf("js", "wasmJs").mapNotNull { name ->
                     val main = findByName(name + "Main") ?: return@mapNotNull null
-                    val test = getByName(name + "Test")
-                    main to test
+                    main to getByName(name + "Test")
                 }
                 if (sets.isEmpty()) return@kotlin
 
-                val main = maybeCreate("jsWasmJsMain")
-                val test = maybeCreate("jsWasmJsTest")
-                main.dependsOn(getByName("nonJvmMain"))
-                test.dependsOn(getByName("nonJvmTest"))
-
+                val main = maybeCreate("jsWasmJsMain").apply { dependsOn(getByName("nonJvmMain")) }
+                val test = maybeCreate("jsWasmJsTest").apply { dependsOn(getByName("nonJvmTest")) }
                 sets.forEach { (m, t) -> m.dependsOn(main); t.dependsOn(test) }
+            }
+        }
+
+        if (publish) kotlin {
+            @Suppress("DEPRECATION")
+            compilerOptions {
+                freeCompilerArgs.add("-Xsuppress-version-warnings")
+                // kmp-file uses 1.9
+                apiVersion.set(KotlinVersion.KOTLIN_1_9)
+                languageVersion.set(KotlinVersion.KOTLIN_1_9)
+            }
+            sourceSets.configureEach {
+                if (name.startsWith("js") || name.startsWith("wasm")) {
+                    languageSettings {
+                        // kmp-file uses 2.0 for js/wasmJs/jsWasmJs source sets
+                        apiVersion = KotlinVersion.KOTLIN_2_0.version
+                        languageVersion = KotlinVersion.KOTLIN_2_0.version
+                    }
+                }
             }
         }
 
