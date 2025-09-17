@@ -51,16 +51,12 @@ kmpConfiguration {
             with(sourceSets) {
                 val sets = arrayOf("jsWasmJs", "jvm").mapNotNull { name ->
                     val main = findByName(name + "Main") ?: return@mapNotNull null
-                    val test = getByName(name + "Test")
-                    main to test
+                    main to getByName(name + "Test")
                 }
                 if (sets.isEmpty()) return@kotlin
 
-                val main = maybeCreate("nonNativeMain")
-                val test = maybeCreate("nonNativeTest")
-                main.dependsOn(getByName("commonMain"))
-                test.dependsOn(getByName("commonTest"))
-
+                val main = maybeCreate("nonNativeMain").apply { dependsOn(getByName("commonMain")) }
+                val test = maybeCreate("nonNativeTest").apply { dependsOn(getByName("commonTest")) }
                 sets.forEach { (m, t) -> m.dependsOn(main); t.dependsOn(test) }
             }
         }

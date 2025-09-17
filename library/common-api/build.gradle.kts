@@ -31,15 +31,13 @@ kmpConfiguration {
 
         kotlin {
             with(sourceSets) {
-                val sources = listOf("jvm", "native").mapNotNull { target ->
+                val sets = listOf("jvm", "native").mapNotNull { target ->
                     findByName("${target}Main")
                 }
-                if (sources.isEmpty()) return@kotlin
+                if (sets.isEmpty()) return@kotlin
 
-                val nonJsMain = maybeCreate("nonJsMain").apply {
-                    dependsOn(getByName("commonMain"))
-                }
-                sources.forEach { it.dependsOn(nonJsMain) }
+                val main = maybeCreate("nonJsMain").apply { dependsOn(getByName("commonMain")) }
+                sets.forEach { m -> m.dependsOn(main) }
             }
         }
 

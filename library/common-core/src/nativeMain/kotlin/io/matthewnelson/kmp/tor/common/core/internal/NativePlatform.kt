@@ -36,7 +36,6 @@ import platform.zlib.gzFile
 import platform.zlib.gzclose_r
 import platform.zlib.gzread
 import platform.zlib.Z_OK
-import kotlin.concurrent.Volatile
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
 import kotlin.contracts.contract
@@ -126,19 +125,16 @@ private inline fun <T: Any?> File.gzOpenRead(block: (file: gzFile) -> T): T {
         callsInPlace(block, InvocationKind.AT_MOST_ONCE)
     }
 
-    @Suppress("VariableInitializerIsRedundant")
-    var ptr: gzFile? = null
+    var ptr: gzFile?
     do {
         ptr = gzopenRO()
     } while (ptr == null && errno == EINTR)
     if (ptr == null) throw errnoToIOException(errno, this)
 
     val closeable = object : Closeable {
-
-        @Volatile
         private var _ptr = ptr
-
         override fun close() {
+            @Suppress("NAME_SHADOWING")
             val ptr = _ptr ?: return
             _ptr = null
             if (gzclose_r(ptr) == Z_OK) return

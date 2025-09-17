@@ -23,14 +23,13 @@ kmpConfiguration {
     configure {
         jvm {}
 
-        @Suppress("RedundantSamConstructor")
         js {
             target {
                 browser()
                 nodejs {
-                    testTask(Action {
+                    testTask {
                         useMocha { timeout = "30s" }
-                    })
+                    }
                 }
             }
         }
@@ -84,7 +83,7 @@ kmpConfiguration {
                 if (sets.isEmpty()) return@kotlin
                 val test = maybeCreate("jsWasmJsTest")
                 test.dependsOn(getByName("nonJvmTest"))
-                sets.forEach { it.dependsOn(test) }
+                sets.forEach { t -> t.dependsOn(test) }
             }
         }
     }
