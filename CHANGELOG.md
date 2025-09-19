@@ -1,5 +1,17 @@
 # CHANGELOG
 
+## Version 2.4.0 (2025-09-19)
+ - Updates `kotlin` to `2.2.20` [[#111]][111]
+ - Updates `encoding` to `2.5.0` [[#112]][112]
+ - Updates `immutable` to `0.3.0` [[#112]][112]
+ - Updates `kotlinx.atomicfu` to `0.29.0` [[#111]][111]
+ - Updates `kmp-file` to `0.5.0` [[#112]][112]
+ - Updates `kotlincrypto.hash` to `0.8.0` [[#112]][112]
+ - Adds check for `32-bit` Linux when hardware reporst `aarch64` [[#108]][108]
+ - Fixes detection of `linux-musl` host on Java8 [[#110]][110]
+ - Lower supported `KotlinVersion` to `1.9` [[#112]][112]
+     - Source sets `js`, `wasmJs`, & `jsWasmJs` require a minimum `KotlinVersion` of `2.0`
+
 ## Version 2.3.1 (2025-08-20)
  - Updates `kotlinx.atomicfu` to `0.28.0` [[#100]][100]
  - Updates `kmp-file` to `0.4.0` [[#100]][100]
@@ -150,3 +162,7 @@
 [102]: https://github.com/05nelsonm/kmp-tor-common/pull/102
 [105]: https://github.com/05nelsonm/kmp-tor-common/pull/105
 [106]: https://github.com/05nelsonm/kmp-tor-common/pull/106
+[108]: https://github.com/05nelsonm/kmp-tor-common/pull/108
+[110]: https://github.com/05nelsonm/kmp-tor-common/pull/110
+[111]: https://github.com/05nelsonm/kmp-tor-common/pull/111
+[112]: https://github.com/05nelsonm/kmp-tor-common/pull/112

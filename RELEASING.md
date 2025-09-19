@@ -1,4 +1,4 @@
-# Releasing
+# RELEASING
 
 See [KotlinCrypto/documentation/RELEASING.md][url-releasing]
 
