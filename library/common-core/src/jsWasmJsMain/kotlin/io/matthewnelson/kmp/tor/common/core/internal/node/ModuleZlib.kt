@@ -23,4 +23,4 @@ internal expect interface ModuleZlib {
 //    fun gunzipSync(data: dynamic/JsAny): dynamic/JsAny
 }
 
-internal expect inline fun ModuleZlib.platformGunzipSync(buffer: Buffer): Buffer
+internal expect inline fun ModuleZlib.nodeGunzipSync(buffer: Buffer): Buffer

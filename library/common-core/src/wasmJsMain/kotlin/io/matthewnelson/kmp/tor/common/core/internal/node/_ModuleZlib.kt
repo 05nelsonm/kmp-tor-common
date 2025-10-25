@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING", "NOTHING_TO_INLINE")
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING", "NOTHING_TO_INLINE", "OPT_IN_USAGE")
 
 package io.matthewnelson.kmp.tor.common.core.internal.node
 
@@ -26,7 +26,7 @@ internal actual external interface ModuleZlib {
 }
 
 // @Throws(Throwable::class)
-internal actual inline fun ModuleZlib.platformGunzipSync(buffer: Buffer): Buffer {
+internal actual inline fun ModuleZlib.nodeGunzipSync(buffer: Buffer): Buffer {
     val unwrapped = buffer.unwrap()
     @OptIn(DelicateFileApi::class)
     val b = jsExternTryCatch { gunzipSync(unwrapped) }

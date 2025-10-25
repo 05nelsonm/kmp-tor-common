@@ -24,7 +24,7 @@ internal actual external interface ModuleZlib {
 }
 
 // @Throws(Throwable::class)
-internal actual inline fun ModuleZlib.platformGunzipSync(buffer: Buffer): Buffer {
+internal actual inline fun ModuleZlib.nodeGunzipSync(buffer: Buffer): Buffer {
     val unwrapped = buffer.unwrap()
     val b = gunzipSync(unwrapped)
     return Buffer.wrap(b)

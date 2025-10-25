@@ -38,10 +38,12 @@ internal val node_zlib: ModuleZlib by lazy {
 internal const val CODE_MODULE_CHILD_PROCESS: String = "eval('require')('child_process')"
 internal const val CODE_MODULE_OS: String = "eval('require')('os')"
 internal const val CODE_MODULE_ZLIB: String = "eval('require')('zlib')"
-
 internal expect fun nodeModuleChildProcess(): ModuleChildProcess
 internal expect fun nodeModuleOs(): ModuleOs
 internal expect fun nodeModuleZlib(): ModuleZlib
+
+internal const val CODE_REQUIRE_RESOLVE: String = "eval('require').resolve(path)"
+internal expect fun nodeRequireResolve(path: String): String
 
 @Throws(UnsupportedOperationException::class)
 private inline fun requireNodeJs(module: () -> String) {

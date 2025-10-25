@@ -27,9 +27,9 @@ import io.matthewnelson.kmp.file.toIOException
 import io.matthewnelson.kmp.file.write
 import io.matthewnelson.kmp.tor.common.api.InternalKmpTorApi
 import io.matthewnelson.kmp.tor.common.core.Resource
+import io.matthewnelson.kmp.tor.common.core.internal.node.nodeRequireResolve
 import io.matthewnelson.kmp.tor.common.core.internal.node.node_zlib
-import io.matthewnelson.kmp.tor.common.core.internal.node.platformGunzipSync
-import kotlin.js.js
+import io.matthewnelson.kmp.tor.common.core.internal.node.nodeGunzipSync
 
 @Throws(Throwable::class)
 @OptIn(InternalKmpTorApi::class)
@@ -39,10 +39,11 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
     if (onlyIfDoesNotExist && destination.exists2()) return destination
 
     val moduleResource = try {
-        platformResolveResource(platform.moduleName + platform.resourcePath).toFile()
+        nodeRequireResolve(platform.moduleName + platform.resourcePath)
     } catch (t: Throwable) {
-        throw t.toIOException()
-    }
+        val f = (platform.moduleName + platform.resourcePath).toFile()
+        throw t.toIOException(f)
+    }.toFile()
 
     destination.delete2(ignoreReadOnly = true)
 
@@ -52,9 +53,9 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
         val zlib = node_zlib
 
         buffer = try {
-            zlib.platformGunzipSync(buffer)
+            zlib.nodeGunzipSync(buffer)
         } catch (t: Throwable) {
-            throw t.toIOException(destination)
+            throw t.toIOException(moduleResource)
         }
     }
 
@@ -72,6 +73,3 @@ internal actual fun Resource.extractTo(destinationDir: File, onlyIfDoesNotExist:
 
     return destination
 }
-
-internal const val CODE_RESOLVE_RESOURCE: String = "require.resolve(path)"
-internal expect fun platformResolveResource(path: String): String
