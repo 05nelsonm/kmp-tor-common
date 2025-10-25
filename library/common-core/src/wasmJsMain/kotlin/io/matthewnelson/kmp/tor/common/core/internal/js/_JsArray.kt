@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("OPT_IN_USAGE")
+
 package io.matthewnelson.kmp.tor.common.core.internal.js
 
 internal actual fun jsArraySet(array: JsArray, index: Int, value: String) { js("array[index] = value") }

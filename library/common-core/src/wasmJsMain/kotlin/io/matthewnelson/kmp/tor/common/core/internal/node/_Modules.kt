@@ -13,8 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
+@file:Suppress("OPT_IN_USAGE")
+
 package io.matthewnelson.kmp.tor.common.core.internal.node
 
 internal actual fun nodeModuleChildProcess(): ModuleChildProcess = js(CODE_MODULE_CHILD_PROCESS)
 internal actual fun nodeModuleOs(): ModuleOs = js(CODE_MODULE_OS)
 internal actual fun nodeModuleZlib(): ModuleZlib = js(CODE_MODULE_ZLIB)
+internal actual fun nodeRequireResolve(path: String): String = js(CODE_REQUIRE_RESOLVE)
