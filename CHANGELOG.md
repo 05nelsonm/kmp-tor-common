@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 2.4.1 (2025-10-26)
+ - Fixes issue with Js/WasmJs Browser due to direct use of `require`, instead of retrieving
+   the function via `eval` [[#114]][114]
+
 ## Version 2.4.0 (2025-09-19)
  - Updates `kotlin` to `2.2.20` [[#111]][111]
  - Updates `encoding` to `2.5.0` [[#112]][112]
@@ -166,3 +170,4 @@
 [110]: https://github.com/05nelsonm/kmp-tor-common/pull/110
 [111]: https://github.com/05nelsonm/kmp-tor-common/pull/111
 [112]: https://github.com/05nelsonm/kmp-tor-common/pull/112
+[114]: https://github.com/05nelsonm/kmp-tor-common/pull/114
