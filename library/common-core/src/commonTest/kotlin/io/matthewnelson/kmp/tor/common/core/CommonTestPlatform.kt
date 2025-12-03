@@ -42,10 +42,9 @@ val TEST_OS_RELEASE_NOT_MUSL: File by lazy {
 }
 
 fun randomName(): String = Random
-    .Default
     .nextBytes(16)
     .encodeToString(Base16)
 
 fun ByteArray.sha256(): String = SHA256()
     .digest(this)
-    .encodeToString(Base16 { encodeToLowercase = true })
+    .encodeToString(Base16.Builder { encodeLowercase(enable = true) })

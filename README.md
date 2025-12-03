@@ -40,11 +40,11 @@ Common components for [kmp-tor][url-kmp-tor] and [kmp-tor-resource][url-kmp-tor-
 <!-- TAG_DEPENDENCIES -->
 [badge-androidx-startup]: https://img.shields.io/badge/androidx.startup-1.1.1-6EDB8D.svg?logo=android
 [badge-atomicfu]: https://img.shields.io/badge/kotlinx.atomicfu-0.29.0-blue.svg?logo=kotlin
-[badge-encoding]: https://img.shields.io/badge/encoding-2.5.0-blue.svg?style=flat
+[badge-encoding]: https://img.shields.io/badge/encoding-2.6.0--SNAPSHOT-blue.svg?style=flat
 [badge-immutable]: https://img.shields.io/badge/immutable-0.3.0-blue.svg?style=flat
 [badge-kotlincrypto-hash]: https://img.shields.io/badge/KotlinCrypto.hash-0.8.0-blue.svg?style=flat
-[badge-kotlin]: https://img.shields.io/badge/kotlin-2.2.20-blue.svg?logo=kotlin
-[badge-kmp-file]: https://img.shields.io/badge/kmp--file-0.5.0-blue.svg?style=flat
+[badge-kotlin]: https://img.shields.io/badge/kotlin-2.2.21-blue.svg?logo=kotlin
+[badge-kmp-file]: https://img.shields.io/badge/kmp--file-0.6.0--SNAPSHOT-blue.svg?style=flat
 
 <!-- TAG_PLATFORMS -->
 [badge-platform-android]: http://img.shields.io/badge/-android-6EDB8D.svg?style=flat
