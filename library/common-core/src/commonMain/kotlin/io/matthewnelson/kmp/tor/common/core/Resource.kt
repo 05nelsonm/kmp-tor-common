@@ -19,6 +19,7 @@ import io.matthewnelson.immutable.collections.toImmutableMap
 import io.matthewnelson.immutable.collections.toImmutableSet
 import io.matthewnelson.kmp.file.File
 import io.matthewnelson.kmp.file.IOException
+import io.matthewnelson.kmp.file.OpenExcl
 import io.matthewnelson.kmp.file.canonicalFile2
 import io.matthewnelson.kmp.file.chmod2
 import io.matthewnelson.kmp.file.delete2
@@ -232,15 +233,7 @@ public class Resource private constructor(
         public fun mode(
             value: String?,
         ): Builder {
-            if (value == null) {
-                _mode = value
-                return this
-            }
-
-            require(value.length == 3) { "Invalid mode.length[${value.length}]. Must be 3 digits[0-7] (e.g. 764)" }
-            value.forEach { c ->
-                require(c in '0'..'7') { "Invalid mode[$value]. Must be 3 digits[0-7] (e.g. 764)" }
-            }
+            if (value != null) OpenExcl.checkMode(value)
             _mode = value
             return this
         }
