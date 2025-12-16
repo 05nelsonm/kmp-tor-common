@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 2.4.2 (2025-12-16)
+ - Updates `kotlin` to `2.2.21` [[#115]][115]
+ - Updates `encoding` to `2.6.0` [[#115]][115]
+ - Updates `kmp-file` to `0.6.0` [[#115]][115]
+ - Use `OpenExcl.checkMode` when validating `Resource.Builder.mode` input [[#116]][116]
+
 ## Version 2.4.1 (2025-10-26)
  - Fixes issue with Js/WasmJs Browser due to direct use of `require`, instead of retrieving
    the function via `eval` [[#114]][114]
@@ -171,3 +177,5 @@
 [111]: https://github.com/05nelsonm/kmp-tor-common/pull/111
 [112]: https://github.com/05nelsonm/kmp-tor-common/pull/112
 [114]: https://github.com/05nelsonm/kmp-tor-common/pull/114
+[115]: https://github.com/05nelsonm/kmp-tor-common/pull/115
+[116]: https://github.com/05nelsonm/kmp-tor-common/pull/116
